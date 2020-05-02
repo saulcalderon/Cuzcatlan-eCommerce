@@ -1,0 +1,66 @@
+/*********************
+  CSS de la libreria Swiper
+**********************/
+/* Contenedor de productos en el index */
+.swiper-container.producto {
+    width: 90%;
+    height: 350px;
+    padding: 0 40px 10px 10px;
+}
+/* Contenedor de imágenes en info-producto */
+.swiper-container.gallery-top{
+    width: 90%;
+    height: 350px;
+}
+.swiper-container.gallery-thumbs{
+    width: 90%;
+    height: 100px;
+}
+/* Ajustar imagen */
+.fondo-imagen{
+    background-position:center center; 
+    background-size:cover;
+}
+/* Tamaño de las flechas para el slider del index */
+:root {
+    --swiper-navigation-size: 28px;
+  }
+/*********************
+  Sección productos
+**********************/
+/* Alinear los botones a los lados del slider */
+.swiper-button-prev, .swiper-button-next {
+    top: auto;
+    margin-top: 10px;
+}
+/* Juntar más los botones y hacerlos responsive*/
+.swiper-button-next{
+    margin-top: 17px;
+}
+.swiper-button-prev{
+    margin-top: 17px;
+}
+@media only screen and (min-width: 320px) {
+    .swiper-button-prev{
+        left: 60px;
+    }
+    .swiper-button-next{
+        right: 60px;
+    }
+}
+@media only screen and (min-width: 768px) {
+    .swiper-button-prev{
+        left: 160px;
+    }
+    .swiper-button-next{
+        right: 160px;
+    }
+}
+@media only screen and (min-width: 1024px) {
+    .swiper-button-prev{
+        left: 360px;
+    }
+    .swiper-button-next{
+        right: 360px;
+    }
+}
