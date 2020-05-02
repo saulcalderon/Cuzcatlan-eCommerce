@@ -1,5 +1,4 @@
 # Cuzcatlan-eCommerce
-<hr>
 
 <h3>Proyecto Escolar</h3>
 
