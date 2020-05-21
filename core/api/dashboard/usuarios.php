@@ -12,6 +12,7 @@ if (isset($_GET['action'])) {
     // Se declara e inicializa un arreglo para guardar el resultado que retorna la API.
     $result = array('status' => 0, 'message' => null, 'exception' => null);
     // Se verifica si existe una sesión iniciada como administrador, de lo contrario se finaliza el script con un mensaje de error.
+    //print_r($_SESSION);
     if (isset($_SESSION['id_usuario'])) {
         // Se compara la acción a realizar cuando un administrador ha iniciado sesión.
         switch ($_GET['action']) {
@@ -232,10 +233,10 @@ if (isset($_GET['action'])) {
                 } else {
                     $result['exception'] = 'No existen usuarios registrados';
                 }
+                //print($result['status']);
                 break;
             case 'register':
                 $_POST = $usuario->validateForm($_POST);
-                //print_r($_POST);
                 if ($usuario->setNombres($_POST['nombres'])) {
                     if ($usuario->setApellidos($_POST['apellidos'])) {
                         if ($usuario->setCorreo($_POST['correo'])) {
