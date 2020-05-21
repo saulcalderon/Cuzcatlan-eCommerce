@@ -17,8 +17,9 @@ class Database
     {
         // Credenciales para establecer la conexión con la base de datos.
         $server = 'localhost';
-        $database = 'coffeeshop';
+        $database = 'dbcuzcatlan';
         $username = 'postgres';
+        // Cambiar dependiendo del usuario de la pc.
         $password = 'viernes';
         // Se controlan las excepciones al momento de establecer conexión con el servidor de base de datos.
         try {

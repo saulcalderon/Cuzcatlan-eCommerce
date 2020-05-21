@@ -17,7 +17,7 @@ function checkUsuarios()
         // Se obtiene la ruta del documento en el servidor web.
         let current = window.location.pathname;
         // Se comprueba si la página web actual es register.php, de lo contrario seria index.php
-        if ( current == '/coffeeshop/views/dashboard/register.php' ) {
+        if ( current == '/cuzcatlan-ecommerce/views/dashboard/register.php' ) {
             // Si ya existe un usuario registrado se envía a iniciar sesión, de lo contrario se pide crear el primero.
             if ( response.status ) {
                 sweetAlert( 3, response.message, 'index.php' );
@@ -27,7 +27,7 @@ function checkUsuarios()
         } else {
             // Si ya existe al menos un usuario registrado se pide iniciar sesión, de lo contrario se envía a crear el primero.
             if ( response.status ) {
-                sweetAlert( 4, 'Debe autenticarse para ingresar', null );
+                sweetAlert( 4, 'Debe autenticarse para ingresar', null ); //Cambiar
             } else {
                 sweetAlert( 3, response.exception, 'register.php' );
             }

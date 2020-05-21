@@ -7,7 +7,7 @@ require_once('../../models/usuarios.php');
 if (isset($_GET['action'])) {
     // Se crea una sesión o se reanuda la actual para poder utilizar variables de sesión en el script.
     session_start();
-    // Se instancia la clase correspondiente.
+    // Se instancia al modelo correspondiente.
     $usuario = new Usuarios;
     // Se declara e inicializa un arreglo para guardar el resultado que retorna la API.
     $result = array('status' => 0, 'message' => null, 'exception' => null);
@@ -41,9 +41,9 @@ if (isset($_GET['action'])) {
                         if ($usuario->setNombres($_POST['nombres_perfil'])) {
                             if ($usuario->setApellidos($_POST['apellidos_perfil'])) {
                                 if ($usuario->setCorreo($_POST['correo_perfil'])) {
-                                    if ($usuario->setAlias($_POST['alias_perfil'])) {
+                                    if ($usuario->setTelefono($_POST['alias_perfil'])) {
                                         if ($usuario->editProfile()) {
-                                            $_SESSION['alias_usuario'] = $usuario->getAlias();
+                                            $_SESSION['alias_usuario'] = $usuario->getCorreo();
                                             $result['status'] = 1;
                                             $result['message'] = 'Perfil modificado correctamente';
                                         } else {
@@ -131,7 +131,7 @@ if (isset($_GET['action'])) {
                 if ($usuario->setNombres($_POST['nombres_usuario'])) {
                     if ($usuario->setApellidos($_POST['apellidos_usuario'])) {
                         if ($usuario->setCorreo($_POST['correo_usuario'])) {
-                            if ($usuario->setAlias($_POST['alias_usuario'])) {
+                            if ($usuario->setTelefono($_POST['alias_usuario'])) {
                                 if ($_POST['clave_usuario'] == $_POST['confirmar_clave']) {
                                     if ($usuario->setClave($_POST['clave_usuario'])) {
                                         if ($usuario->createUsuario()) {
@@ -235,10 +235,11 @@ if (isset($_GET['action'])) {
                 break;
             case 'register':
                 $_POST = $usuario->validateForm($_POST);
+                //print_r($_POST);
                 if ($usuario->setNombres($_POST['nombres'])) {
                     if ($usuario->setApellidos($_POST['apellidos'])) {
                         if ($usuario->setCorreo($_POST['correo'])) {
-                            if ($usuario->setAlias($_POST['alias'])) {
+                            if ($usuario->setTelefono($_POST['telefono'])) {
                                 if ($_POST['clave1'] == $_POST['clave2']) {
                                     if ($usuario->setClave($_POST['clave1'])) {
                                         if ($usuario->createUsuario()) {
@@ -254,7 +255,7 @@ if (isset($_GET['action'])) {
                                     $result['exception'] = 'Claves diferentes';
                                 }
                             } else {
-                                $result['exception'] = 'Alias incorrecto';
+                                $result['exception'] = 'Telefono incorrecto';
                             }
                         } else {
                             $result['exception'] = 'Correo incorrecto';
@@ -268,10 +269,10 @@ if (isset($_GET['action'])) {
                 break;
             case 'login':
                 $_POST = $usuario->validateForm($_POST);
-                    if ($usuario->checkAlias($_POST['alias'])) {
+                    if ($usuario->checkCorreo($_POST['alias'])) {
                         if ($usuario->checkPassword($_POST['clave'])) {
                             $_SESSION['id_usuario'] = $usuario->getId();
-                            $_SESSION['alias_usuario'] = $usuario->getAlias();
+                            $_SESSION['alias_usuario'] = $usuario->getNombres().' '.$usuario->getApellidos();
                             $result['status'] = 1;
                             $result['message'] = 'Autenticación correcta';
                         } else {

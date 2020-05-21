@@ -1,27 +1,27 @@
 <?php
 /*
-*	Clase para definir las plantillas de las páginas web del sitio privado.
+*	Clase utilizada como plantilla del diseño del sitio privado
 */
 class Dashboard
 {
     /*
     *   Método para imprimir la plantilla del encabezado.
     *
-    *   Parámetros: $title (título de la página web y del contenido principal).
+    *   Parámetros
+    *   $titulo: título de la página web.
     *
-    *   Retorno: ninguno.
+    *   Retorno: null.
     */
-    public static function headerTemplate($title)
+    public static function headerTemplate($titulo)
     {
         // Se crea una sesión o se reanuda la actual para poder utilizar variables de sesión en las páginas web.
         session_start();
-        // Se imprime el código HTML de la cabecera del documento.
         print('
             <!DOCTYPE html>
             <html lang="es">
                 <head>
                     <meta charset="utf-8">
-                    <title>Dashboard - '.$title.'</title>
+                    <title>Cuzcatlan - '.$titulo.'</title>
                     <link type="image/png" rel="icon" href="../../resources/img/logo.png"/>
                     <link type="text/css" rel="stylesheet" href="../../resources/css/materialize.min.css"/>
                     <link type="text/css" rel="stylesheet" href="../../resources/css/material-icons.css"/>
@@ -30,11 +30,12 @@ class Dashboard
                 </head>
                 <body>
         ');
-        // Se obtiene el nombre del archivo de la página web actual.
+        // Se obtiene el nombre del archivo de la página web actual o URL.
         $filename = basename($_SERVER['PHP_SELF']);
+        //Validación de usuario al mantener sesión abierta
         // Se comprueba si existe una sesión de administrador para mostrar el menú de opciones, de lo contrario se muestra un menú vacío.
         if (isset($_SESSION['id_usuario'])) {
-            // Se verifica si la página web actual es diferente a index.php (Iniciar sesión) y a register.php (Crear primer usuario) para no iniciar sesión otra vez, de lo contrario se direcciona a main.php
+            // Se verifica si la página web actual es diferente a la de Iniciar sesión y a register.php (Crear primer usuario) para no iniciar sesión otra vez, de lo contrario se direcciona a main.php
             if ($filename != 'index.php' && $filename != 'register.php') {
                 // Se llama al método que contiene el código de las cajas de dialogo (modals).
                 self::modals();
@@ -73,7 +74,7 @@ class Dashboard
                         </ul>
                     </header>
                     <main class="container">
-                        <h3 class="center-align">'.$title.'</h3>
+                        <h3 class="center-align">'.$titulo.'</h3>
                 ');
             } else {
                 header('location: main.php');
@@ -95,7 +96,7 @@ class Dashboard
                         </div>
                     </header>
                     <main class="container">
-                        <h3 class="center-align">'.$title.'</h3>
+                        <h3 class="center-align">'.$titulo.'</h3>
                 ');
             }
         }

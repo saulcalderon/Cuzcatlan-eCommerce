@@ -1,6 +1,6 @@
 <?php
 require_once('../../core/helpers/dashboard.php');
-Dashboard::headerTemplate('Registrar primer usuario');
+Dashboard::headerTemplate('Primer uso');
 ?>
 
 <!-- Formulario para registrar al primer usuario del dashboard -->
@@ -22,9 +22,9 @@ Dashboard::headerTemplate('Registrar primer usuario');
             <label for="correo">Correo</label>
         </div>
         <div class="input-field col s12 m6">
-            <i class="material-icons prefix">person_pin</i>
-            <input id="alias" type="text" name="alias" class="validate" required/>
-            <label for="alias">Alias</label>
+            <i class="material-icons prefix">phone</i>
+            <input id="telefono" type="text" name="telefono" class="validate" required/>
+            <label for="telefono">Telefono</label>
         </div>
         <div class="input-field col s12 m6">
             <i class="material-icons prefix">security</i>
@@ -38,7 +38,7 @@ Dashboard::headerTemplate('Registrar primer usuario');
         </div>
     </div>
     <div class="row center-align">
- 	    <button type="submit" class="btn waves-effect blue tooltipped" data-tooltip="Registrar"><i class="material-icons">send</i></button>
+ 	    <button type="submit" class="btn waves-effect blue tooltipped" data-tooltip="register"><i class="material-icons">send</i></button>
     </div>
 </form>
 

@@ -9,8 +9,10 @@ class Usuarios extends Validator
     private $nombres = null;
     private $apellidos = null;
     private $correo = null;
-    private $alias = null;
+    private $telefono = null;
     private $clave = null;
+    private $fechaNacimiento = null;
+    private $idCargo = null;
 
     /*
     *   Métodos para asignar valores a los atributos.
@@ -55,10 +57,20 @@ class Usuarios extends Validator
         }
     }
 
-    public function setAlias($value)
+    public function setFechaNacimiento($value)
     {
         if ($this->validateAlphanumeric($value, 1, 50)) {
-            $this->alias = $value;
+            $this->fechaNacimiento = $value;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function setTelefono($value)
+    {
+        if ($this->validateAlphanumeric($value, 1, 50)) {
+            $this->telefono = $value;
             return true;
         } else {
             return false;
@@ -98,9 +110,17 @@ class Usuarios extends Validator
         return $this->correo;
     }
 
-    public function getAlias()
+    public function getfechaNacimiento()
     {
-        return $this->alias;
+        return $this->fechaNacimiento;
+    }
+
+    private function getTelefono(){
+        return $this->telefono();
+    }
+
+    public function getidCargo(){
+        return $this->idCargo;
     }
 
     public function getClave()
@@ -111,13 +131,15 @@ class Usuarios extends Validator
     /*
     *   Métodos para gestionar la cuenta del usuario.
     */
-    public function checkAlias($alias)
+    public function checkCorreo($correo)
     {
-        $sql = 'SELECT id_usuario FROM usuarios WHERE alias_usuario = ?';
-        $params = array($alias);
+        $sql = 'SELECT id_administrador, nombre, apellido FROM administrador WHERE correo = ?';
+        $params = array($correo);
         if ($data = Database::getRow($sql, $params)) {
-            $this->id = $data['id_usuario'];
-            $this->alias = $alias;
+            $this->id = $data['id_administrador'];
+            $this->nombres = $data['nombre'];
+            $this->apellidos = $data['apellido'];
+            $this->correo = $correo;
             return true;
         } else {
             return false;
@@ -126,10 +148,10 @@ class Usuarios extends Validator
 
     public function checkPassword($password)
     {
-        $sql = 'SELECT clave_usuario FROM usuarios WHERE id_usuario = ?';
+        $sql = 'SELECT clave FROM administrador WHERE id_administrador = ?';
         $params = array($this->id);
         $data = Database::getRow($sql, $params);
-        if (password_verify($password, $data['clave_usuario'])) {
+        if (password_verify($password, $data['clave'])) {
             return true;
         } else {
             return false;
@@ -139,17 +161,17 @@ class Usuarios extends Validator
     public function changePassword()
     {
         $hash = password_hash($this->clave, PASSWORD_DEFAULT);
-        $sql = 'UPDATE usuarios SET clave_usuario = ? WHERE id_usuario = ?';
+        $sql = 'UPDATE administrador SET clave = ? WHERE id_administrador = ?';
         $params = array($hash, $this->id);
         return Database::executeRow($sql, $params);
     }
 
     public function editProfile()
     {
-        $sql = 'UPDATE usuarios
-                SET nombres_usuario = ?, apellidos_usuario = ?, correo_usuario = ?, alias_usuario = ?
-                WHERE id_usuario = ?';
-        $params = array($this->nombres, $this->apellidos, $this->correo, $this->alias, $this->id);
+        $sql = 'UPDATE administrador
+                SET nombre = ?, apellido = ?, correo = ?, telefono = ?
+                WHERE id_administrador = ?';
+        $params = array($this->nombres, $this->apellidos, $this->correo, $this->telefono, $this->id);
         return Database::executeRow($sql, $params);
     }
 
@@ -158,10 +180,10 @@ class Usuarios extends Validator
     */
     public function searchUsuarios($value)
     {
-        $sql = 'SELECT id_usuario, nombres_usuario, apellidos_usuario, correo_usuario, alias_usuario
-                FROM usuarios
-                WHERE apellidos_usuario ILIKE ? OR nombres_usuario ILIKE ?
-                ORDER BY apellidos_usuario';
+        $sql = 'SELECT id_administrador, nombre, apellido, correo, telefono
+                FROM administrador
+                WHERE apellido ILIKE ? OR nombre ILIKE ?
+                ORDER BY apellido';
         $params = array("%$value%", "%$value%");
         return Database::getRows($sql, $params);
     }
@@ -170,43 +192,43 @@ class Usuarios extends Validator
     {
         // Se encripta la clave por medio del algoritmo bcrypt que genera un string de 60 caracteres.
         $hash = password_hash($this->clave, PASSWORD_DEFAULT);
-        $sql = 'INSERT INTO usuarios(nombres_usuario, apellidos_usuario, correo_usuario, alias_usuario, clave_usuario)
-                VALUES(?, ?, ?, ?, ?)';
-        $params = array($this->nombres, $this->apellidos, $this->correo, $this->alias, $hash);
+        $sql = 'INSERT INTO administrador(nombre, apellido, correo, telefono, clave, id_cargo)
+                VALUES(?, ?, ?, ?, ?,?)';
+        $params = array($this->nombres, $this->apellidos, $this->correo, $this->telefono, $hash,1);
         return Database::executeRow($sql, $params);
     }
 
     public function readAllUsuarios()
     {
-        $sql = 'SELECT id_usuario, nombres_usuario, apellidos_usuario, correo_usuario, alias_usuario
-                FROM usuarios
-                ORDER BY apellidos_usuario';
+        $sql = 'SELECT id_administrador, nombre, apellido, correo, telefono
+                FROM administrador
+                ORDER BY apellido';
         $params = null;
         return Database::getRows($sql, $params);
     }
 
     public function readOneUsuario()
     {
-        $sql = 'SELECT id_usuario, nombres_usuario, apellidos_usuario, correo_usuario, alias_usuario
-                FROM usuarios
-                WHERE id_usuario = ?';
+        $sql = 'SELECT id_administrador, nombre, apellido, correo, telefono
+                FROM administrador
+                WHERE id_administrador = ?';
         $params = array($this->id);
         return Database::getRow($sql, $params);
     }
 
     public function updateUsuario()
     {
-        $sql = 'UPDATE usuarios 
-                SET nombres_usuario = ?, apellidos_usuario = ?, correo_usuario = ?
-                WHERE id_usuario = ?';
+        $sql = 'UPDATE administrador
+                SET nombre = ?, apellido = ?, correo = ?
+                WHERE id_administrador = ?';
         $params = array($this->nombres, $this->apellidos, $this->correo, $this->id);
         return Database::executeRow($sql, $params);
     }
 
     public function deleteUsuario()
     {
-        $sql = 'DELETE FROM usuarios
-                WHERE id_usuario = ?';
+        $sql = 'DELETE FROM administrador
+                WHERE id_administrador = ?';
         $params = array($this->id);
         return Database::executeRow($sql, $params);
     }
