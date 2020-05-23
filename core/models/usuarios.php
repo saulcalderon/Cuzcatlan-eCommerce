@@ -87,6 +87,16 @@ class Usuarios extends Validator
         }
     }
 
+    public function setIdCargo($value)
+    {
+        if ($this->validateNaturalNumber($value)) {
+            $this->idCargo = $value;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     /*
     *   Métodos para obtener valores de los atributos.
     */
@@ -180,7 +190,7 @@ class Usuarios extends Validator
     */
     public function searchUsuarios($value)
     {
-        $sql = 'SELECT id_administrador, nombre, apellido, correo, telefono
+        $sql = 'SELECT id_administrador, nombre, apellido, correo, telefono, id_cargo
                 FROM administrador
                 WHERE apellido ILIKE ? OR nombre ILIKE ?
                 ORDER BY apellido';
@@ -200,7 +210,7 @@ class Usuarios extends Validator
 
     public function readAllUsuarios()
     {
-        $sql = 'SELECT id_administrador, nombre, apellido, correo, telefono
+        $sql = 'SELECT id_administrador, nombre, apellido, correo, telefono, id_cargo
                 FROM administrador
                 ORDER BY apellido';
         $params = null;
@@ -209,7 +219,7 @@ class Usuarios extends Validator
 
     public function readOneUsuario()
     {
-        $sql = 'SELECT id_administrador, nombre, apellido, correo, telefono
+        $sql = 'SELECT id_administrador, nombre, apellido, correo, telefono, id_cargo
                 FROM administrador
                 WHERE id_administrador = ?';
         $params = array($this->id);
@@ -219,9 +229,9 @@ class Usuarios extends Validator
     public function updateUsuario()
     {
         $sql = 'UPDATE administrador
-                SET nombre = ?, apellido = ?, correo = ?
+                SET nombre = ?, apellido = ?, telefono = ?
                 WHERE id_administrador = ?';
-        $params = array($this->nombres, $this->apellidos, $this->correo, $this->id);
+        $params = array($this->nombres, $this->apellidos, $this->telefono, $this->id);
         return Database::executeRow($sql, $params);
     }
 

@@ -29,7 +29,8 @@ Dashboard::headerTemplate('Administrar usuarios');
             <th>APELLIDOS</th>
             <th>NOMBRES</th>
             <th>CORREO</th>
-            <th>ALIAS</th>
+            <th>TELEFONO</th>
+            <th>CARGO</th>
             <th>ACCIÓN</th>
         </tr>
     </thead>
@@ -45,27 +46,27 @@ Dashboard::headerTemplate('Administrar usuarios');
         <!-- Formulario para crear o actualizar un registro -->
         <form method="post" id="save-form">
             <!-- Campo oculto para asignar el id del registro al momento de modificar -->
-            <input class="hide" type="text" id="id_usuario" name="id_usuario"/>
+            <input class="hide" type="text" id="id_administrador" name="id_administrador"/>
             <div class="row">
                 <div class="input-field col s12 m6">
                     <i class="material-icons prefix">person</i>
-                    <input id="nombres_usuario" type="text" name="nombres_usuario" class="validate" required/>
-                    <label for="nombres_usuario">Nombres</label>
+                    <input id="nombre" type="text" name="nombre" class="validate" required/>
+                    <label for="nombre">Nombres</label>
                 </div>
                 <div class="input-field col s12 m6">
                     <i class="material-icons prefix">person</i>
-                    <input id="apellidos_usuario" type="text" name="apellidos_usuario" class="validate" required/>
-                    <label for="apellidos_usuario">Apellidos</label>
+                    <input id="apellido" type="text" name="apellido" class="validate" required/>
+                    <label for="apellido">Apellidos</label>
                 </div>
                 <div class="input-field col s12 m6">
                     <i class="material-icons prefix">email</i>
-                    <input id="correo_usuario" type="email" name="correo_usuario" class="validate" required/>
-                    <label for="correo_usuario">Correo</label>
+                    <input id="correo" type="email" name="correo" class="validate" required/>
+                    <label for="correo">Correo</label>
                 </div>
                 <div class="input-field col s12 m6">
-                    <i class="material-icons prefix">person_pin</i>
-                    <input id="alias_usuario" type="text" name="alias_usuario" class="validate" required/>
-                    <label for="alias_usuario">Alias</label>
+                    <i class="material-icons prefix">phone</i>
+                    <input id="telefono" type="text" name="telefono" class="validate" required/>
+                    <label for="telefono">Telefono</label>
                 </div>
                 <div class="input-field col s12 m6">
                     <i class="material-icons prefix">security</i>

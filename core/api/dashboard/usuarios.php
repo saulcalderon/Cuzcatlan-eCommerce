@@ -13,6 +13,7 @@ if (isset($_GET['action'])) {
     $result = array('status' => 0, 'message' => null, 'exception' => null);
     // Se verifica si existe una sesión iniciada como administrador, de lo contrario se finaliza el script con un mensaje de error.
     //print_r($_SESSION);
+    
     if (isset($_SESSION['id_usuario'])) {
         // Se compara la acción a realizar cuando un administrador ha iniciado sesión.
         switch ($_GET['action']) {
@@ -105,6 +106,8 @@ if (isset($_GET['action'])) {
             case 'readAll':
                 if ($result['dataset'] = $usuario->readAllUsuarios()) {
                     $result['status'] = 1;
+                    //print_r($_GET['action']);
+                    //print_r($result['dataset']);
                 } else {
                     $result['exception'] = 'No hay usuarios registrados';
                 }
@@ -129,10 +132,10 @@ if (isset($_GET['action'])) {
                 break;
             case 'create':
                 $_POST = $usuario->validateForm($_POST);
-                if ($usuario->setNombres($_POST['nombres_usuario'])) {
-                    if ($usuario->setApellidos($_POST['apellidos_usuario'])) {
-                        if ($usuario->setCorreo($_POST['correo_usuario'])) {
-                            if ($usuario->setTelefono($_POST['alias_usuario'])) {
+                if ($usuario->setNombres($_POST['nombre'])) {
+                    if ($usuario->setApellidos($_POST['apellido'])) {
+                        if ($usuario->setCorreo($_POST['correo'])) {
+                            if ($usuario->setTelefono($_POST['telefono'])) {
                                 if ($_POST['clave_usuario'] == $_POST['confirmar_clave']) {
                                     if ($usuario->setClave($_POST['clave_usuario'])) {
                                         if ($usuario->createUsuario()) {
@@ -173,11 +176,11 @@ if (isset($_GET['action'])) {
                 break;
             case 'update':
                 $_POST = $usuario->validateForm($_POST);
-                if ($usuario->setId($_POST['id_usuario'])) {
+                if ($usuario->setId($_POST['id_administrador'])) {
                     if ($usuario->readOneUsuario()) {
-                        if ($usuario->setNombres($_POST['nombres_usuario'])) {
-                            if ($usuario->setApellidos($_POST['apellidos_usuario'])) {
-                                if ($usuario->setCorreo($_POST['correo_usuario'])) {
+                        if ($usuario->setNombres($_POST['nombre'])) {
+                            if ($usuario->setApellidos($_POST['apellido'])) {
+                                if ($usuario->setTelefono($_POST['telefono'])) {
                                     if ($usuario->updateUsuario()) {
                                         $result['status'] = 1;
                                         $result['message'] = 'Usuario modificado correctamente';

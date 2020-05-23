@@ -17,13 +17,14 @@ function fillTable( dataset )
         // Se crean y concatenan las filas de la tabla con los datos de cada registro.
         content += `
             <tr>
-                <td>${row.apellidos_usuario}</td>
-                <td>${row.nombres_usuario}</td>
-                <td>${row.correo_usuario}</td>
-                <td>${row.alias_usuario}</td>
+                <td>${row.apellido}</td>
+                <td>${row.nombre}</td>
+                <td>${row.correo}</td>
+                <td>${row.telefono}</td>
+                <td>${row.id_cargo}</td>
                 <td>
-                    <a href="#" onclick="openUpdateModal(${row.id_usuario})" class="blue-text tooltipped" data-tooltip="Actualizar"><i class="material-icons">mode_edit</i></a>
-                    <a href="#" onclick="openDeleteDialog(${row.id_usuario})" class="red-text tooltipped" data-tooltip="Eliminar"><i class="material-icons">delete</i></a>
+                    <a href="#" onclick="openUpdateModal(${row.id_administrador})" class="blue-text tooltipped" data-tooltip="Actualizar"><i class="material-icons">mode_edit</i></a>
+                    <a href="#" onclick="openDeleteDialog(${row.id_administrador})" class="red-text tooltipped" data-tooltip="Eliminar"><i class="material-icons">delete</i></a>
                 </td>
             </tr>
         `;
@@ -54,7 +55,7 @@ function openCreateModal()
     // Se habilitan los campos de alias y contraseña.
     $( '#clave_usuario' ).prop( 'disabled', false );
     $( '#confirmar_clave' ).prop( 'disabled', false );
-    $( '#alias_usuario' ).prop( 'disabled', false );
+    $( '#correo' ).prop( 'disabled', false );
 }
 
 // Función que prepara formulario para modificar un registro.
@@ -69,7 +70,7 @@ function openUpdateModal( id )
     // Se deshabilitan los campos de alias y contraseña.
     $( '#clave_usuario' ).prop( 'disabled', true );
     $( '#confirmar_clave' ).prop( 'disabled', true );
-    $( '#alias_usuario' ).prop( 'disabled', true );
+    $( '#correo' ).prop( 'disabled', true );
 
     $.ajax({
         dataType: 'json',
@@ -78,14 +79,15 @@ function openUpdateModal( id )
         type: 'post'
     })
     .done(function( response ){
+        console.log(response);
         // Se comprueba si la API ha retornado una respuesta satisfactoria, de lo contrario se muestra un mensaje de error.
         if ( response.status ) {
             // Se inicializan los campos del formulario con los datos del registro seleccionado previamente.
-            $( '#id_usuario' ).val( response.dataset.id_usuario );
-            $( '#nombres_usuario' ).val( response.dataset.nombres_usuario );
-            $( '#apellidos_usuario' ).val( response.dataset.apellidos_usuario );
-            $( '#correo_usuario' ).val( response.dataset.correo_usuario );
-            $( '#alias_usuario' ).val( response.dataset.alias_usuario );
+            $( '#id_administrador' ).val( response.dataset.id_administrador );
+            $( '#nombre' ).val( response.dataset.nombre );
+            $( '#apellido' ).val( response.dataset.apellido );
+            $( '#correo' ).val( response.dataset.correo );
+            $( '#telefono' ).val( response.dataset.telefono );
             // Se actualizan los campos para que las etiquetas (labels) no queden sobre los datos.
             M.updateTextFields(); 
         } else {
@@ -107,7 +109,7 @@ $( '#save-form' ).submit(function( event ) {
     event.preventDefault();
     // Se llama a la función que crea o actualiza un registro. Se encuentra en el archivo components.js
     // Se comprueba si el id del registro esta asignado en el formulario para actualizar, de lo contrario se crea un registro.
-    if ( $( '#id_usuario' ).val() ) {
+    if ( $( '#id_administrador' ).val() ) {
         saveRow( API_USUARIOS, 'update', this, 'save-modal' );
     } else {
         saveRow( API_USUARIOS, 'create', this, 'save-modal' );
