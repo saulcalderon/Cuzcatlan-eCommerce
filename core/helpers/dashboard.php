@@ -21,7 +21,7 @@ class Dashboard
             <html lang="es">
                 <head>
                     <meta charset="utf-8">
-                    <title>Cuzcatlan - '.$titulo.'</title>
+                    <title>Cuzcatlan - ' . $titulo . '</title>
                     <link type="image/png" rel="icon" href="../../resources/img/logo.png"/>
                     <link type="text/css" rel="stylesheet" href="../../resources/css/materialize.min.css"/>
                     <link type="text/css" rel="stylesheet" href="../../resources/css/material-icons.css"/>
@@ -45,13 +45,9 @@ class Dashboard
                         <div class="navbar-fixed">
                             <nav class="teal">
                                 <div class="nav-wrapper">
-                                    <a href="main.php" class="brand-logo"><img src="../../resources/img/logo.png" height="60"></a>
                                     <a href="#" data-target="mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
                                     <ul class="right hide-on-med-and-down">
-                                        <li><a href="productos.php"><i class="material-icons left">shop</i>Productos</a></li>
-                                        <li><a href="categorias.php"><i class="material-icons left">shop_two</i>Categorías</a></li>
-                                        <li><a href="usuarios.php"><i class="material-icons left">group</i>Usuarios</a></li>
-                                        <li><a href="#" class="dropdown-trigger" data-target="dropdown"><i class="material-icons left">verified_user</i>Cuenta: <b>'.$_SESSION['alias_usuario'].'</b></a></li>
+                                        <li><a href="#" class="dropdown-trigger" data-target="dropdown"><i class="material-icons left">verified_user</i>Cuenta: <b>' . $_SESSION['alias_usuario'] . '</b></a></li>
                                     </ul>
                                     <ul id="dropdown" class="dropdown-content">
                                         <li><a href="#" onclick="openModalProfile()"><i class="material-icons">face</i>Editar perfil</a></li>
@@ -62,19 +58,87 @@ class Dashboard
                             </nav>
                         </div>
                         <ul class="sidenav" id="mobile">
-                            <li><a href="productos.php"><i class="material-icons">shop</i>Productos</a></li>
-                            <li><a href="categorias.php"><i class="material-icons">shop_two</i>Categorías</a></li>
-                            <li><a href="usuarios.php"><i class="material-icons">group</i>Usuarios</a></li>
-                            <li><a class="dropdown-trigger" href="#" data-target="dropdown-mobile"><i class="material-icons">verified_user</i>Cuenta: <b>'.$_SESSION['alias_usuario'].'</b></a></li>
+                            <li><a class="dropdown-trigger" href="#" data-target="dropdown-mobile"><i class="material-icons">verified_user</i>Cuenta: <b>' . $_SESSION['alias_usuario'] . '</b></a></li>
                         </ul>
                         <ul id="dropdown-mobile" class="dropdown-content">
                             <li><a href="#" onclick="openModalProfile()">Editar perfil</a></li>
                             <li><a href="#password-modal" class="modal-trigger">Cambiar clave</a></li>
                             <li><a href="#" onclick="signOff()">Salir</a></li>
                         </ul>
+                        <div class="row">
+                            <div class="col s12 m12 l3">
+                                <div class="container">
+                                    <a href="#" class="sidenav-trigger" data-target="menu-side">
+                                        <i class="material-icons">menu</i>
+                                    </a>
+                                    <ul class="sidenav sidenav-fixed black accent-7" id="menu-side">
+                                        <li>
+                                            <div class="user-view">
+                                                <div class="row">
+                                                    <div class="col l10">
+                                                        <h2 class="white-text">Cuzcatlan</h2>
+                                                        <a href="#" class="">
+                                                            <img src="../../resources/img/dashboard/img12-1.jpg" alt="" class="circle">
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <a href="#">
+                                                    <span class="name white-text">Daniela Teos</span>
+                                                </a>
+                                                <p>
+                                                    <span class="email white-text">Encargada de Productos</span>
+                                                </p>
+                                            </div>
+                                        </li>
+                                        <!--Enlaces del menu-->
+                                        <li>
+                                            <a href="main-j.php" class="white-text waves-effect waves-rose">
+                                                <i class="material-icons white-text">home</i>
+                                                Dashboard
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="usuarios-j.php" class="white-text waves-effect waves-rose">
+                                                <i class="material-icons white-text">person</i>
+                                                Usuarios
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="clientes-j.php" class="white-text waves-effect wavesl-teal">
+                                                <i class="material-icons white-text">group</i>
+                                                Clientes
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="perfiles-j.php" class="white-text waves-effect wavesl-teal">
+                                                <i class="material-icons white-text">pie_chart</i>
+                                                Analiticas
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="productos-j.php" class="white-text waves-effect wavesl-teal">
+                                                <i class="material-icons white-text">storage</i>
+                                                Productos
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="factura-j.php" class="white-text waves-effect wavesl-teal">
+                                                <i class="material-icons white-text">monetization_on</i>
+                                                Facturas
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="proveedores-j.php" class="white-text waves-effect wavesl-teal ">
+                                                <i class="material-icons white-text">time_to_leave</i>
+                                                Proveedores
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                     </header>
                     <main class="container">
-                        <h3 class="center-align">'.$titulo.'</h3>
                 ');
             } else {
                 header('location: main.php');
@@ -96,7 +160,7 @@ class Dashboard
                         </div>
                     </header>
                     <main class="container">
-                        <h3 class="center-align">'.$titulo.'</h3>
+                        <h3 class="center-align">' . $titulo . '</h3>
                 ');
             }
         }
@@ -114,33 +178,13 @@ class Dashboard
         // Se imprime el código HTML para el pie del documento.
         print('
                     </main>
-                    <footer class="page-footer teal">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col s12 m6 l6">
-                                    <h5 class="white-text">Dashboard</h5>
-                                    <a class="white-text" href="mailto:dacasoft@outlook.com"><i class="material-icons left">email</i>Ayuda</a>
-                                </div>
-                                <div class="col s12 m6 l6">
-                                    <h5 class="white-text">Enlaces</h5>
-                                    <a class="white-text" href="http://localhost/phppgadmin/" target="_blank"><i class="material-icons left">cloud</i>phpPgAdmin</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="footer-copyright">
-                            <div class="container">
-                                <span>© Coffeeshop, todos los derechos reservados.</span>
-                                <span class="white-text right">Diseñado con <a class="red-text text-accent-1" href="http://materializecss.com/" target="_blank"><b>Materialize</b></a></span>
-                            </div>
-                        </div>
-                    </footer>
                     <script type="text/javascript" src="../../resources/js/jquery-3.4.1.min.js"></script>
                     <script type="text/javascript" src="../../resources/js/materialize.min.js"></script>
                     <script type="text/javascript" src="../../resources/js/sweetalert.min.js"></script>
                     <script type="text/javascript" src="../../core/helpers/components.js"></script>
                     <script type="text/javascript" src="../../core/controllers/dashboard/initialization.js"></script>
                     <script type="text/javascript" src="../../core/controllers/dashboard/account.js"></script>
-                    <script type="text/javascript" src="../../core/controllers/dashboard/'.$controller.'"></script>
+                    <script type="text/javascript" src="../../core/controllers/dashboard/' . $controller . '"></script>
                 </body>
             </html>
         ');
@@ -233,4 +277,3 @@ class Dashboard
         ');
     }
 }
-?>

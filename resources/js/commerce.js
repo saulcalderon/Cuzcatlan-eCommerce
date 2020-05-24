@@ -4,24 +4,11 @@ document.addEventListener('DOMContentLoaded', function() {
         indicators:false,
         height:500
     });
-    var elems = document.querySelectorAll('.sidenav');
-    var instances = M.Sidenav.init(elems,{ 
-    });
     var elems = document.querySelectorAll('.sidenav.carrito');
     var instances = M.Sidenav.init(elems,{
         edge: 'right'
     });
-    var elems = document.querySelectorAll('.carousel');
-    var instances = M.Carousel.init(elems);
-
-    var elems = document.querySelectorAll('select');
-    var instances = M.FormSelect.init(elems);
-
-    var elems = document.querySelectorAll('.collapsible');
-    var instances = M.Collapsible.init(elems);
-
-    var elems = document.querySelectorAll('.datepicker');
-    var instances = M.Datepicker.init(elems);
+    M.AutoInit();
   });
 
   //----------------------------------//
