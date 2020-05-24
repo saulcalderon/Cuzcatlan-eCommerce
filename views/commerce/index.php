@@ -48,7 +48,7 @@ Templates::headerTemplate();
                     <div class="col s12 m6 l2">
                         <a href="">
                             <div class="card-panel categories white hoverable">
-                                <img src="../../resources/img/commerce/iconos/001-shirt.png" alt="">
+                                <img src="../../resources/img/commerce/iconos/shirt.png" alt="">
                             <h5 class="light grey-text text-darken-3">Ropa</h5>
                             </div>
                         </a>
@@ -56,7 +56,7 @@ Templates::headerTemplate();
                     <div class="col s12 m6 l2">
                         <a href="">
                             <div class="card-panel categories white hoverable">
-                                <img src="../../resources/img/commerce/iconos/002-briefcase.png" alt="">
+                                <img src="../../resources/img/commerce/iconos/briefcase.png" alt="">
                                 <h5 class="light grey-text text-darken-3">Carteras</h5>
                             </div>
                         </a>
@@ -72,7 +72,7 @@ Templates::headerTemplate();
                     <div class="col s12 m6 l2">
                         <a href="">
                             <div class="card-panel categories white hoverable">
-                                <img src="../../resources/img/commerce/iconos/006-jewel.png" alt="">
+                                <img src="../../resources/img/commerce/iconos/jewel.png" alt="">
                                 <h5 class="light grey-text text-darken-3">Accesorios</h5>
                             </div>
                         </a>
