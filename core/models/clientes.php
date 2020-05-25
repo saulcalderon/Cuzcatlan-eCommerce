@@ -40,7 +40,7 @@ class Clientes extends Validator
     public function setApellido($value)
     {
         if($this->validateAlphanumeric($value, 1, 50)) {
-            $this->nombre = $value;
+            $this->apellido = $value;
             return true;
         } else {
             return false;
@@ -50,7 +50,7 @@ class Clientes extends Validator
     public function setCorreo($value)
     {
         if($this->validateAlphanumeric($value, 1, 50)) {
-            $this->nombre = $value;
+            $this->correo = $value;
             return true;
         } else {
             return false;
@@ -60,7 +60,7 @@ class Clientes extends Validator
     public function setTelefono($value)
     {
         if($this->validateAlphanumeric($value, 1, 50)) {
-            $this->nombre = $value;
+            $this->telefono = $value;
             return true;
         } else {
             return false;
@@ -70,7 +70,7 @@ class Clientes extends Validator
     public function setClave($value)
     {
         if($this->validateAlphanumeric($value, 1, 50)) {
-            $this->nombre = $value;
+            $this->clave = $value;
             return true;
         } else {
             return false;
@@ -91,7 +91,7 @@ class Clientes extends Validator
     public function setDireccion($value)
     {
         if($this->validateAlphanumeric($value, 1, 50)) {
-            $this->nombre = $value;
+            $this->direccion = $value;
             return true;
         } else {
             return false;
@@ -101,7 +101,7 @@ class Clientes extends Validator
     public function setNacimiento($value)
     {
         if($this->validateAlphanumeric($value, 1, 50)) {
-            $this->nombre = $value;
+            $this->nacimiento = $value;
             return true;
         } else {
             return false;
@@ -111,7 +111,7 @@ class Clientes extends Validator
     public function setRegistro($value)
     {
         if($this->validateAlphanumeric($value, 1, 50)) {
-            $this->nombre = $value;
+            $this->registro = $value;
             return true;
         } else {
             return false;
