@@ -11,6 +11,7 @@ Dashboard::headerTemplate('Administrar clientes');
         <table class="responsive-table  centered white-text">
             <thead>
                 <tr>
+                    <th>Fotografia</th>
                     <th>ID</th>
                     <th>Nombre</th>
                     <th>Apellido</th>
@@ -25,6 +26,7 @@ Dashboard::headerTemplate('Administrar clientes');
 
             <tbody class="black-text">
                 <tr>
+                    <td><img src="../../resources/img/dashboard/img12-1.jpg" height="50" width="80"></td>
                     <td>1</td>
                     <td>Carlos</td>
                     <td>Herrera</td>
@@ -36,6 +38,7 @@ Dashboard::headerTemplate('Administrar clientes');
                     <td><a class="tooltipped waves-effect waves-light modal-trigger" data-position="left" data-tooltip="Eliminar" href="#modal3"><i class="material-icons red-text">delete</i></a></td>
                 </tr>
                 <tr>
+                    <td><img src="../../resources/img/dashboard/img12-1.jpg" height="50" width="80"></td>
                     <td>1</td>
                     <td>Carlos</td>
                     <td>Herrera</td>
@@ -47,6 +50,7 @@ Dashboard::headerTemplate('Administrar clientes');
                     <td><a class="tooltipped waves-effect waves-light modal-trigger" data-position="left" data-tooltip="Eliminar" href="#modal3"><i class="material-icons red-text">delete</i></a></td>
                 </tr>
                 <tr>
+                    <td><img src="../../resources/img/dashboard/img12-1.jpg" height="50" width="80"></td>
                     <td>1</td>
                     <td>Carlos</td>
                     <td>Herrera</td>
@@ -58,7 +62,7 @@ Dashboard::headerTemplate('Administrar clientes');
                     <td><a class="tooltipped waves-effect waves-light modal-trigger" data-position="left" data-tooltip="Eliminar" href="#modal3"><i class="material-icons red-text">delete</i></a></td>
                 </tr>
                 <tr>
-                    <td>1</td>
+                    <td><img src="../../resources/img/dashboard/img12-1.jpg" height="50" width="80"></td>
                     <td>Carlos</td>
                     <td>Herrera</td>
                     <td>Carlos12@gmail.com</td>
@@ -69,6 +73,7 @@ Dashboard::headerTemplate('Administrar clientes');
                     <td><a class="tooltipped waves-effect waves-light modal-trigger" data-position="left" data-tooltip="Eliminar" href="#modal3"><i class="material-icons red-text">delete</i></a></td>
                 </tr>
                 <tr>
+                    <td><img src="../../resources/img/dashboard/img12-1.jpg" height="50" width="80"></td>
                     <td>1</td>
                     <td>Carlos</td>
                     <td>Herrera</td>
@@ -93,12 +98,12 @@ Dashboard::headerTemplate('Administrar clientes');
                     <div class="container">
                         <div class="input-field col m6 s12">
                             <input type="text" name="nombres" id="nombres" value="justin ALEXANDER">
-                            <label for="nombres">Nombres</label>
+                            <label for="nombres">Nombre</label>
                         </div>
 
                         <div class="input-field col m6 s12">
                             <input type="text" name="apellidos" id="apellidos">
-                            <label for="apellidos">Apellidos</label>
+                            <label for="apellidos">Apellido</label>
                         </div>
 
                         <div class='input-field col m6 s12'>
@@ -112,57 +117,28 @@ Dashboard::headerTemplate('Administrar clientes');
                         </div>
 
                         <div class="input-field col m6 s12">
+                            <input type="text" name="clave" id="clave">
+                            <label for="clave">Clave</label>
+                        </div>
+
+                        <div class="input-field col m6 s12">
                             <input type="text" name="direccion" id="direccion">
                             <label for="direccion">Direccion</label>
                         </div>
 
                         <div class="input-field col m6 s12">
-                            <input type="text" name="direccion" id="direccion">
-                            <label for="direccion">Dui</label>
+                            <input type="text" name="nacimiento" id="nacimiento">
+                            <label for="nacimiento">Nacimiento</label>
                         </div>
 
                         <div class="input-field col m6 s12">
-                            <input type="text" name="direccion" id="direccion">
-                            <label for="direccion">Nacimiento</label>
-                        </div>
-
-                        <div class="input-field col m6 s12">
-                            <input type="text" name="direccion" id="direccion">
-                            <label for="direccion">Titulos</label>
-                        </div>
-
-                        <div class="input-field col m6 s12">
-                            <input type="text" name="direccion" id="direccion">
-                            <label for="direccion"># de Escalafon</label>
-                        </div>
-
-                        <div class="input-field col m6 s12">
-                            <input type="text" name="direccion" id="direccion">
-                            <label for="direccion">ID Tipo</label>
-                        </div>
-
-                        <div class='input-field col m6 s12'>
-                            <input class='validate white-text' type='password' name='password1' id='password1' />
-                            <label for='password1'>Contraseña</label>
-                        </div>
-
-                        <div class="input-field col m6 s12">
-                            <input type="text" name="direccion" id="direccion">
-                            <label for="direccion">Tipo Docente</label>
-                        </div>
-
-                        <div class="input-field col m6 s12">
-                            <input type="text" name="direccion" id="direccion">
-                            <label for="direccion">ID Nivel</label>
-                        </div>
-
-                        <div class="input-field col m6 s12">
-                            <input type="text" name="direccion" id="direccion">
-                            <label for="direccion">Nivel Docente</label>
+                            <input type="text" name="registro" id="registro">
+                            <label for="registro">Registro</label>
                         </div>
                     </div>
+                    
                     <div class="modal-footer">
-                        <a href="#!" class="modal-close waves-effect waves-green btn-flat green">Agregar</a>
+                        <a href="#!" class="modal-close waves-effect waves-green btn-flat green">Agregar Cliente</a>
                         <a href="#!" class="modal-close waves-effect waves-green btn-flat red">Cancelar</a>
                     </div>
             </div>
