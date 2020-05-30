@@ -16,12 +16,11 @@ function fillTable( dataset )
         // Se crean y concatenan las filas de la tabla con los datos de cada registro.
         content += `
             <tr>
-                <td><img src="../../resources/img/categorias/${row.imagen_categoria}" class="materialboxed" height="100"></td>
-                <td>${row.nombre_categoria}</td>
-                <td>${row.descripcion_categoria}</td>
+                <td>${row.id_categoria_producto}</td>
+                <td>${row.categoria_producto}</td>
                 <td>
-                    <a href="#" onclick="openUpdateModal(${row.id_categoria})" class="blue-text tooltipped" data-tooltip="Actualizar"><i class="material-icons">mode_edit</i></a>
-                    <a href="#" onclick="openDeleteDialog(${row.id_categoria})" class="red-text tooltipped" data-tooltip="Eliminar"><i class="material-icons">delete</i></a>
+                    <a href="#" onclick="openUpdateModal(${row.id_categoria_producto})" class="blue-text tooltipped" data-tooltip="Actualizar"><i class="material-icons">mode_edit</i></a>
+                    <a href="#" onclick="openDeleteDialog(${row.id_categoria_producto})" class="red-text tooltipped" data-tooltip="Eliminar"><i class="material-icons">delete</i></a>
                 </td>
             </tr>
         `;
@@ -77,9 +76,8 @@ function openUpdateModal( id )
         // Se comprueba si la API ha retornado una respuesta satisfactoria, de lo contrario se muestra un mensaje de error.
         if ( response.status ) {
             // Se inicializan los campos del formulario con los datos del registro seleccionado previamente.
-            $( '#id_categoria' ).val( response.dataset.id_categoria );
-            $( '#nombre_categoria' ).val( response.dataset.nombre_categoria );
-            $( '#descripcion_categoria' ).val( response.dataset.descripcion_categoria );
+            $( '#id_categoria' ).val( response.dataset.id_categoria_producto );
+            $( '#nombre_categoria' ).val( response.dataset.categoria_producto );
             // Se actualizan los campos para que las etiquetas (labels) no queden sobre los datos.
             M.updateTextFields();
         } else {

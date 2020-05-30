@@ -19,10 +19,12 @@ function fillTable( dataset )
         // Se crean y concatenan las filas de la tabla con los datos de cada registro.
         content += `
             <tr>
-                <td><img src="../../resources/img/productos/${row.imagen_producto}" class="materialboxed" height="100"></td>
-                <td>${row.nombre_producto}</td>
-                <td>${row.precio_producto}</td>
-                <td>${row.nombre_categoria}</td>
+                <td>${row.id_producto}</td>
+                <!--<td><img src="../../resources/img/productos/${row.id_imagen}" class="materialboxed" height="100"></td>-->
+                <td>${row.nombre}</td>
+                <td>${row.existencias}</td>
+                <td>${row.precio_unitario}</td>
+                <td>${row.id_categoria_producto}</td>
                 <td><i class="material-icons">${icon}</i></td>
                 <td>
                     <a href="#" onclick="openUpdateModal(${row.id_producto})" class="blue-text tooltipped" data-tooltip="Actualizar"><i class="material-icons">mode_edit</i></a>
@@ -57,7 +59,7 @@ function openCreateModal()
     // Se asigna el título para la caja de dialogo (modal).
     $( '#modal-title' ).text( 'Crear producto' );
     // Se establece el campo de tipo archivo como obligatorio.
-    $( '#archivo_producto' ).prop( 'required', true );
+    //$( '#archivo_producto' ).prop( 'required', true );
     // Se llama a la función que llena el select del formulario. Se encuentra en el archivo components.js
     fillSelect( API_CATEGORIAS, 'categoria_producto', null );
 }
@@ -72,7 +74,7 @@ function openUpdateModal( id )
     // Se asigna el título para la caja de dialogo (modal).
     $( '#modal-title' ).text( 'Modificar producto' );
     // Se establece el campo de tipo archivo como opcional.
-    $( '#archivo_producto' ).prop( 'required', false );
+    //$( '#archivo_producto' ).prop( 'required', false );
 
     $.ajax({
         dataType: 'json',
@@ -85,9 +87,10 @@ function openUpdateModal( id )
         if ( response.status ) {
             // Se inicializan los campos del formulario con los datos del registro seleccionado previamente.
             $( '#id_producto' ).val( response.dataset.id_producto );
-            $( '#nombre_producto' ).val( response.dataset.nombre_producto );
-            $( '#precio_producto' ).val( response.dataset.precio_producto );
-            $( '#descripcion_producto' ).val( response.dataset.descripcion_producto );
+            $( '#nombre_producto' ).val( response.dataset.nombre );
+            $( '#precio_producto' ).val( response.dataset.precio_unitario );
+            $( '#existencias_producto' ).val( response.dataset.existencias );
+            $( '#descripcion_producto' ).val( response.dataset.descripcion );
             fillSelect( API_CATEGORIAS, 'categoria_producto', response.dataset.id_categoria );
             ( response.dataset.estado_producto ) ? $( '#estado_producto' ).prop( 'checked', true ) : $( '#estado_producto' ).prop( 'checked', false );
             // Se actualizan los campos para que las etiquetas (labels) no queden sobre los datos.
@@ -125,4 +128,3 @@ function openDeleteDialog( id )
     let identifier = { id_producto: id };
     confirmDelete( API_PRODUCTOS, identifier );
 }
-

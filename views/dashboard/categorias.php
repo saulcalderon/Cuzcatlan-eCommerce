@@ -26,9 +26,8 @@ Dashboard::headerTemplate('Administrar categorías');
     <!-- Cabeza de la tabla para mostrar los títulos de las columnas -->
     <thead>
         <tr>
-            <th>IMAGEN</th>
+        <th>ID</th>
             <th>NOMBRE</th>
-            <th>DESCRIPCIÓN</th>
             <th>ACCIÓN</th>
         </tr>
     </thead>
@@ -46,24 +45,10 @@ Dashboard::headerTemplate('Administrar categorías');
             <!-- Campo oculto para asignar el id del registro al momento de modificar -->
             <input class="hide" type="text" id="id_categoria" name="id_categoria"/>
             <div class="row">
-                <div class="input-field col s12 m6">
+                <div class="input-field col s12 m12">
                     <i class="material-icons prefix">note_add</i>
                     <input id="nombre_categoria" type="text" name="nombre_categoria" class="validate" required/>
                     <label for="nombre_categoria">Nombre</label>
-                </div>
-                <div class="input-field col s12 m6">
-                    <i class="material-icons prefix">description</i>
-                    <input id="descripcion_categoria" type="text" name="descripcion_categoria" class="validate"/>
-                    <label for="descripcion_categoria">Descripción</label>
-                </div>
-                <div class="file-field input-field col s12 m6">
-                    <div class="btn waves-effect tooltipped" data-tooltip="Seleccione una imagen de al menos 500x500">
-                        <span><i class="material-icons">image</i></span>
-                        <input id="archivo_categoria" type="file" name="archivo_categoria" accept=".gif, .jpg, .png"/>
-                    </div>
-                    <div class="file-path-wrapper">
-                        <input class="file-path validate" type="text" placeholder="Formatos aceptados: gif, jpg y png"/>
-                    </div>
                 </div>
             </div>
             <div class="row center-align">

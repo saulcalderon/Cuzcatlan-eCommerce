@@ -26,133 +26,87 @@ Dashboard::headerTemplate('Administrar facturas');
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Nombre</th>
-                <th>Existencias</th>
-                <th>Fecha Registro</th>
-                <th>ID Estado</th>
-                <th>ID Categoria</th>
-                <th>ID Proveedor</th>
-                <th><a class="tooltipped waves-effect waves-light modal-trigger" data-position="left" data-tooltip="Agregar Producto" href="#modal2"><i class="material-icons green-text text- accent-4">add_box</i></a></th>
-                <th><a class="tooltipped waves-effect waves-light modal-trigger" data-position="left" data-tooltip="Buscar" href="#modal3"><i class="material-icons white-text text- accent-4">search</i></a></th>
+                <!--<th>IMAGEN</th>-->
+                <th>NOMBRE</th>
+                <th>EXISTENCIAS</th>
+                <th>PRECIO (US$)</th>
+                <th>CATEGORÍA</th>
+                <th>ESTADO</th>
+                <th>ACCIÓN</th>
+                <!--<th><a class="tooltipped waves-effect waves-light modal-trigger" data-position="left" data-tooltip="Agregar Producto" href="#modal2"><i class="material-icons green-text text- accent-4">add_box</i></a></th>
+                <th><a class="tooltipped waves-effect waves-light modal-trigger" data-position="left" data-tooltip="Buscar" href="#modal3"><i class="material-icons white-text text- accent-4">search</i></a></th>-->
             </tr>
         </thead>
 
-        <tbody class="black-text">
-            <tr>
-                <td>1</td>
-                <td>Pintura Flor Nacional</td>
-                <td>25</td>
-                <td>02/02/2017</td>
-                <td>1</td>
-                <td>1</td>
-                <td>1</td>
-                <td><a class="tooltipped waves-effect waves-light modal-trigger" data-position="left" data-tooltip="Editar" href="#modal1"><i class="material-icons black-text">create</i></a></td>
-                <td><a class="tooltipped waves-effect waves-light modal-trigger" data-position="left" data-tooltip="Eliminar" href="#modal3"><i class="material-icons red-text">delete</i></a></td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>Pintura Flor Nacional</td>
-                <td>25</td>
-                <td>02/02/2017</td>
-                <td>1</td>
-                <td>1</td>
-                <td>1</td>
-                <td><a class="tooltipped waves-effect waves-light modal-trigger" data-position="left" data-tooltip="Editar" href="#modal1"><i class="material-icons black-text">create</i></a></td>
-                <td><a class="tooltipped waves-effect waves-light modal-trigger" data-position="left" data-tooltip="Eliminar" href="#modal3"><i class="material-icons red-text">delete</i></a></td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>Pintura Flor Nacional</td>
-                <td>25</td>
-                <td>02/02/2017</td>
-                <td>1</td>
-                <td>1</td>
-                <td>1</td>
-                <td><a class="tooltipped waves-effect waves-light modal-trigger" data-position="left" data-tooltip="Editar" href="#modal1"><i class="material-icons black-text">create</i></a></td>
-                <td><a class="tooltipped waves-effect waves-light modal-trigger" data-position="left" data-tooltip="Eliminar" href="#modal3"><i class="material-icons red-text">delete</i></a></td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>Pintura Flor Nacional</td>
-                <td>25</td>
-                <td>02/02/2017</td>
-                <td>1</td>
-                <td>1</td>
-                <td>1</td>
-                <td><a class="tooltipped waves-effect waves-light modal-trigger" data-position="left" data-tooltip="Editar" href="#modal1"><i class="material-icons black-text">create</i></a></td>
-                <td><a class="tooltipped waves-effect waves-light modal-trigger" data-position="left" data-tooltip="Eliminar" href="#modal3"><i class="material-icons red-text">delete</i></a></td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>Pintura Flor Nacional</td>
-                <td>25</td>
-                <td>02/02/2017</td>
-                <td>1</td>
-                <td>1</td>
-                <td>1</td>
-                <td><a class="tooltipped waves-effect waves-light modal-trigger" data-position="left" data-tooltip="Editar" href="#modal1"><i class="material-icons black-text">create</i></a></td>
-                <td><a class="tooltipped waves-effect waves-light modal-trigger" data-position="left" data-tooltip="Eliminar" href="#modal3"><i class="material-icons red-text">delete</i></a></td>
-            </tr>
+        <tbody id="tbody-rows">
         </tbody>
     </table>
-    <div id="modal2" class="modal">
-        <div class="modal-content">
-            <h4 class="centered black-text">Agregar un Producto</h4>
-            <form class="col s12" method="post" style="border: 1px solid #424242;">
-                <div class='row'>
-                    <div class='col s12'>
+
+    <div id="save-modal" class="modal">
+    <div class="modal-content">
+        <h4 id="modal-title" class="center-align"></h4>
+        <!-- Formulario para crear o actualizar un registro -->
+        <form method="post" id="save-form" enctype="multipart/form-data">
+            <!-- Campo oculto para asignar el id del registro al momento de modificar -->
+            <input class="hide" type="text" id="id_producto" name="id_producto"/>
+            <div class="row">
+                <div class="input-field col s12 m6">
+                  	<i class="material-icons prefix">note_add</i>
+                  	<input id="nombre_producto" type="text" name="nombre_producto" class="validate" required/>
+                  	<label for="nombre_producto">Nombre</label>
+                </div>
+                <div class="input-field col s12 m6">
+                  	<i class="material-icons prefix">shopping_cart</i>
+                  	<input id="precio_producto" type="number" name="precio_producto" class="validate" max="999.99" min="0.01" step="any" required/>
+                  	<label for="precio_producto">Precio (US$)</label>
+                </div>
+                <div class="input-field col s12 m6">
+                  	<i class="material-icons prefix">local_shipping</i>
+                  	<input id="existencias_producto" type="number" name="existencias_producto" class="validate" min="1" step="any" required/>
+                  	<label for="existencias_producto">Existencias</label>
+                </div>
+                <div class="input-field col s12 m6">
+                  	<i class="material-icons prefix">description</i>
+                  	<input id="descripcion_producto" type="text" name="descripcion_producto" class="validate" required/>
+                  	<label for="descripcion_producto">Descripción</label>
+                </div>
+                <div class="input-field col s12 m6">
+                    <select id="categoria_producto" name="categoria_producto">
+                    </select>
+                    <label>Categoría</label>
+                </div>
+                <!--
+              	<div class="file-field input-field col s12 m6">
+                    <div class="btn waves-effect tooltipped" data-tooltip="Seleccione una imagen de al menos 500x500">
+                        <span><i class="material-icons">image</i></span>
+                        <input id="archivo_producto" type="file" name="archivo_producto" accept=".gif, .jpg, .png"/>
+                    </div>
+                    <div class="file-path-wrapper">
+                        <input type="text" class="file-path validate" placeholder="Formatos aceptados: gif, jpg y png"/>
                     </div>
                 </div>
-
-                <div class="container">
-                    <div class="input-field col s12">
-                        <input type="text" name="nombres" id="nombres">
-                        <label for="nombres">Nombre</label>
-                    </div>
-
-                    <div class="input-field col m12 s12">
-                        <label for="descripcion">Descripcion</label>
-                        <textarea for="descripcion" class="medium-textarea"></textarea>
-
-                    </div>
-
-                    <div class="input-field col m6 s12">
-                        <input type="text" name="precio" id="precio">
-                        <label for="precio">Precio</label>
-                    </div>
-
-                    <div class="input-field col m6 s12">
-                        <input type="text" name="existencia" id="existencia">
-                        <label for="existencia">Existencia</label>
-                    </div>
-
-                    <div class="input-field col s12 m6">
-
-                        <select>
-                            <option value="" disabled selected></option>
-                            <option value="1">Option 1</option>
-                            <option value="2">Option 2</option>
-                            <option value="3">Option 3</option>
-                        </select>
-                    </div>
-                    <div class="input-field col s12 m6">
-
-                        <select>
-                            <option value="" disabled selected>Elegir opción</option>
-                            <option value="1">Option 1</option>
-                            <option value="2">Option 2</option>
-                            <option value="3">Option 3</option>
-                        </select>
-                    </div>
+                -->
+                <div class="col s12 m6">
+                    <p>
+                        <div class="switch">
+                            <span>Estado:</span>
+                            <label>
+                                <i class="material-icons">visibility_off</i>
+                                <input id="estado_producto" type="checkbox" name="estado_producto" checked/>
+                                <span class="lever"></span>
+                                <i class="material-icons">visibility</i>
+                            </label>
+                        </div>
+                    </p>
                 </div>
-            </form>
-
-            <div class="modal-footer">
-                <a href="#!" class="modal-close waves-effect waves-green btn-flat green">Agregar Producto</a>
-                <a href="#!" class="modal-close waves-effect waves-green btn-flat red">Cancelar</a>
             </div>
-        </div>
+            <div class="row center-align">
+                <a href="#" class="btn waves-effect grey tooltipped modal-close" data-tooltip="Cancelar"><i class="material-icons">cancel</i></a>
+                <button type="submit" class="btn waves-effect blue tooltipped" data-tooltip="Guardar"><i class="material-icons">save</i></button>
+            </div>
+        </form>
     </div>
+</div>
 </div>
 <?php
 Dashboard::footerTemplate();

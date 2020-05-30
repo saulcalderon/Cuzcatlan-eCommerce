@@ -94,64 +94,53 @@ class Categorias extends Validator
     */
     public function searchCategorias($value)
     {
-        $sql = 'SELECT id_categoria, nombre_categoria, imagen_categoria, descripcion_categoria
-                FROM categorias
-                WHERE nombre_categoria ILIKE ? OR descripcion_categoria ILIKE ?
-                ORDER BY nombre_categoria';
-        $params = array("%$value%", "%$value%");
+        $sql = 'SELECT id_categoria_producto, categoria_producto
+                FROM categoria_producto
+                WHERE categoria_producto ILIKE ?
+                ORDER BY categoria_producto';
+        $params = array("%$value%");
         return Database::getRows($sql, $params);
     }
 
     public function createCategoria()
     {
-        if ($this->saveFile($this->archivo, $this->ruta, $this->imagen)) {
-            $sql = 'INSERT INTO categorias(nombre_categoria, imagen_categoria, descripcion_categoria)
-                    VALUES(?, ?, ?)';
-            $params = array($this->nombre, $this->imagen, $this->descripcion);
-            return Database::executeRow($sql, $params);
-        } else {
-            return false;
-        }
+       $sql = 'INSERT INTO categoria_producto(categoria_producto)
+                VALUES(?)';
+        $params = array($this->nombre);
+        return Database::executeRow($sql, $params);
     }
 
     public function readAllCategorias()
     {
-        $sql = 'SELECT id_categoria, nombre_categoria, imagen_categoria, descripcion_categoria
-                FROM categorias
-                ORDER BY nombre_categoria';
+        $sql = 'SELECT id_categoria_producto, categoria_producto 
+                FROM categoria_producto';
         $params = null;
         return Database::getRows($sql, $params);
     }
 
     public function readOneCategoria()
     {
-        $sql = 'SELECT id_categoria, nombre_categoria, imagen_categoria, descripcion_categoria
-                FROM categorias
-                WHERE id_categoria = ?';
+        $sql = 'SELECT id_categoria_producto, categoria_producto
+                FROM categoria_producto
+                WHERE id_categoria_producto = ?';
         $params = array($this->id);
         return Database::getRow($sql, $params);
     }
 
     public function updateCategoria()
     {
-        if ($this->saveFile($this->archivo, $this->ruta, $this->imagen)) {
-            $sql = 'UPDATE categorias
-                    SET imagen_categoria = ?, nombre_categoria = ?, descripcion_categoria = ?
-                    WHERE id_categoria = ?';
-            $params = array($this->imagen, $this->nombre, $this->descripcion, $this->id);
-        } else {
-            $sql = 'UPDATE categorias
-                    SET nombre_categoria = ?, descripcion_categoria = ?
-                    WHERE id_categoria = ?';
-            $params = array($this->nombre, $this->descripcion, $this->id);
-        }
+        
+        $sql = 'UPDATE categoria_producto
+                SET categoria_producto = ?
+                WHERE id_categoria_producto = ?';
+       $params = array($this->nombre, $this->id);
         return Database::executeRow($sql, $params);
     }
 
     public function deleteCategoria()
     {
-        $sql = 'DELETE FROM categorias
-                WHERE id_categoria = ?';
+        $sql = 'DELETE FROM categoria_producto
+                WHERE id_categoria_producto = ?';
         $params = array($this->id);
         return Database::executeRow($sql, $params);
     }
