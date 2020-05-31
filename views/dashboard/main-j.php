@@ -94,5 +94,5 @@ Dashboard::headerTemplate('Administrar facturas');
 
 </div> -->
 <?php
-Dashboard::footerTemplate();
+Dashboard::footerTemplate('main.js');
 ?>
