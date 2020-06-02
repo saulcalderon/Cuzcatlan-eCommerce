@@ -2,146 +2,106 @@
 require_once('../../core/helpers/dashboard.php');
 Dashboard::headerTemplate('Administrar facturas');
 ?>
-<div class="padd-15">
-    <div class="row">
-        <!-- Formulario de búsqueda -->
-        <form method="post" id="search-form">
-            <div class="input-field col s6 m4">
-                <i class="material-icons prefix">search</i>
-                <input id="search" type="text" name="search" />
-                <label for="search">Buscador</label>
-            </div>
-            <div class="input-field col s6 m4">
-                <button type="submit" class="btn waves-effect green tooltipped" data-tooltip="Buscar"><i class="material-icons">check_circle</i></button>
-            </div>
-        </form>
-        <div class="input-field center-align col s12 m4">
-            <!-- Enlace para abrir caja de dialogo (modal) al momento de crear un nuevo registro -->
-            <a href="#" onclick="openCreateModal()" class="btn waves-effect indigo tooltipped" data-tooltip="Crear"><i class="material-icons">add_circle</i></a>
-            <!-- Enlace para generar un reporte en formato PDF -->
-            <a href="../../core/reports/dashboard/productos.php" target="_blank" class="btn waves-effect amber tooltipped" data-tooltip="Reporte de productos por categoría"><i class="material-icons">assignment</i></a>
+<div class="row padd-15">
+    <!-- Formulario de búsqueda -->
+    <form method="post" id="search-form">
+        <div class="input-field col s6 m4">
+            <i class="material-icons prefix">search</i>
+            <input id="search" type="text" name="search" />
+            <label for="search">Buscador</label>
         </div>
-    </div>
-    <table class="responsive-table  centered white-text">
+        <div class="input-field col s6 m4">
+            <button type="submit" class="btn waves-effect green tooltipped" data-tooltip="Buscar"><i class="material-icons">check_circle</i></button>
+        </div>
+    </form>
+
+    <table class="highlight padd-15" id="table-factura">
+        <!-- Cabeza de la tabla para mostrar los títulos de las columnas -->
         <thead>
             <tr>
-                <th>Image</th>
-                <th>Cliente</th>
-                <th>Monto</th>
-                <th>Fecha</th>
+                <th>NOMBRE</th>
+                <th>FECHA</th>
+                <th>TOTAL</th>
+                <th>ESTADO FACTURA</th>
+                <th>CANTIDAD</th>
             </tr>
         </thead>
-        <tbody class="black-text">
-            <tr>
-                <td><img src="../../resources/img/dashboard/img12-1.jpg" height="50" width="80"></td>
-                <td><a class="modal-trigger" href="#modal2">Rene Saul Calderon</a></td>
-                <td>$25.00</td>
-                <td>02/02/2017</td>
-            </tr>
-            <tr>
-                <td><img src="../../resources/img/dashboard/img12-1.jpg" height="50" width="80"></td>
-                <td><a class="modal-trigger" href="#modal2">Rene Saul Calderon</a></td>
-                <td>$25.00</td>
-                <td>02/02/2017</td>
-            </tr>
-            <tr>
-                <td><img src="../../resources/img/dashboard/img12-1.jpg" height="50" width="80"></td>
-                <td><a class="modal-trigger" href="#modal2">Rene Saul Calderon</a></td>
-                <td>$25.00</td>
-                <td>02/02/2017</td>
-            </tr>
-            <tr>
-                <td><img src="../../resources/img/dashboard/img12-1.jpg" height="50" width="80"></td>
-                <td><a class="modal-trigger" href="#modal2">Rene Saul Calderon</a></td>
-                <td>$25.00</td>
-                <td>02/02/2017</td>
-            </tr>
-            <tr>
-                <td><img src="../../resources/img/dashboard/img12-1.jpg" height="50" width="80"></td>
-                <td><a class="modal-trigger" href="#modal2">Rene Saul Calderon</a></td>
-                <td>$25.00</td>
-                <td>02/02/2017</td>
-            </tr>
+        <!-- Cuerpo de la tabla para mostrar un registro por fila -->
+        <tbody id="tbody-rows">
         </tbody>
     </table>
-    <div id="modal2" class="modal">
-        <div class="modal-content">
-            <h4 class="centered black-text">Detalles</h4>
-            <form class="col s12" method="post">
-                <div class='row'>
-                    <div class='col s12'>
-                    </div>
-                </div>
-                <div class="container">
-                    <div class="input-field col m6 s12">
-                        <input type="text" name="nombres" id="nombres" value="Justin Perez">
-                        <label for="nombres">Nombres</label>
-
-                    </div>
-
-                    <div class='input-field col m6 s12'>
-                        <input class='validate black-text' type='email' name='email' id='email' value="stark122@gmail.com">
-                        <label for='email'>Email</label>
-                    </div>
-
-                    <div class="input-field col m6 s12">
-                        <input type="text" name="telefono" id="telefono" value="6543-1834">
-                        <label for="telefono">Telefono</label>
-                    </div>
-
-                    <div class="input-field col m6 s12">
-                        <input type="text" name="direccion" id="direccion" value="Col. Baycity Casa#200">
-                        <label for="direccion">Direccion</label>
-                    </div>
-
-                    <div class="input-field col m6 s12">
-                        <input type="text" name="factura" id="factura" value="1">
-                        <label for="factura">N. Factura</label>
-                    </div>
-
-                    <div class="input-field col m6 s12">
-                        <input type="text" name="direccion" id="fecha" value="12/05/2020">
-                        <label for="fecha">Fecha Realizada</label>
-                    </div>
-
-                    <div class="input-field col m6 s12">
-                        <select>
-                            <option value="" disabled selected>Estado</option>
-                            <option value="1">Option 1</option>
-                            <option value="2">Option 2</option>
-                            <option value="3">Option 3</option>
-                        </select>
-                    </div>
-                    <table class="responsive-table  centered white-text">
-                        <thead>
-                            <tr>
-                                <th>Image</th>
-                                <th>Articulos</th>
-                                <th>Cantidad</th>
-                                <th>Precio</th>
-                                <th>Total</th>
-                            </tr>
-                        </thead>
-                        <tbody class="black-text">
-                            <tr>
-                                <td><img src="../../resources/img/billete.jpg" height="50" width="80"></td>
-                                <td>Pintura Residencia</td>
-                                <td>1</td>
-                                <td>$45.00</td>
-                                <td>$45.00</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <ul class="right-text">
-                        <li>Sub-Total:</li>
-                        <li>Costo de Envio:</li>
-                        <li>Total:</li>
-                    </ul>
-                </div>
-        </div>
+    <div class="col-md-12 center text-center">
+        <span class="left" id="total_reg"></span>
+        <ul class="pagination pager" id="myPager"></ul>
     </div>
 
 </div>
+<div id="detalle-modal" class="modal">
+    <div class="modal-content">
+        <h4>Modal Header</h4>
+        <table class="highlight padd-15">
+            <!-- Cabeza de la tabla para mostrar los títulos de las columnas -->
+            <thead>
+                <tr>
+                    <th>NOMBRE</th>
+                    <th>PRECIO_UNITARIO</th>
+                    <th>CANTIDAD</th>
+                </tr>
+            </thead>
+            <!-- Cuerpo de la tabla para mostrar un registro por fila -->
+            <tbody id="tbody-details">
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<!-- Tabla para mostrar los registros existentes -->
+
+<!-- Componente Modal para mostrar una caja de dialogo -->
+<div id="save-modal" class="modal">
+    <div class="modal-content">
+        <h4 id="modal-title" class="center-align"></h4>
+        <!-- Formulario para crear o actualizar un registro -->
+        <form method="post" id="save-form">
+            <!-- Campo oculto para asignar el id del registro al momento de modificar -->
+            <input class="hide" type="text" id="id_factura" name="id_factura" />
+            <div class="row">
+                <div class="input-field col s12 m6">
+                    <i class="material-icons prefix">person</i>
+                    <input id="nombre" type="text" name="nombre" class="validate" required />
+                    <label for="nombre">Nombre</label>
+                </div>
+                <div class="input-field col s12 m6">
+                    <i class="material-icons prefix">person</i>
+                    <input id="fecha" type="text" name="fecha" class="validate" required />
+                    <label for="fecha">Fecha</label>
+                </div>
+                <div class="input-field col s12 m6">
+                    <i class="material-icons prefix">email</i>
+                    <input id="cantidad" type="number" name="cantidad" class="validate" required />
+                    <label for="cantidad">Cantidad</label>
+                </div>
+                <div class="input-field col s12 m6">
+                    <i class="material-icons prefix">phone</i>
+                    <input id="total" type="number" name="total" class="validate" />
+                    <label for="total">Total</label>
+                </div>
+                <div class="input-field col s12 m6">
+                    <select id="estado_factura" name="estado_factura">
+                    </select>
+                    <label>Categoría</label>
+                </div>
+                
+            </div>
+            <div class="row center-align">
+                <a href="#" class="btn waves-effect grey tooltipped modal-close" data-tooltip="Cancelar"><i class="material-icons">cancel</i></a>
+                <button type="submit" class="btn waves-effect blue tooltipped" data-tooltip="Guardar"><i class="material-icons">save</i></button>
+            </div>
+        </form>
+    </div>
+</div>
+
 <?php
-Dashboard::footerTemplate();
+Dashboard::footerTemplate('factura.js');
 ?>

@@ -1,5 +1,5 @@
-header,
-main,
+header.h-normal,
+main.m-normal,
 footer,
 .content {
     padding-left: 300px;
@@ -7,18 +7,34 @@ footer,
 
 @media only screen and (max-width : 992px) {
 
-    header,
-    main,
+    header.h-normal,
+    main.m-normal,
     footer,
     .content {
         padding-left: 0;
     }
 }
+.rose-m{
+    background-color: #e91e63;
+}
+.card{
+    border-radius: 20px;
+}
+.img-center{
+    display: block;
+    margin: 25px  auto;
+}
 .padd-15{
     padding: 15px;
 }
+.m-15{
+    margin: 35px 0 0;
+}
+.m-0{
+    margin: 0;
+}
 body {
-    background-color: gray;
+    background-color: #e6e6e6;
 }
 
 .bg-aqua {

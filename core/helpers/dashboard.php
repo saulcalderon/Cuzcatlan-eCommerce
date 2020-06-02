@@ -41,16 +41,23 @@ class Dashboard
                 self::modals();
                 // Se imprime el código HTML para el encabezado del documento con el menú de opciones.
                 print('
-                <header>
-                    <nav class="pink darken-1">
+                <header class="h-normal">
+                    <nav class="rose-m">
                         <div class="nav wrapper">
                             <div class="container">
                                 <a href="" class="brand-logo center">Cuzcatlán</a>
                                 <a href="#" data-target="slide-out" class="sidenav-trigger"><i
                                         class="material-icons">menu</i></a>
-                                <!-- <ul class="right collection hide-on-small-and-down">
-                
-                                </ul> -->
+                                        <ul class="right hide-on-med-and-down">
+                                       
+                                        
+                                        <li><a href="#" class="dropdown-trigger" data-target="dropdown"><i class="material-icons left">verified_user</i>Cuenta: <b>' . $_SESSION['alias_usuario'] . '</b></a></li>
+                                    </ul>
+                                    <ul id="dropdown" class="dropdown-content">
+                                        <li><a href="#" onclick="openModalProfile()"><i class="material-icons">face</i>Editar perfil</a></li>
+                                        <li><a href="#password-modal" class="modal-trigger"><i class="material-icons">lock</i>Cambiar clave</a></li>
+                                        <li><a href="#" onclick="signOff()"><i class="material-icons">clear</i>Salir</a></li>
+                                    </ul>
                             </div>
                         </div>
                     </nav>
@@ -98,7 +105,7 @@ class Dashboard
                         </li>
                     </ul>
                 </header>
-                <main>
+                <main class="m-normal">
                 ');
             } else {
                 header('location: main.php');
@@ -112,15 +119,15 @@ class Dashboard
                 print('
                     <header>
                         <div class="navbar-fixed">
-                            <nav class="teal">
+                            <nav class="rose-m">
                                 <div class="nav-wrapper">
                                     <a href="index.php" class="brand-logo"><i class="material-icons">dashboard</i></a>
                                 </div>
                             </nav>
                         </div>
                     </header>
-                    <main class="container">
-                        <h3 class="center-align">' . $titulo . '</h3>
+                    <main>
+                        <img class="img-center" src="../../resources/img/general/logo.png" alt="">
                 ');
             }
         }
@@ -133,17 +140,22 @@ class Dashboard
     *
     *   Retorno: ninguno.
     */
-    public static function footerTemplate()
+    public static function footerTemplate($controller)
     {
         // Se imprime el código HTML para el pie del documento.
         print('
                 </main>
                 <script type="text/javascript" src="../../resources/js/jquery-3.4.1.min.js"></script>
                 <script type="text/javascript" src="../../resources/js/materialize.min.js"></script>
+                
                 <script type="text/javascript" src="../../resources/js/sweetalert.min.js"></script>
-                <!--<script type="text/javascript" src="../../core/helpers/components.js"></script>-->
+                <script type="text/javascript" src="../../core/helpers/components.js"></script>
                 <script type="text/javascript" src="../../core/controllers/dashboard/initialization.js"></script>
-                <!--<script type="text/javascript" src="../../core/controllers/dashboard/account.js"></script>-->
+                <script type="text/javascript" src="../../core/controllers/dashboard/account.js"></script>
+                <script type="text/javascript" src="../../resources/js/pagination.js"></script>
+                <script type="text/javascript" src="../../core/controllers/dashboard/'
+            . $controller . '"></script> 
+            
                 
                 </body>
             </html>
