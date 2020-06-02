@@ -8,18 +8,15 @@ class Clientes extends Validator
     private $Empresa = null;
     private $Telefono = null;
     private $Departamento = null;
-
-    // Métodos para asignar valores a los atributos.
-
-    public function setId($value){
-
-        if($this ->validateNaturalNumber ($value))
-           $this->id = $value;
-          return true;
-       } else {
-        return false;
-       }
-
+    
+    public function setId($value)
+    {
+        if ($this->validateNaturalNumber($value)){
+            $this->id = $value;
+           return true;
+        } else {
+            return false;
+        }
     }
 
     public function setNombre($value)
@@ -90,7 +87,9 @@ class Clientes extends Validator
     }
     public function createProveedor()
     {
-        if{
+        $cambiar = 1;
+
+        if($cambiar==1){
             $sql = 'INSERT INTO cliente(nombre_contacto, nombre_empresa, telefono, id_departamento )
                     VALUES(?, ?, ?, ?)';
             $params = array($this->nombre, $this->empresa, $this->telefono, $this->departamento);
@@ -119,7 +118,8 @@ class Clientes extends Validator
 
     public function updatePorveedor()
     {
-        if {
+        $cambiar = 1;
+        if($cambiar==1){
             $sql = 'UPDATE proveedor
                     SET nombre_contacto = ?, nombre_empresa = ?, teelfono= ?, id_departamento = ?
                     WHERE id_proveedor = ?';

@@ -162,7 +162,9 @@ if (isset($_GET['action'])) {
                             } else {
                                 $result['exception'] = 'Id incorrecto';
                             }     
+                        }
                         break;
+                        
                         case 'delete':
                             if ($cliente->setId($_POST['id_cliente'])) {
                                 if ($data = $cliente->readOneCliente()) {

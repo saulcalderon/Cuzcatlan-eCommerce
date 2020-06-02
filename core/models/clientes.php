@@ -17,14 +17,12 @@ class Clientes extends Validator
     // Métodos para asignar valores a los atributos.
 
     public function setId($value){
-
-        if($this ->validateNaturalNumber ($value))
+        if($this ->validateNaturalNumber ($value)){
            $this->id = $value;
           return true;
        } else {
-        return false;
+            return false;
        }
-
     }
 
     public function setNombre($value)

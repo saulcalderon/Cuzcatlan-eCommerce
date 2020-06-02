@@ -38,7 +38,7 @@ Dashboard::headerTemplate('Administrar facturas');
             </tr>
         </thead>
 
-        <tbody id="tbody-rows">
+        <tbody id="tbody-rows" class="black-text">
         </tbody>
     </table>
 
@@ -109,5 +109,5 @@ Dashboard::headerTemplate('Administrar facturas');
 </div>
 </div>
 <?php
-Dashboard::footerTemplate();
+Dashboard::footerTemplate('productos.js');
 ?>

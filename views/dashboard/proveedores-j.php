@@ -38,62 +38,7 @@ Dashboard::headerTemplate('Administrar facturas');
             </tr>
         </thead>
 
-        <tbody class="black-text">
-            <tr>
-                <td>1</td>
-                <td>Pintura Flor Nacional</td>
-                <td>25</td>
-                <td>02/02/2017</td>
-                <td>1</td>
-                <td>1</td>
-                <td>1</td>
-                <td><a class="tooltipped waves-effect waves-light modal-trigger" data-position="left" data-tooltip="Editar" href="#modal1"><i class="material-icons black-text">create</i></a></td>
-                <td><a class="tooltipped waves-effect waves-light modal-trigger" data-position="left" data-tooltip="Eliminar" href="#modal3"><i class="material-icons red-text">delete</i></a></td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>Pintura Flor Nacional</td>
-                <td>25</td>
-                <td>02/02/2017</td>
-                <td>1</td>
-                <td>1</td>
-                <td>1</td>
-                <td><a class="tooltipped waves-effect waves-light modal-trigger" data-position="left" data-tooltip="Editar" href="#modal1"><i class="material-icons black-text">create</i></a></td>
-                <td><a class="tooltipped waves-effect waves-light modal-trigger" data-position="left" data-tooltip="Eliminar" href="#modal3"><i class="material-icons red-text">delete</i></a></td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>Pintura Flor Nacional</td>
-                <td>25</td>
-                <td>02/02/2017</td>
-                <td>1</td>
-                <td>1</td>
-                <td>1</td>
-                <td><a class="tooltipped waves-effect waves-light modal-trigger" data-position="left" data-tooltip="Editar" href="#modal1"><i class="material-icons black-text">create</i></a></td>
-                <td><a class="tooltipped waves-effect waves-light modal-trigger" data-position="left" data-tooltip="Eliminar" href="#modal3"><i class="material-icons red-text">delete</i></a></td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>Pintura Flor Nacional</td>
-                <td>25</td>
-                <td>02/02/2017</td>
-                <td>1</td>
-                <td>1</td>
-                <td>1</td>
-                <td><a class="tooltipped waves-effect waves-light modal-trigger" data-position="left" data-tooltip="Editar" href="#modal1"><i class="material-icons black-text">create</i></a></td>
-                <td><a class="tooltipped waves-effect waves-light modal-trigger" data-position="left" data-tooltip="Eliminar" href="#modal3"><i class="material-icons red-text">delete</i></a></td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>Pintura Flor Nacional</td>
-                <td>25</td>
-                <td>02/02/2017</td>
-                <td>1</td>
-                <td>1</td>
-                <td>1</td>
-                <td><a class="tooltipped waves-effect waves-light modal-trigger" data-position="left" data-tooltip="Editar" href="#modal1"><i class="material-icons black-text">create</i></a></td>
-                <td><a class="tooltipped waves-effect waves-light modal-trigger" data-position="left" data-tooltip="Eliminar" href="#modal3"><i class="material-icons red-text">delete</i></a></td>
-            </tr>
+        <tbody class="black-text" id="tbody-rows">
         </tbody>
     </table>
     <div id="modal2" class="modal">
@@ -187,5 +132,5 @@ Dashboard::headerTemplate('Administrar facturas');
 
 
 <?php
-Dashboard::footerTemplate();
+Dashboard::footerTemplate('proveedores.js');
 ?>
