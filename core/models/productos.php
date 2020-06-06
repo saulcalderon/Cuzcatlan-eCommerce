@@ -15,6 +15,8 @@ class Productos extends Validator
     private $categoria = null;
     private $estado = null;
     private $ruta = '../../../resources/img/productos/';
+    private $cliente = null;
+    private $valoracion = null;
 
     /*
     *   Métodos para asignar valores a los atributos.
@@ -100,6 +102,26 @@ class Productos extends Validator
         }
     }
 
+    public function setCliente($value)
+    {
+        if ($this->validateAlphanumeric($value, 1, 50)) {
+            $this->cliente = $value;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function setIdValoracion($value)
+    {
+        if ($this->validateNaturalNumber($value)) {
+            $this->valoracion = $value;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     /*
     *   Métodos para obtener valores de los atributos.
     */
@@ -123,7 +145,8 @@ class Productos extends Validator
         return $this->precio;
     }
 
-    public function getExistencias(){
+    public function getExistencias()
+    {
         return $this->existencias;
     }
 
@@ -147,6 +170,15 @@ class Productos extends Validator
         return $this->ruta;
     }
 
+    public function getCliente()
+    {
+        return $this->cliente;
+    }
+
+    public function getIdValoracion()
+    {
+        return $this->valoracion;
+    }
     /*
     *   Métodos para realizar las operaciones SCRUD (search, create, read, update, delete).
     */
@@ -155,7 +187,7 @@ class Productos extends Validator
         /*$sql = 'SELECT id_producto, imagen_producto, nombre_producto, descripcion_producto, precio_producto, nombre_categoria, estado_producto
                 FROM producto INNER JOIN categorias USING(id_categoria)
                 WHERE nombre_producto ILIKE ? OR descripcion_producto ILIKE ?
-                ORDER BY nombre_producto';*/ 
+                ORDER BY nombre_producto';*/
         $sql = 'SELECT id_producto, nombre, descripcion, existencias, precio_unitario, id_categoria_producto, id_estado_producto
                 FROM producto
                 WHERE nombre ILIKE ? OR descripcion ILIKE ?
@@ -169,8 +201,8 @@ class Productos extends Validator
 
         $sql = 'INSERT INTO producto(nombre, descripcion, precio_unitario, existencias,id_estado_producto, id_categoria_producto, id_proveedor)
                     VALUES(?, ?, ?, ?, ?, ?, ?)';
-            $params = array($this->nombre, $this->descripcion, $this->precio, $this->existencias, $this->estado, $this->categoria, 1);
-            return Database::executeRow($sql, $params);
+        $params = array($this->nombre, $this->descripcion, $this->precio, $this->existencias, $this->estado, $this->categoria, 1);
+        return Database::executeRow($sql, $params);
 
         /*if ($this->saveFile($this->archivo, $this->ruta, $this->imagen)) {
             $sql = 'INSERT INTO productos(nombre_producto, descripcion_producto, precio_producto, imagen_producto, estado_producto, id_categoria)
@@ -215,7 +247,7 @@ class Productos extends Validator
         $sql = 'UPDATE producto
         SET nombre = ?, descripcion = ?, precio_unitario = ?, existencias = ?, id_estado_producto = ?, id_categoria_producto = ?
         WHERE id_producto = ?';
-$params = array($this->nombre, $this->descripcion, $this->precio, $this->existencias, $this->estado, $this->categoria, $this->id);
+        $params = array($this->nombre, $this->descripcion, $this->precio, $this->existencias, $this->estado, $this->categoria, $this->id);
         /*if ($this->saveFile($this->archivo, $this->ruta, $this->imagen)) {
             $sql = 'UPDATE producto
                     SET imagen_producto = ?, nombre = ?, descripcion = ?, precio_unitario = ?, id_estado_producto = ?, id_categoria_producto = ?
@@ -238,6 +270,21 @@ $params = array($this->nombre, $this->descripcion, $this->precio, $this->existen
         return Database::executeRow($sql, $params);
     }
 
+    public function readValoraciones()
+    {
+        $sql = 'SELECT id_valoracion, pr.nombre, pr.id_producto ,valoracion, comentario, cl.nombre AS cliente, id_estado AS estado FROM valoracion vl INNER JOIN cliente cl USING(id_cliente) 
+        INNER JOIN producto pr USING(id_producto) WHERE id_producto = ?';
+        $params = array($this->id);
+        return Database::getRows($sql, $params);
+    }
+
+    public function changeStatus()
+    {
+        $sql = 'UPDATE valoracion SET id_estado = ? WHERE id_valoracion = ?';
+        $params = array($this->estado, $this->valoracion);
+        return Database::executeRow($sql, $params);
+    }
+
     /*
     *   Métodos para generar gráficas.
     */
@@ -250,4 +297,3 @@ $params = array($this->nombre, $this->descripcion, $this->precio, $this->existen
         return Database::getRows($sql, $params);
     }
 }
-?>

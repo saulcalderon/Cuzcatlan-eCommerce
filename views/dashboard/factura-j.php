@@ -15,7 +15,7 @@ Dashboard::headerTemplate('Administrar facturas');
         </div>
     </form>
 
-    <table class="highlight padd-15" id="table-factura">
+    <table class="highlight padd-15 pagination">
         <!-- Cabeza de la tabla para mostrar los títulos de las columnas -->
         <thead>
             <tr>

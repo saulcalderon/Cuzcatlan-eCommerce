@@ -12,7 +12,7 @@ if (isset($_GET['action'])) {
     // Se declara e inicializa un arreglo para guardar el resultado que retorna la API.
     $result = array('status' => 0, 'message' => null, 'exception' => null);
     // Se verifica si existe una sesión iniciada como administrador, de lo contrario se finaliza el script con un mensaje de error.
-	if (isset($_SESSION['id_usuario'])) {
+    if (isset($_SESSION['id_usuario'])) {
         // Se compara la acción a realizar cuando un administrador ha iniciado sesión.
         switch ($_GET['action']) {
             case 'readAll':
@@ -27,12 +27,12 @@ if (isset($_GET['action'])) {
                 if ($_POST['search'] != '') {
                     if ($result['dataset'] = $producto->searchProductos($_POST['search'])) {
                         $result['status'] = 1;
-						$rows = count($result['dataset']);
-						if ($rows > 1) {
-							$result['message'] = 'Se encontraron '.$rows.' coincidencias';
-						} else {
-							$result['message'] = 'Solo existe una coincidencia';
-						}
+                        $rows = count($result['dataset']);
+                        if ($rows > 1) {
+                            $result['message'] = 'Se encontraron ' . $rows . ' coincidencias';
+                        } else {
+                            $result['message'] = 'Solo existe una coincidencia';
+                        }
                     } else {
                         $result['exception'] = 'No hay coincidencias';
                     }
@@ -64,7 +64,7 @@ if (isset($_GET['action'])) {
                                                 $result['exception'] = 'Seleccione una imagen';
                                             }*/
 
-                                            /*if ($producto->createProducto()) {
+                /*if ($producto->createProducto()) {
                                                 $result['status'] = 1;
                                                 $result['message'] = 'Producto creado correctamente';
                                             } else {
@@ -91,21 +91,22 @@ if (isset($_GET['action'])) {
                 } else {
                     $result['exception'] = 'Nombre incorrecto';
                 }*/
-                
+
                 $_POST = $producto->validateForm($_POST);
-                        if ($producto->setNombre($_POST['nombre_producto'])) {
-                            if ($producto->setDescripcion($_POST['descripcion_producto'])) {
-                                if ($producto->setPrecio($_POST['precio_producto'])) {
-                                    if ($producto->setCategoria($_POST['categoria_producto'])) {
-                                        if($producto->setExistencias($_POST{'existencias_producto'})){
-                                            if ($producto->setEstado(isset($_POST['estado_producto']) ? 1 : 0)) {
-                                                if ($producto->createProducto()) {
-                                                    $result['status'] = 1;
-                                                    $result['message'] = 'Producto modificado correctamente';
-                                                } else {
-                                                    $result['exception'] = Database::getException();
-                                                } 
-                                                /*if (is_uploaded_file($_FILES['archivo_producto']['tmp_name'])) {
+                if ($producto->setNombre($_POST['nombre_producto'])) {
+                    if ($producto->setDescripcion($_POST['descripcion_producto'])) {
+                        if ($producto->setPrecio($_POST['precio_producto'])) {
+                            if ($producto->setCategoria($_POST['categoria_producto'])) {
+                                if ($producto->setExistencias($_POST{
+                                    'existencias_producto'})) {
+                                    if ($producto->setEstado(isset($_POST['estado_producto']) ? 1 : 0)) {
+                                        if ($producto->createProducto()) {
+                                            $result['status'] = 1;
+                                            $result['message'] = 'Producto modificado correctamente';
+                                        } else {
+                                            $result['exception'] = Database::getException();
+                                        }
+                                        /*if (is_uploaded_file($_FILES['archivo_producto']['tmp_name'])) {
                                                     if ($producto->setImagen($_FILES['archivo_producto'])) {
                                                         if ($producto->updateProducto()) {
                                                             $result['status'] = 1;
@@ -123,24 +124,24 @@ if (isset($_GET['action'])) {
                                                 } else {
                                                     
                                                 }*/
-                                            } else {
-                                                $result['exception'] = 'Estado incorrecto';
-                                            }
-                                        }else{
-                                            $result['exception'] = 'Existencias incorrectas';
-                                        }
                                     } else {
-                                        $result['exception'] = 'Seleccione una categoría';
+                                        $result['exception'] = 'Estado incorrecto';
                                     }
                                 } else {
-                                    $result['exception'] = 'Precio incorrecto';
+                                    $result['exception'] = 'Existencias incorrectas';
                                 }
                             } else {
-                                $result['exception'] = 'Descripción incorrecta';
+                                $result['exception'] = 'Seleccione una categoría';
                             }
                         } else {
-                            $result['exception'] = 'Nombre incorrecto';
+                            $result['exception'] = 'Precio incorrecto';
                         }
+                    } else {
+                        $result['exception'] = 'Descripción incorrecta';
+                    }
+                } else {
+                    $result['exception'] = 'Nombre incorrecto';
+                }
 
                 break;
             case 'readOne':
@@ -162,14 +163,15 @@ if (isset($_GET['action'])) {
                             if ($producto->setDescripcion($_POST['descripcion_producto'])) {
                                 if ($producto->setPrecio($_POST['precio_producto'])) {
                                     if ($producto->setCategoria($_POST['categoria_producto'])) {
-                                        if($producto->setExistencias($_POST{'existencias_producto'})){
+                                        if ($producto->setExistencias($_POST{
+                                            'existencias_producto'})) {
                                             if ($producto->setEstado(isset($_POST['estado_producto']) ? 1 : 0)) {
                                                 if ($producto->updateProducto()) {
                                                     $result['status'] = 1;
                                                     $result['message'] = 'Producto modificado correctamente';
                                                 } else {
                                                     $result['exception'] = Database::getException();
-                                                } 
+                                                }
                                                 /*if (is_uploaded_file($_FILES['archivo_producto']['tmp_name'])) {
                                                     if ($producto->setImagen($_FILES['archivo_producto'])) {
                                                         if ($producto->updateProducto()) {
@@ -191,7 +193,7 @@ if (isset($_GET['action'])) {
                                             } else {
                                                 $result['exception'] = 'Estado incorrecto';
                                             }
-                                        }else{
+                                        } else {
                                             $result['exception'] = 'Existencias incorrectas';
                                         }
                                     } else {
@@ -240,6 +242,33 @@ if (isset($_GET['action'])) {
                     $result['exception'] = 'No hay datos disponibles';
                 }
                 break;
+            case 'readValoraciones':
+                if ($producto->setId($_POST['id_producto'])) {
+                    if ($result['dataset'] = $producto->readValoraciones()) {
+                        $result['status'] = 1;
+                    } else {
+                        $result['exception'] = 'Valoraciones inexistente';
+                    }
+                } else {
+                    $result['exception'] = 'Valoraciones incorrectas';
+                }
+                break;
+            case 'changeStatus':
+                if ($producto->setEstado($_POST['newEstado'])) {
+                    if ($producto->setIdValoracion($_POST['val'])) {
+                        if ($producto->changeStatus()) {
+                            $result['status'] = 1;
+                            $result['message'] = 'Estado modificado correctamente';
+                        } else {
+                            $result['exception'] = Database::getException();
+                        }
+                    } else {
+                        $result['exception'] = 'Valoración incorrecto';
+                    }
+                } else {
+                    $result['exception'] = 'Estado incorrecto';
+                }
+                break;
             default:
                 exit('Acción no disponible');
         }
@@ -251,6 +280,5 @@ if (isset($_GET['action'])) {
         exit('Acceso no disponible');
     }
 } else {
-	exit('Recurso denegado');
+    exit('Recurso denegado');
 }
-?>

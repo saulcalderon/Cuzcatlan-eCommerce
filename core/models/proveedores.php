@@ -1,19 +1,20 @@
 <?php
-class Clientes extends Validator
+class Proveedores extends Validator
 {
     // Aquí van las propiedades y métodos de los clientes.
 
-    private $Id = null;
-    private $Nombre = null;
-    private $Empresa = null;
-    private $Telefono = null;
-    private $Departamento = null;
-    
+    private $id_proveedor = null;
+    private $nombre_contacto = null;
+    private $nombre_empresa = null;
+    private $telefono = null;
+    private $id_departamento = null;
+    private $departamento = null;
+
     public function setId($value)
     {
-        if ($this->validateNaturalNumber($value)){
-            $this->id = $value;
-           return true;
+        if ($this->validateNaturalNumber($value)) {
+            $this->id_proveedor = $value;
+            return true;
         } else {
             return false;
         }
@@ -21,8 +22,8 @@ class Clientes extends Validator
 
     public function setNombre($value)
     {
-        if($this->validateAlphanumeric($value, 1, 50)) {
-            $this->nombre = $value;
+        if ($this->validateAlphanumeric($value, 1, 50)) {
+            $this->nombre_contacto = $value;
             return true;
         } else {
             return false;
@@ -31,8 +32,8 @@ class Clientes extends Validator
 
     public function setEmpresa($value)
     {
-        if($this->validateAlphanumeric($value, 1, 50)) {
-            $this->empresa = $value;
+        if ($this->validateAlphanumeric($value, 1, 50)) {
+            $this->nombre_empresa = $value;
             return true;
         } else {
             return false;
@@ -41,45 +42,67 @@ class Clientes extends Validator
 
     public function setTelefono($value)
     {
-        if($this->validateAlphanumeric($value, 1, 50)) {
+        if ($this->validateAlphanumeric($value, 1, 50)) {
             $this->telefono = $value;
             return true;
         } else {
             return false;
         }
     }
-       //Métodos para obtener valores de los atributos.
+    public function setIdDepartamento($value)
+    {
+        if ($this->validateNaturalNumber($value)) {
+            $this->id_departamento = $value;
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public function setDepartamento($value)
+    {
+        if ($this->validateAlphanumeric($value, 1, 50)) {
+            $this->departamento = $value;
+            return true;
+        } else {
+            return false;
+        }
+    }
 
-       public function getId()
-       {
-           return $this->Id;
-       }
-   
-       public function getNombre()
-       {
-           return $this->Nombre;
-       }
-   
-       public function getEmpresa()
-       {
-           return $this->Empresa;
-       }
-   
-       public function getTelefono()
-       {
-           return $this->Telefono;
-       }
-   
-       public function getDepartamento()
-       {
-           return $this->Departamento;
-       }
-       //Métodos para realizar las operaciones SCRUD (search, create, read, update, delete).
+    //Métodos para obtener valores de los atributos.
+
+    public function getId()
+    {
+        return $this->id_proveedor;
+    }
+
+    public function getNombre()
+    {
+        return $this->nombre_contacto;
+    }
+
+    public function getEmpresa()
+    {
+        return $this->nombre_empresa;
+    }
+
+    public function getTelefono()
+    {
+        return $this->telefono;
+    }
+    public function getIdDepartamento()
+    {
+        return $this->id_departamento;
+    }
+    public function getDepartamento()
+    {
+        return $this->departamento;
+    }
+    //Métodos para realizar las operaciones SCRUD (search, create, read, update, delete).
 
     public function searchProveedor($value)
     {
-        $sql = 'SELECT id_proveedor, nombre_contacto, nombre_empresa, telefono, id_departamento 
-                FROM proveedor
+        $sql = 'SELECT id_proveedor, nombre_contacto, nombre_empresa, telefono, departamento 
+                FROM proveedor pr INNER JOIN departamento USING(id_departamento)
                 WHERE nombre_contacto ILIKE ? OR nombre_empresa ILIKE ?
                 ORDER BY nombre_contacto';
         $params = array("%$value%", "%$value%");
@@ -87,49 +110,39 @@ class Clientes extends Validator
     }
     public function createProveedor()
     {
-        $cambiar = 1;
-
-        if($cambiar==1){
-            $sql = 'INSERT INTO cliente(nombre_contacto, nombre_empresa, telefono, id_departamento )
-                    VALUES(?, ?, ?, ?)';
-            $params = array($this->nombre, $this->empresa, $this->telefono, $this->departamento);
-            return Database::executeRow($sql, $params);
-        } else {
-            return false;
-        }
+        $sql = 'INSERT INTO proveedor(nombre_contacto, nombre_empresa, telefono, id_departamento )
+                VALUES(?, ?, ?, ?)';
+        $params = array($this->nombre_contacto, $this->nombre_empresa, $this->telefono, $this->id_departamento);
+        return Database::executeRow($sql, $params);
     }
     public function readAllProveedores()
     {
-        $sql = 'SELECT id_proveedor, nombre_contacto, nombre_empresa, telefono, id_departamento
-                FROM proveedor
-                ORDER BY nombre_contacto';
+        $sql = 'SELECT id_proveedor, nombre_contacto, nombre_empresa, telefono, departamento
+        FROM proveedor pr INNER JOIN departamento dp USING(id_departamento) ORDER BY nombre_contacto';
+        $params = null;
+        return Database::getRows($sql, $params);
+    }
+    public function readDepartamentos()
+    {
+        $sql = 'SELECT id_departamento, departamento FROM departamento';
         $params = null;
         return Database::getRows($sql, $params);
     }
 
-    public function readOnePorveedor()
+    public function readOneProveedor()
     {
-        $sql = 'SELECT id_proveedor, nombre_contacto, nombre_proveedor, telefono, id_departamento 
+        $sql = 'SELECT id_proveedor, nombre_contacto, nombre_empresa, telefono, id_departamento 
                 FROM proveedor
                 WHERE id_proveedor = ?';
         $params = array($this->id_proveedor);
         return Database::getRow($sql, $params);
     }
 
-    public function updatePorveedor()
+    public function updateProveedor()
     {
-        $cambiar = 1;
-        if($cambiar==1){
-            $sql = 'UPDATE proveedor
-                    SET nombre_contacto = ?, nombre_empresa = ?, teelfono= ?, id_departamento = ?
-                    WHERE id_proveedor = ?';
-            $params = array($this->nombre, $this->empresa, $this->telefono, $this->departamento);
-        } else {
-            $sql = 'UPDATE proveedor
-                    SET nombre_contacto = ?, nombre_empresa = ?, telefono = ?, id_departamento = ?
-                    WHERE id_proveedor = ?';
-            $params = array($this->nombre, $this->empresa, $this->telefono, $this->departamento);
-        }
+        $sql = 'UPDATE proveedor SET nombre_contacto = ?, nombre_empresa = ?, 
+        telefono= ?, id_departamento = ? WHERE id_proveedor = ?';
+        $params = array($this->nombre_contacto, $this->nombre_empresa, $this->telefono, $this->id_departamento, $this->id_proveedor);
         return Database::executeRow($sql, $params);
     }
 
@@ -140,9 +153,4 @@ class Clientes extends Validator
         $params = array($this->id_proveedor);
         return Database::executeRow($sql, $params);
     }
-
 }
-?>
-
-
-
