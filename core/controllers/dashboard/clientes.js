@@ -16,16 +16,13 @@ function fillTable( dataset )
         // Se crean y concatenan las filas de la tabla con los datos de cada registro.
         content += `
             <tr>
-            <td><img src="../../resources/img/productos/${row.fotografia}" class="materialboxed" height="100"></td>   
                 <td>${row.nombre}</td>
                 <td>${row.apellido}</td>
                 <td>${row.correo}</td>
                 <td>${row.telefono}</td>
                 <td>${row.clave}</td>
                 <td>${row.direccion}</td>
-                <td>${row.nacimiento}</td>
-                <td>${row.registro}</td>
-                <td><i class="material-icons">${icon}</i></td>
+                <td>${row.fecha_nacimiento}</td>
                 <td>
                     <a href="#" onclick="openUpdateModal(${row.id_cliente})" class="blue-text tooltipped" data-tooltip="Actualizar"><i class="material-icons">mode_edit</i></a>
                     <a href="#" onclick="openDeleteDialog(${row.id_cliente})" class="red-text tooltipped" data-tooltip="Eliminar"><i class="material-icons">delete</i></a>
@@ -60,7 +57,7 @@ function openCreateModal()
     // Se asigna el título para la caja de dialogo (modal).
     $( '#modal-title' ).text( 'Crear cliente' );
     // Se establece el campo de tipo archivo como obligatorio.
-    $( '#archivo_cliente' ).prop( 'required', true );
+    //$( '#archivo_cliente' ).prop( 'required', true );
 }
 
 // Función que prepara formulario para modificar un registro.
@@ -73,27 +70,27 @@ function openUpdateModal( id )
     // Se asigna el título para la caja de dialogo (modal).
     $( '#modal-title' ).text( 'Modificar cliente' );
     // Se establece el campo de tipo archivo como opcional.
-    $( '#archivo_producto' ).prop( 'required', false );
+   // $( '#archivo_cliente' ).prop( 'required', false );
 
     $.ajax({
         dataType: 'json',
         url: API_CLIENTES + 'readOne',
-        data: { id_clientes: id },
+        data: { id_cliente: id },
         type: 'post'
     })
     .done(function( response ) {
         // Se comprueba si la API ha retornado una respuesta satisfactoria, de lo contrario se muestra un mensaje de error.
         if ( response.status ) {
             // Se inicializan los campos del formulario con los datos del registro seleccionado previamente.
-            $( '#id_cliente' ).val( response.dataset.id_cliente );
+            $( '#id_cliente' ).val( response.dataset.id_cliente);
             $( '#nombre' ).val( response.dataset.nombre );
             $( '#apellido' ).val( response.dataset.apellido );
             $( '#correo' ).val( response.dataset.correo );
             $( '#telefono' ).val( response.dataset.telefono );
             $( '#clave' ).val( response.dataset.clave );
             $( '#direccion' ).val( response.dataset.direccion );
-            $( '#nacimiento' ).val( response.dataset.nacimiento );
-            $( '#registro' ).val( response.dataset.registro );
+            $( '#fecha_nacimiento' ).val( response.dataset.fecha_nacimiento );
+
             // Se actualizan los campos para que las etiquetas (labels) no queden sobre los datos.
             M.updateTextFields();
         } else {

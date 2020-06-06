@@ -3,16 +3,15 @@ class Clientes extends Validator
 {
     // Aquí van las propiedades y métodos de los clientes.
 
-    private $Id = null;
-    private $Nombre = null;
-    private $Apellido = null;
-    private $Correo = null;
-    private $Telefono = null;
-    private $Clave = null;
-    private $Fotografia = '../../../resources/img/clientes/';
-    private $Direccion = null;
-    private $Nacimiento =null;
-    private $Registro = null;
+    private $id = null;
+    private $nombre = null;
+    private $apellido = null;
+    private $correo = null;
+    private $telefono = null;
+    private $clave = null;
+    private $direccion = null;
+    private $fecha_nacimiento =null;
+
 
     // Métodos para asignar valores a los atributos.
 
@@ -27,7 +26,7 @@ class Clientes extends Validator
 
     public function setNombre($value)
     {
-        if($this->validateAlphanumeric($value, 1, 50)) {
+        if($this->validateAlphabetic($value, 1, 50)) {
             $this->nombre = $value;
             return true;
         } else {
@@ -37,7 +36,7 @@ class Clientes extends Validator
 
     public function setApellido($value)
     {
-        if($this->validateAlphanumeric($value, 1, 50)) {
+        if($this->validateAlphabetic($value, 1, 50)) {
             $this->apellido = $value;
             return true;
         } else {
@@ -47,7 +46,7 @@ class Clientes extends Validator
 
     public function setCorreo($value)
     {
-        if($this->validateAlphanumeric($value, 1, 50)) {
+        if ($this->validateEmail($value)) {
             $this->correo = $value;
             return true;
         } else {
@@ -67,7 +66,7 @@ class Clientes extends Validator
 
     public function setClave($value)
     {
-        if($this->validateAlphanumeric($value, 1, 50)) {
+        if ($this->validatePassword($value)) {
             $this->clave = $value;
             return true;
         } else {
@@ -75,16 +74,6 @@ class Clientes extends Validator
         }
     }
 
-    public function setFotografia($file)
-    {
-        if ($this->validateImageFile($file, 500, 500)) {
-            $this->imagen = $this->getImageName();
-            $this->archivo = $file;
-            return true;
-        } else {
-            return false;
-        }
-    }
 
     public function setDireccion($value)
     {
@@ -96,83 +85,66 @@ class Clientes extends Validator
         }
     }
 
-    public function setNacimiento($value)
+    public function setFecha_Nacimiento($value)
     {
         if($this->validateAlphanumeric($value, 1, 50)) {
-            $this->nacimiento = $value;
+            $this->fecha_nacimiento = $value;
             return true;
         } else {
             return false;
         }
     }
 
-    public function setRegistro($value)
-    {
-        if($this->validateAlphanumeric($value, 1, 50)) {
-            $this->registro = $value;
-            return true;
-        } else {
-            return false;
-        }
-    }
 
     //Métodos para obtener valores de los atributos.
 
     public function getId()
     {
-        return $this->Id;
+        return $this->id;
     }
 
     public function getNombre()
     {
-        return $this->Nombre;
+        return $this->nombre;
     }
 
     public function getApellido()
     {
-        return $this->Apellido;
+        return $this->apellido;
     }
 
     public function getCorreo()
     {
-        return $this->Correo;
+        return $this->correo;
     }
 
     public function getTelefono()
     {
-        return $this->Telefono;
+        return $this->telefono;
     }
 
     public function getClave()
     {
-        return $this->Clave;
+        return $this->clave;
     }
 
-    public function getFotografia()
-    {
-        return $this->Fotografia;
-    }
 
     public function getDireccion()
     {
-        return $this->Direccion;
+        return $this->direccion;
     }
 
-    public function getNacimiento()
+    public function getFecha_Nacimiento()
     {
-        return $this->Nacimiento;
+        return $this->fecha_nacimiento;
     }
 
-    public function getRegistro()
-    {
-        return $this->Registro;
-    }
 
     //Métodos para realizar las operaciones SCRUD (search, create, read, update, delete).
 
-    public function searchCliente($value)
+    public function searchClientes($value)
     {
-        $sql = 'SELECT id_cliente, nombre, apellido, correo, telefono, clave, fotografia, direccion, fecha_nacimiento, fecha_registro
+        $sql = 'SELECT id_cliente, nombre, apellido, correo, telefono, clave, direccion, fecha_nacimiento
                 FROM cliente
                 WHERE nombre ILIKE ? OR apellido ILIKE ?
                 ORDER BY nombre';
@@ -182,19 +154,16 @@ class Clientes extends Validator
 
     public function createCliente()
     {
-        if ($this->saveFile($this->archivo, $this->ruta, $this->imagen)) {
-            $sql = 'INSERT INTO cliente(nombre, apellido, correo, telefono, clave, fotografia, direccion, fecha_nacimiento, fecha_registro)
-                    VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)';
-            $params = array($this->nombre, $this->apellido, $this->correo, $this->telefono, $this->clave, $this->fotografia, $this->direccion, $this->fecha_nacimiento, $this->fecha_registro);
+            
+            $sql = 'INSERT INTO cliente(nombre, apellido, correo, telefono, clave, direccion, fecha_nacimiento)
+                    VALUES(?, ?, ?, ?, ?, ?, ?)';
+            $params = array($this->nombre, $this->apellido, $this->correo, $this->telefono, $this->clave, $this->direccion, $this->fecha_nacimiento);
             return Database::executeRow($sql, $params);
-        } else {
-            return false;
-        }
     }
 
     public function readAllClientes()
     {
-        $sql = 'SELECT id_cliente, nombre, apellido, correo, telefono, clave, fotografia, direccion, fecha_nacimiento, fecha_registro
+        $sql = 'SELECT id_cliente, nombre, apellido, correo, telefono, clave, direccion, fecha_nacimiento
                 FROM cliente
                 ORDER BY nombre';
         $params = null;
@@ -203,34 +172,27 @@ class Clientes extends Validator
 
     public function readOneCliente()
     {
-        $sql = 'SELECT id_cliente, nombre, apellido, correo, telefono, clave, fotografia, direccion, fecha_nacimiento, fecha_registro
+        $sql = 'SELECT id_cliente, nombre, apellido, correo, telefono, clave, direccion, fecha_nacimiento
                 FROM cliente
                 WHERE id_cliente = ?';
-        $params = array($this->id_cliente);
+        $params = array($this->id);
         return Database::getRow($sql, $params);
     }
 
     public function updateCliente()
     {
-        if ($this->saveFile($this->archivo, $this->ruta, $this->imagen)) {
             $sql = 'UPDATE cliente
-                    SET nombre = ?, apellido = ?, correo = ?, telefono = ?, clave = ?, fotografia = ?, direccion = ?, fecha_nacimiento = ?, fecha_registro = ?
+                    SET nombre = ?, apellido = ?, correo = ?, telefono = ?, clave = ?, direccion = ?, fecha_nacimiento = ?
                     WHERE id_cliente = ?';
-            $params = array($this->nombre, $this->apellido, $this->correo, $this->telefono, $this->clave, $this->fotografia, $this->direccion, $this->fecha_nacimiento, $this->fecha_registro,  $this->id_cliente);
-        } else {
-            $sql = 'UPDATE cliente
-                    SET nombre = ?, apellido = ?, correo = ?, telefono = ?, clave = ?, fotografia = ?, direccion = ?, fecha_nacimiento = ?, fecha_registro = ?
-                    WHERE id_cliente = ?';
-            $params = array($this->nombre, $this->apellido, $this->correo, $this->telefono, $this->clave, $this->fotografia, $this->direccion, $this->fecha_nacimiento, $this->fecha_registro,  $this->id_cliente);
-        }
-        return Database::executeRow($sql, $params);
+            $params = array($this->nombre, $this->apellido, $this->correo, $this->telefono, $this->clave, $this->direccion, $this->fecha_nacimiento, $this->id);
+            return Database::executeRow($sql, $params);
     }
 
-    public function deleteCategoria()
+    public function deleteCliente()
     {
         $sql = 'DELETE FROM cliente
                 WHERE id_cliente = ?';
-        $params = array($this->id_cliente);
+        $params = array($this->id);
         return Database::executeRow($sql, $params);
     }
 

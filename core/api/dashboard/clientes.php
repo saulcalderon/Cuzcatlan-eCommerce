@@ -1,7 +1,7 @@
 <?php
 require_once('../../helpers/database.php');
 require_once('../../helpers/validator.php');
-require_once('../../models/productos.php');
+require_once('../../models/clientes.php');
 
 // Se comprueba si existe una acción a realizar, de lo contrario se finaliza el script con un mensaje de error.
 if (isset($_GET['action'])) {
@@ -39,33 +39,21 @@ if (isset($_GET['action'])) {
                     } else {
                         $result['exception'] = 'Ingrese un valor para buscar';
                     }
-                    break;
+                break;
                 case 'create':
                     $_POST = $cliente->validateForm($_POST);
-                    if ($cliente->setClientes($_POST['nombre'])) {
+                    if ($cliente->setNombre($_POST['nombre'])) {
                         if ($cliente->setApellido($_POST['apellido'])) {
                             if ($cliente->setCorreo($_POST['correo'])) {
                                 if ($cliente->setTelefono($_POST['telefono'])) {
                                     if ($cliente->setClave($_POST['clave'])) {
                                         if ($cliente->setDireccion($_POST['direccion'])) {
-                                            if ($cliente->setNacimiento($_POST['nacimiento'])) {
-                                                if ($cliente->setRegistro($_POST['registro'])) {
-                                                    if (is_uploaded_file($_FILES['archivo_cliente']['tmp_name'])) {
-                                                        if ($cliente->setImagen($_FILES['archivo_cliente'])) {
-                                                            if ($cliente->createCliente()) {
-                                                                $result['status'] = 1;
-                                                                $result['message'] = 'Cliente creado correctamente';
-                                                            } else {
-                                                                $result['exception'] = Database::getException();;
-                                                            }
-                                                        } else {
-                                                            $result['exception'] = $producto->getImageError();
-                                                        }
-                                                    } else {
-                                                        $result['exception'] = 'Seleccione una imagen';
-                                                    }
+                                            if ($cliente->setFecha_Nacimiento($_POST['fecha_nacimiento'])) {
+                                                if ($cliente->createCliente()) {
+                                                    $result['status'] = 1;
+                                                    $result['message'] = 'Cliente creado correctamente';
                                                 } else {
-                                                    $result['exception'] = 'Registro incorrecto';
+                                                    $result['exception'] = Database::getException();;
                                                 }
                                             } else {
                                                 $result['exception'] = 'Nacimiento incorrecto';
@@ -80,7 +68,7 @@ if (isset($_GET['action'])) {
                                     $result['exception'] = 'Telefono incorrecta';
                                 }
                             } else {
-                                $result['exception'] = 'Correo incorrecta';
+                                $result['exception'] = 'Correo incorrecto';
                             }
                         } else {
                             $result['exception'] = 'Apellido incorrecto';
@@ -88,8 +76,8 @@ if (isset($_GET['action'])) {
                     } else {
                         $result['exception'] = 'Nombre incorrecto';
                     }
-                break;
-                case 'readOne':
+                    break;
+                    case 'readOne':
                     if ($cliente->setId($_POST['id_cliente'])) {
                         if ($result['dataset'] = $cliente->readOneCliente()) {
                             $result['status'] = 1;
@@ -110,23 +98,9 @@ if (isset($_GET['action'])) {
                                             if ($cliente->setTelefono($_POST['telefono'])) {
                                                 if ($cliente->setClave($_POST['clave'])) {
                                                     if ($cliente->setDireccion($_POST['direccion'])) {
-                                                        if ($cliente->setNacimiento($_POST['nacimiento'])) {
-                                                            if ($cliente->setRegistro($_POST['registro'])) {
-                                                                if (is_uploaded_file($_FILES['archivo_cliente']['tmp_name'])) {
-                                                                    if ($cliente->setImagen($_FILES['archivo_cliente'])) {
-                                                                        if ($cliente->updateCliente()) {
-                                                                            $result['status'] = 1;
-                                                                            if ($cliente->deleteFile($cliente->getRuta(), $data['imagen_producto'])) {
-                                                                                $result['message'] = 'Cliente modificado correctamente';
-                                                                            } else {
-                                                                            $result['message'] = 'Cliente modificado pero no se borro la imagen anterior';
-                                                                            }
-                                                                        } else {
-                                                                            $result['exception'] = Database::getException();
-                                                                        }
-                                                                    } else {
-                                                                        $result['exception'] = $producto->getImageError();
-                                                                    }
+                                                        if ($cliente->setFecha_Nacimiento($_POST['fecha_nacimiento'])) {
+                                                            if ($cliente->updateCliente()) {
+                                                                $result['status'] = 1;  
                                                                 } else {
                                                                     if ($cliente->updateCliente()) {
                                                                         $result['status'] = 1;
@@ -136,33 +110,32 @@ if (isset($_GET['action'])) {
                                                                     } 
                                                                 }
                                                             } else {
-                                                                $result['exception'] = 'Registro incorrecto';
+                                                                $result['exception'] = 'Nacimiento incorrecto';
                                                             }
                                                         } else {
-                                                            $result['exception'] = 'Nacimiento categoría';
+                                                            $result['exception'] = 'Direccion incorrecta';
                                                         }
                                                     } else {
-                                                        $result['exception'] = 'Direccion incorrecto';
+                                                        $result['exception'] = 'Clave incorrecta';
                                                     }
                                                 } else {
-                                                    $result['exception'] = 'Clave incorrecta';
+                                                    $result['exception'] = 'Telefono incorrecto';
                                                 }
                                             } else {
-                                                $result['exception'] = 'Telefono incorrecto';
+                                                $result['exception'] = 'Correo inexistente';
                                             }
                                         } else {
-                                            $result['exception'] = 'Correo inexistente';
+                                            $result['exception'] = 'Apellido incorrecto';
                                         }
                                     } else {
-                                        $result['exception'] = 'Apellido incorrecto';
-                                    }
+                                        $result['exception'] = 'Nombre incorrecto';
+                                    }  
                                 } else {
-                                    $result['exception'] = 'Nombre incorrecto';
-                                }  
+                                    $result['exception'] = 'Cliente inexistente';
+                                }
                             } else {
                                 $result['exception'] = 'Id incorrecto';
                             }     
-                        }
                         break;
                         
                         case 'delete':
@@ -170,11 +143,8 @@ if (isset($_GET['action'])) {
                                 if ($data = $cliente->readOneCliente()) {
                                     if ($cliente->deleteCliente()) {
                                         $result['status'] = 1;
-                                        if ($cliente->deleteFile($cliente->getRuta(), $data['imagen_cliente'])) {
-                                            $result['message'] = 'Cliente eliminado correctamente';
-                                        } else {
-                                            $result['message'] = 'Cliente eliminado pero no se borro la imagen';
-                                        }
+                                        $result['message'] = 'Cliente eliminado correctamente';
+                                       
                                     } else {
                                         $result['exception'] = Database::getException();
                                     }

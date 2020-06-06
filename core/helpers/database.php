@@ -17,20 +17,57 @@ class Database
     {
         // Credenciales para establecer la conexión con la base de datos.
         $server = 'localhost';
-        $database = 'dbcuzcatlan';
+        $database = 'dbCuzcatlan';
         $username = 'postgres';
         // Cambiar dependiendo del usuario de la pc.
-        $password = 'viernes';
+        $password = 'ricaldone';
         // Se controlan las excepciones al momento de establecer conexión con el servidor de base de datos.
         try {
             // Se crea la conexión mediante la extensión PDO y el controlador para PostgreSQL.
             self::$connection = new PDO('pgsql:host='.$server.';dbname='.$database.';port=5432', $username, $password);
+            
         } catch(PDOException $error) {
             // Se obtiene el código y el mensaje de la excepción para establecer un error personalizado.
             self::setException($error->getCode(), $error->getMessage());
             // Se obtiene el error personalizado y se finaliza el script.
             exit(self::getException());
+
         }
+
+    }
+
+    public static function grafico(){
+
+        $server = 'localhost';
+        $database = 'dbCuzcatlan';
+        $username = 'postgres';
+        // Cambiar dependiendo del usuario de la pc.
+        $password = 'ricaldone';
+
+        try {
+            // Se crea la conexión mediante la extensión PDO y el controlador para PostgreSQL.
+            self::$connection = new PDO('pgsql:host='.$server.';dbname='.$database.';port=5432', $username, $password);
+            
+        } catch(PDOException $error) {
+            // Se obtiene el código y el mensaje de la excepción para establecer un error personalizado.
+            self::setException($error->getCode(), $error->getMessage());
+            // Se obtiene el error personalizado y se finaliza el script.
+            exit(self::getException());
+
+        }
+
+        self::$statement = self:: $connection ->prepare('SELECT nombre, categoria_producto FROM producto, categoria_producto WHERE categoria_producto = "Ropa" ');
+        self::$statement->execute();
+        $json = [];
+        $json2 = [];
+        while(self:: $statement ->fetch(PDO::FETCH_ASSOC)) {
+            extract($columns);
+            $json []= "nombre";
+            $json2[]= (string)"categoria_producto";
+         }
+        //echo json_encode($json); 
+        //echo json_encode($json2);
+           
     }
 
     /*

@@ -100,3 +100,33 @@ body {
     background: rgba(0, 0, 0, 0.1);
     text-decoration: none;
 }
+
+.responsive-table{
+   
+    border-radius: 10px;
+    width:60%;
+    height:300px;
+    position: center;
+}
+
+
+
+  
+  .input-field {
+    background-color: transparent;
+    border: none;
+    border-radius: 5px;
+    color: transparent;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 1.5rem;
+    font-weight: bold;
+    height: 100%;
+    line-height: 4rem;
+    outline: none;
+    padding: 0 1rem;
+  }
+
+  .chart-container{
+      width: 600px;
+      height: 400px;
+  }
