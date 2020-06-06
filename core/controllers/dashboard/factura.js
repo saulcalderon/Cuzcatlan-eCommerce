@@ -39,19 +39,8 @@ function fillTable(dataset) {
     $('.tooltipped').tooltip();
 }
 
-function pagination() {
-    $('#table-factura').pageMe({
-        pagerSelector: '#myPager',
-        activeColor: 'green',
-        prevText: 'Anterior',
-        nextText: 'Siguiente',
-        showPrevNext: true,
-        hidePageNumbers: false,
-        perPage: 5
-    });
-}
 
-function fillTableDetalle(dataset) {
+function fillTableModified(dataset) {
     let content = '';
 
     // Se recorre el conjunto de registros (dataset) fila por fila a través del objeto row.
@@ -90,7 +79,7 @@ function openViewDetails(id) {
     let identifier = {
         id_factura: id
     };
-    readRowsDetalle(API_FACTURA, identifier);
+    readRowsModified(API_FACTURA + 'readOneFactura', identifier);
 
 }
 

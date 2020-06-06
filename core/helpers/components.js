@@ -9,6 +9,19 @@
  *
  *   Retorno: ninguno.
  */
+function pagination() {
+    $('.pagination').pageMe({
+        pagerSelector: '#myPager',
+        activeColor: 'green',
+        prevText: 'Anterior',
+        nextText: 'Siguiente',
+        showPrevNext: true,
+        hidePageNumbers: false,
+        perPage: 5
+    });
+}
+
+
 function readRows(api) {
     $.ajax({
             dataType: 'json',
@@ -34,10 +47,10 @@ function readRows(api) {
         });
 }
 
-function readRowsDetalle(api, identifier) {
+function readRowsModified(api, identifier) {
     $.ajax({
             dataType: 'json',
-            url: api + 'readOneFactura',
+            url: api,
             data: identifier,
             type: 'post'
         })
@@ -48,7 +61,7 @@ function readRowsDetalle(api, identifier) {
             }
             // Se envían los datos a la función del controlador para que llene la tabla en la vista.
 
-            fillTableDetalle(response.dataset);
+            fillTableModified(response.dataset);
         })
         .fail(function (jqXHR) {
             // Se verifica si la API ha respondido para mostrar la respuesta, de lo contrario se presenta el estado de la petición.
@@ -129,7 +142,7 @@ function saveRow(api, action, form, modalId) {
         if (response.status) {
             // Se cargan nuevamente las filas en la tabla de la vista después de agregar o modificar un registro.
             readRows(api);
-            
+
             sweetAlert(1, response.message, null);
             // Se cierra la caja de dialogo (modal) donde está el formulario.
             $('#' + modalId).modal('close');
