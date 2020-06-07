@@ -23,7 +23,7 @@ Dashboard::headerTemplate('Administrar facturas');
         </div>
     </div>
 
-    <table class="responsive-table centered pagination">
+    <table class="highlight padd-15 pagination">
         <thead>
             <tr>
                 <th>CONTACTO</th>

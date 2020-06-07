@@ -24,7 +24,7 @@ Dashboard::headerTemplate('Administrar clientes');
         </div>
     </div>
     <div class="col l8">
-        <table class="responsive-table  centered black-text">
+        <table class="highlight padd-15 pagination">
             <thead>
                 <tr>
                     <th>Fotografia</th>
@@ -43,6 +43,10 @@ Dashboard::headerTemplate('Administrar clientes');
                 
             </tbody>
         </table>    
+        <div class="col-md-12 center text-center">
+        <span class="left" id="total_reg"></span>
+        <ul class="pagination pager" id="myPager"></ul>
+    </div>
     </div>
 
      <!-- Componente Modal para mostrar una caja de dialogo -->

@@ -87,11 +87,19 @@ class Dashboard
                             </a>
                         </li>
                         <li>
-                            <a href="" class="white-text"><i class="material-icons blue-text">insert_chart</i>Analíticas
+                            <a href="#" class="white-text"><i class="material-icons blue-text">insert_chart</i>Analíticas
                             </a>
                         </li>
                         <li>
                             <a href="productos-j.php" class="white-text"><i class="material-icons blue-text">shop</i>Productos
+                            </a>
+                        </li>
+                        <li>
+                            <a href="categorias.php" class="white-text"><i class="material-icons blue-text">shop</i>Categorias Productos
+                            </a>
+                        </li>
+                        <li>
+                            <a href="noticias.php" class="white-text"><i class="material-icons blue-text">event_note</i>Noticias
                             </a>
                         </li>
                         <li>

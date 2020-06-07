@@ -3,7 +3,7 @@ require_once('../../core/helpers/dashboard.php');
 Dashboard::headerTemplate('Administrar categorías');
 ?>
 
-<div class="row">
+<div class="row padd-15">
     <!-- Formulario de búsqueda -->
     <form method="post" id="search-form">
         <div class="input-field col s6 m4">
@@ -22,7 +22,7 @@ Dashboard::headerTemplate('Administrar categorías');
 </div>
 
 <!-- Tabla para mostrar los registros existentes -->
-<table class="highlight">
+<table class="highlight padd-15 pagination">
     <!-- Cabeza de la tabla para mostrar los títulos de las columnas -->
     <thead>
         <tr>
@@ -35,6 +35,11 @@ Dashboard::headerTemplate('Administrar categorías');
     <tbody id="tbody-rows">
     </tbody>
 </table>
+
+<div class="col-md-12 center text-center">
+        <span class="left" id="total_reg"></span>
+        <ul class="pagination pager" id="myPager"></ul>
+    </div>
 
 <!-- Componente Modal para mostrar una caja de dialogo -->
 <div id="save-modal" class="modal">
