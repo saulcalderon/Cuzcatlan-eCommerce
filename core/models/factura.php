@@ -182,7 +182,7 @@ class Factura extends Validator
     public function readOne()
 
     {
-        $sql = 'SELECT fc.id_factura as id_factura, nombre, fc.fecha_registro, precio_total, estado_factura, COUNT(cantidad) as cantidad FROM factura fc inner join cliente cl USING(id_cliente) inner join detalle_factura df USING(id_factura) inner join estado_factura ef USING(id_estado_factura) where id_factura = ? group by fc.id_factura, nombre, fc.fecha_registro, precio_total, estado_factura order by id_factura asc';
+        $sql = 'SELECT fc.id_factura as id_factura, nombre, fc.fecha_registro, precio_total, id_estado_factura, COUNT(cantidad) as cantidad FROM factura fc inner join cliente cl USING(id_cliente) inner join detalle_factura df USING(id_factura) inner join estado_factura ef USING(id_estado_factura) where id_factura = ? group by fc.id_factura, nombre, fc.fecha_registro, precio_total, id_estado_factura order by id_factura asc';
         $params = array($this->id_factura);
         return Database::getRow($sql, $params);
     }

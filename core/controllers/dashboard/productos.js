@@ -14,8 +14,10 @@ function fillTable(dataset) {
     // Se recorre el conjunto de registros (dataset) fila por fila a través del objeto row.
     dataset.forEach(function (row) {
         // Se establece un icono para el estado del producto.
-        (row.estado_producto) ? icon = 'visibility': icon = 'visibility_off';
+
+        (row.id_estado_producto == 1) ? icon = 'visibility': icon = 'visibility_off';
         // Se crean y concatenan las filas de la tabla con los datos de cada registro.
+        console.log(row.id_estado_producto + ' estado del producto ' + icon);
         content += `
             <tr>
                 <td>${row.id_producto}</td>
@@ -23,7 +25,7 @@ function fillTable(dataset) {
                 <td>${row.nombre}</td>
                 <td>${row.existencias}</td>
                 <td>${row.precio_unitario}</td>
-                <td>${row.id_categoria_producto}</td>
+                <td>${row.categoria_producto}</td>
                 <td><i class="material-icons">${icon}</i></td>
                 <td>
                     <a href="#" onclick="openUpdateModal(${row.id_producto})" class="blue-text tooltipped" data-tooltip="Actualizar"><i class="material-icons">mode_edit</i></a>
@@ -92,8 +94,8 @@ function openUpdateModal(id) {
                 $('#precio_producto').val(response.dataset.precio_unitario);
                 $('#existencias_producto').val(response.dataset.existencias);
                 $('#descripcion_producto').val(response.dataset.descripcion);
-                fillSelect(API_CATEGORIAS, 'categoria_producto', response.dataset.id_categoria);
-                (response.dataset.estado_producto) ? $('#estado_producto').prop('checked', true): $('#estado_producto').prop('checked', false);
+                fillSelect(API_CATEGORIAS, 'categoria_producto', response.dataset.id_categoria_producto);
+                (response.dataset.id_estado_producto == 1) ? $('#estado_producto').prop('checked', true): $('#estado_producto').prop('checked', false);
                 // Se actualizan los campos para que las etiquetas (labels) no queden sobre los datos.
                 M.updateTextFields();
             } else {
@@ -166,14 +168,12 @@ function fillTableModified(dataset) {
                 $('.estado-val' + row.estado).prop('checked', true);
                 $('.estado-name' + row.estado).text('Activado');
                 $('.estado-val' + row.estado).attr('value', row.estado);
-                console.log($('.estado-val' + row.estado).attr('value'));
             });
         } else {
             $(function () {
                 $('.estado-val' + row.estado).prop('checked', false);
                 $('.estado-name' + row.estado).text('Desactivado');
                 $('.estado-val' + row.estado).attr('value', row.estado);
-                console.log($('.estado-val' + row.estado).attr('value'));
             });
         }
     });

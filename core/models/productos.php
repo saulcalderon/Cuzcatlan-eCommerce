@@ -216,8 +216,8 @@ class Productos extends Validator
 
     public function readAllProductos()
     {
-        $sql = 'SELECT id_producto, nombre, existencias, descripcion, precio_unitario, id_categoria_producto, id_estado_producto 
-        FROM producto
+        $sql = 'SELECT id_producto, nombre, existencias, descripcion, precio_unitario, categoria_producto, id_estado_producto 
+        FROM producto pr INNER JOIN categoria_producto cp USING(id_categoria_producto) 
         ORDER BY id_producto';
         $params = null;
         return Database::getRows($sql, $params);

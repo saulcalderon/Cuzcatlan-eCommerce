@@ -165,7 +165,7 @@ if (isset($_GET['action'])) {
                                     if ($producto->setCategoria($_POST['categoria_producto'])) {
                                         if ($producto->setExistencias($_POST{
                                             'existencias_producto'})) {
-                                            if ($producto->setEstado(isset($_POST['estado_producto']) ? 1 : 0)) {
+                                            if ($producto->setEstado(isset($_POST['estado_producto']) ? 1 : 2)) {
                                                 if ($producto->updateProducto()) {
                                                     $result['status'] = 1;
                                                     $result['message'] = 'Producto modificado correctamente';
