@@ -38,9 +38,19 @@ class Noticias extends Validator
         }
     }
 
+    public function setContenido($value)
+    {
+        if ($this->validateString($value, 1, 500)) {
+            $this->contenido = $value;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public function setFecha($value)
     {
-        if ($this->validateString($value, 1, 250)) {
+        if ($this->validateDate($value)) {
             $this->fecha = $value;
             return true;
         } else {
@@ -136,8 +146,8 @@ class Noticias extends Validator
     public function createProducto()
     {
         $sql = 'INSERT INTO noticias(titulo, contenido, imagen, fecha_registro,id_estado)
-                    VALUES(?, ?, ?, ?, ?, ?, ?)';
-        $params = array($this->titulo, $this->contenido, $this->imagen, $this->fecha, 1);
+                    VALUES(?, ?, ?, ?, ?)';
+        $params = array($this->titulo, $this->contenido, $this->imagen, $this->fecha, $this->estado);
         return Database::executeRow($sql, $params);
 
         /*if ($this->saveFile($this->archivo, $this->ruta, $this->imagen)) {
@@ -171,65 +181,35 @@ class Noticias extends Validator
 
     public function readOneProducto()
     {
-        $sql = 'SELECT id_producto, nombre, existencias, descripcion, precio_unitario, id_categoria_producto, id_estado_producto 
-        FROM producto
-                WHERE id_producto = ?';
+        $sql = 'SELECT id_noticia, titulo, contenido, imagen, fecha_registro, id_estado 
+        FROM noticias
+        where id_noticia = ?';
         $params = array($this->id);
         return Database::getRow($sql, $params);
     }
 
     public function updateProducto()
     {
-        $sql = 'UPDATE producto
-        SET nombre = ?, descripcion = ?, precio_unitario = ?, existencias = ?, id_estado_producto = ?, id_categoria_producto = ?
-        WHERE id_producto = ?';
-        $params = array($this->nombre, $this->descripcion, $this->precio, $this->existencias, $this->estado, $this->categoria, $this->id);
-        /*if ($this->saveFile($this->archivo, $this->ruta, $this->imagen)) {
-            $sql = 'UPDATE producto
-                    SET imagen_producto = ?, nombre = ?, descripcion = ?, precio_unitario = ?, id_estado_producto = ?, id_categoria_producto = ?
-                    WHERE id_producto = ?';
-            $params = array($this->imagen, $this->nombre, $this->descripcion, $this->precio, $this->estado, $this->categoria, $this->id);
-        } else {
-            $sql = 'UPDATE producto
-                    SET nombre = ?, descripcion = ?, precio_unitario = ?, id_estado_producto = ?, id_categoria_producto = ?
-                    WHERE id_producto = ?';
-            $params = array($this->nombre, $this->descripcion, $this->precio, $this->estado, $this->categoria, $this->id);
-        }*/
+        
+        $sql = 'UPDATE noticias
+        SET titulo = ?, contenido = ?, fecha_registro = ?, id_estado = ?
+        WHERE id_noticia = ?';
+        $params = array($this->titulo, $this->contenido, $this->fecha, $this->estado, $this->id);
         return Database::executeRow($sql, $params);
     }
 
     public function deleteProducto()
     {
-        $sql = 'DELETE FROM producto
-                WHERE id_producto = ?';
+        $sql = 'DELETE FROM noticias
+                WHERE id_noticia = ?';
         $params = array($this->id);
         return Database::executeRow($sql, $params);
-    }
-
-    public function readValoraciones()
-    {
-        $sql = 'SELECT id_valoracion, pr.nombre, pr.id_producto ,valoracion, comentario, cl.nombre AS cliente, id_estado AS estado FROM valoracion vl INNER JOIN cliente cl USING(id_cliente) 
-        INNER JOIN producto pr USING(id_producto) WHERE id_producto = ?';
-        $params = array($this->id);
-        return Database::getRows($sql, $params);
     }
 
     public function changeStatus()
     {
-        $sql = 'UPDATE valoracion SET id_estado = ? WHERE id_valoracion = ?';
+        $sql = 'UPDATE noticias SET id_estado = ? WHERE id_noticia = ?';
         $params = array($this->estado, $this->valoracion);
         return Database::executeRow($sql, $params);
-    }
-
-    /*
-    *   Métodos para generar gráficas.
-    */
-    public function cantidadProductosCategoria()
-    {
-        $sql = 'SELECT nombre_categoria, COUNT(id_producto) cantidad
-                FROM producto INNER JOIN categorias USING(id_categoria)
-                GROUP BY id_categoria, nombre_categoria';
-        $params = null;
-        return Database::getRows($sql, $params);
     }
 }

@@ -53,7 +53,7 @@ Dashboard::headerTemplate('Administrar noticias');
             <!-- Formulario para crear o actualizar un registro -->
             <form method="post" id="save-form" enctype="multipart/form-data">
                 <!-- Campo oculto para asignar el id del registro al momento de modificar -->
-                <input class="hide" type="text" id="id_producto" name="id_producto" />
+                <input class="hide" type="text" id="id_noticia" name="id_noticia" />
                 <div class="row">
                     <div class="input-field col s12 m6">
                         <i class="material-icons prefix">note_add</i>
@@ -78,7 +78,7 @@ Dashboard::headerTemplate('Administrar noticias');
                     </div>
                     <div class="input-field col s12 m6">
                         <i class="material-icons prefix">time</i>
-                        <input id="fecha" type="text" name="fecha" class="validate" />
+                        <input id="fecha" type="date" name="fecha" class="validate"/>
                         <label for="fecha">Fecha de registro</label>
                     </div>
                     <div class="col s12 m6">
@@ -87,7 +87,7 @@ Dashboard::headerTemplate('Administrar noticias');
                                 <span>Estado:</span>
                                 <label>
                                     <i class="material-icons">visibility_off</i>
-                                    <input id="estado_producto" type="checkbox" name="estado_producto" checked />
+                                    <input id="estado" type="checkbox" name="estado" checked />
                                     <span class="lever"></span>
                                     <i class="material-icons">visibility</i>
                                 </label>
@@ -100,26 +100,6 @@ Dashboard::headerTemplate('Administrar noticias');
                     <button type="submit" class="btn waves-effect blue tooltipped" data-tooltip="Guardar"><i class="material-icons">save</i></button>
                 </div>
             </form>
-        </div>
-    </div>
-
-    <div id="val-modal" class="modal">
-        <div class="modal-content">
-            <h4 id="modal-2"></h4>
-            <table class="highlight padd-15">
-                <!-- Cabeza de la tabla para mostrar los títulos de las columnas -->
-                <thead>
-                    <tr>
-                        <th>VALORACION</th>
-                        <th>COMENTARIO</th>
-                        <th>CLIENTE</th>
-                        <th>ESTADO</th>
-                    </tr>
-                </thead>
-                <!-- Cuerpo de la tabla para mostrar un registro por fila -->
-                <tbody id="tbody-details">
-                </tbody>
-            </table>
         </div>
     </div>
 </div>
