@@ -1,6 +1,6 @@
 <?php
 /*
-*	Clase para manejar la tabla usuarios de la base de datos. Es clase hija de Validator.
+*	Clase para manejar la tabla factura de la base de datos.
 */
 class Factura extends Validator
 {

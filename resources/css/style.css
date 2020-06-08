@@ -2,158 +2,192 @@
   General
 **********************/
 /* Cambiar el color y la fuente del sitio */
-body{
-    background-color:#f0f0f0 ;
+body {
+    background-color: #f0f0f0;
     font-family: 'Montserrat';
 }
-.row{
+
+.row {
     margin-bottom: 0;
 }
+
 /* Todos los contenedores al 90%*/
-.container.gen{
+.container.gen {
     width: 90%;
 }
+
 /*********************
   Modificaciones de Textos
 **********************/
-h1{
+h1 {
     font-family: 'Kaushan Script';
     font-size: 5rem;
 }
+
 /*********************
   Slider
 **********************/
-.slider-text{
+.slider-text {
     margin: 1rem 0 0;
 }
-@media only screen and (max-width: 425px){
-    .slider-text{
+
+@media only screen and (max-width: 425px) {
+    .slider-text {
         font-size: 45px;
     }
 }
+
 /*********************
   Sección Menú de Categorías
 **********************/
-.card{
+.card {
     margin: 0;
 }
+
 /* Superponer las categorías en el Slider */
-.mod-row{
+.mod-row {
     position: relative;
     top: -110px;
     z-index: 2;
 }
-.row.padding-mod .col{
+
+.row.padding-mod .col {
     padding: 0;
 }
+
 /* Título del mapa para no dejar espacio sobrante*/
-.lo{
+.lo {
     position: relative;
     top: -70px;
     margin: 0;
 }
+
 /* Modificando las cartas de categorías*/
-.card-panel.categories{
+.card-panel.categories {
     margin: 0;
     padding: 25px;
     border-radius: 0px;
 }
 
-@media only screen and (max-width: 992px){
-    .lo{
+@media only screen and (max-width: 992px) {
+    .lo {
         position: initial;
         margin: 50px 0 50px 0;
     }
 }
+
 /*********************
   Barra de Navegación
 **********************/
-nav .sidenav-trigger{
+nav .sidenav-trigger {
     margin: 0;
 }
+
 /* Colores del navegador */
-nav{
-    background:rgb(31, 25, 32);
+nav {
+    background: rgb(31, 25, 32);
 }
+
 nav ul a:hover {
     background-color: #e91e63;
 }
+
 /* Margen para el logo */
-.margin-logo{
+.margin-logo {
     margin: 0 25px 0 20px;
 }
 
 @media only screen and (max-width: 902px) {
-    .margin-logo{
-    margin: 0;
+    .margin-logo {
+        margin: 0;
     }
 }
+
 /* Modificaciones de los textos en el nav */
-.menu-text{
+.menu-text {
     font-size: 1.1rem;
 }
-.logo-cuzcatlan{
+
+.logo-cuzcatlan {
     color: #e91e63 !important;
     font-weight: 600;
 }
-.margin-left{
+
+.margin-left {
     margin-right: 100px;
 }
+
 /*********************
   SideNav Carrito
 **********************/
 /* Medida del modal */
-.sidenav.carrito{
+.sidenav.carrito {
     width: 450px;
 }
+
 .sidenav li {
-    line-height: normal; 
+    line-height: normal;
 }
+
 /*********************
   Sección Mapa de El Salvador
 **********************/
-#AH:hover{
+#AH:hover {
     fill: goldenrod;
 }
-#CA:hover{
+
+#CA:hover {
     fill: rgb(208, 241, 61);
 }
-#CH:hover{
+
+#CH:hover {
     fill: teal;
 }
-#CU:hover{
+
+#CU:hover {
     fill: rgb(98, 0, 128);
 }
-#LI:hover{
+
+#LI:hover {
     fill: rgb(156, 53, 216);
 }
-#MO:hover{
+
+#MO:hover {
     fill: rgb(128, 0, 0);
 }
-#PA:hover{
+
+#PA:hover {
     fill: rgb(69, 218, 32);
 }
-#SA:hover{
+
+#SA:hover {
     fill: rgb(126, 128, 0);
 }
-#SM:hover{
+
+#SM:hover {
     fill: red;
 }
-#SO:hover{
+
+#SO:hover {
     fill: rgb(55, 242, 255);
 }
-#SS:hover{
+
+#SS:hover {
     fill: rgb(230, 173, 51);
 }
-#SV:hover{
+
+#SV:hover {
     fill: rgb(32, 39, 39);
 }
-#UN:hover{
+
+#UN:hover {
     fill: rgb(203, 118, 206);
 }
-#US:hover{
+
+#US:hover {
     fill: rgb(128, 0, 117);
 }
+
 /*********************
   Sección productos
 **********************/
@@ -161,24 +195,28 @@ nav ul a:hover {
 .btn-floating.halfway-fab {
     bottom: 115px;
 }
+
 /*********************
   Sección noticias
 **********************/
-.container.noticias{
+.container.noticias {
     margin: 2rem auto;
     max-width: 1280px;
     width: 90%;
 }
-.margin{
+
+.margin {
     margin: 2rem auto 1rem;
 }
+
 /*********************
   Login
 **********************/
-.card-panel.login-card{
+.card-panel.login-card {
     margin: 2rem 0 2rem;
 }
-.container.login-container{
+
+.container.login-container {
     margin: 0 auto;
     max-width: 1480px;
     width: 100%;
@@ -186,42 +224,47 @@ nav ul a:hover {
 
 @media only screen and (min-width: 768px) {
     .container.login-container {
-      width: 90%;
+        width: 90%;
     }
-  }
-  
+}
+
 @media only screen and (min-width: 993px) {
     .container.login-container {
-      width: 85%;
+        width: 85%;
     }
-  }
+}
 
-.add-margin{
+.add-margin {
     margin: 160px 0 160px;
 }
+
 /*********************
   Blog
 **********************/
-.header{
+.header {
     margin-top: 0;
 }
+
 /*********************
   Productos
 **********************/
-.margin-separador{
+.margin-separador {
     margin: 5rem 0 5rem;
 }
+
 /*********************
     Carrito
 **********************/
 /* Tamaño de imagen para el carrito */
-.img-pequeña{
+.img-pequeña {
     width: 100%;
     height: 100%;
 }
-.margin-x{
+
+.margin-x {
     margin-top: 15px;
 }
+
 /*
 @media only screen and (min-width: 768px) {
     .img-pequeña{
@@ -233,21 +276,25 @@ nav ul a:hover {
 /*********************
     Completar transacción
 **********************/
-.img-mini{
+.img-mini {
     width: 120px;
     height: 60px;
 }
-.img-pagadito-logo{
+
+.img-pagadito-logo {
     margin-left: 1rem;
-    width: 200px ;
-    height: 40px ;
+    width: 200px;
+    height: 40px;
 }
-.margin-pedido{
+
+.margin-pedido {
     margin: 1rem 0 1rem 0;
 }
-input[type=number]:not(.browser-default){
+
+input[type=number]:not(.browser-default) {
     width: 70px;
 }
+
 /*********************
     Cuenta
 **********************/
@@ -256,15 +303,18 @@ img.responsive-img {
     height: 150px;
     width: 150px;
 }
+
 .circle {
     border-radius: 50%;
 }
+
 /*********************
     Footer
 **********************/
-.page-footer{
+.page-footer {
     background-color: rgb(31, 25, 32);
 }
+
 /* Diseño de la barra de progreso */
 .meter {
     height: 10px;
@@ -274,12 +324,13 @@ img.responsive-img {
     -webkit-border-radius: 25px;
     border-radius: 25px;
     padding: 10px;
-    -webkit-box-shadow: inset 0 -1px 1px rgba(255,255,255,0.3);
-    -moz-box-shadow: inset 0 -1px 1px rgba(255,255,255,0.3);
-    box-shadow: inset 0 -1px 1px rgba(255,255,255,0.3);
+    -webkit-box-shadow: inset 0 -1px 1px rgba(255, 255, 255, 0.3);
+    -moz-box-shadow: inset 0 -1px 1px rgba(255, 255, 255, 0.3);
+    box-shadow: inset 0 -1px 1px rgba(255, 255, 255, 0.3);
 }
+
 /* Diseños de estrellas */
-.stars{
+.stars {
     margin: 5px 0 0;
 }
 
@@ -291,7 +342,7 @@ img.responsive-img {
     white-space: nowrap;
     text-align: center;
     border-radius: 1.75em;
-    background-color: rgba(114,114,114,0.9);
+    background-color: rgba(114, 114, 114, 0.9);
     color: #fff;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;

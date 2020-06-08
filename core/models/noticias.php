@@ -1,6 +1,6 @@
 <?php
 /*
-*	Clase para manejar la tabla productos de la base de datos. Es clase hija de Validator.
+*	Clase para manejar la tabla noticias de la base de datos.
 */
 class Noticias extends Validator
 {

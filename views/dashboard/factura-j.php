@@ -92,7 +92,7 @@ Dashboard::headerTemplate('Administrar facturas');
                     </select>
                     <label>Categoría</label>
                 </div>
-                
+
             </div>
             <div class="row center-align">
                 <a href="#" class="btn waves-effect grey tooltipped modal-close" data-tooltip="Cancelar"><i class="material-icons">cancel</i></a>

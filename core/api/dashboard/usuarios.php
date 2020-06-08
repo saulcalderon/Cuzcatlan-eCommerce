@@ -13,7 +13,7 @@ if (isset($_GET['action'])) {
     $result = array('status' => 0, 'message' => null, 'exception' => null);
     // Se verifica si existe una sesión iniciada como administrador, de lo contrario se finaliza el script con un mensaje de error.
     //print_r($_SESSION);
-    
+
     if (isset($_SESSION['id_usuario'])) {
         // Se compara la acción a realizar cuando un administrador ha iniciado sesión.
         switch ($_GET['action']) {
@@ -118,11 +118,11 @@ if (isset($_GET['action'])) {
                     if ($result['dataset'] = $usuario->searchUsuarios($_POST['search'])) {
                         $result['status'] = 1;
                         $rows = count($result['dataset']);
-						if ($rows > 1) {
-							$result['message'] = 'Se encontraron '.$rows.' coincidencias';
-						} else {
-							$result['message'] = 'Solo existe una coincidencia';
-						}
+                        if ($rows > 1) {
+                            $result['message'] = 'Se encontraron ' . $rows . ' coincidencias';
+                        } else {
+                            $result['message'] = 'Solo existe una coincidencia';
+                        }
                     } else {
                         $result['exception'] = 'No hay coincidencias';
                     }
@@ -273,18 +273,18 @@ if (isset($_GET['action'])) {
                 break;
             case 'login':
                 $_POST = $usuario->validateForm($_POST);
-                    if ($usuario->checkCorreo($_POST['alias'])) {
-                        if ($usuario->checkPassword($_POST['clave'])) {
-                            $_SESSION['id_usuario'] = $usuario->getId();
-                            $_SESSION['alias_usuario'] = $usuario->getNombres().' '.$usuario->getApellidos();
-                            $result['status'] = 1;
-                            $result['message'] = 'Autenticación correcta';
-                        } else {
-                            $result['exception'] = 'Clave incorrecta';
-                        }
+                if ($usuario->checkCorreo($_POST['alias'])) {
+                    if ($usuario->checkPassword($_POST['clave'])) {
+                        $_SESSION['id_usuario'] = $usuario->getId();
+                        $_SESSION['alias_usuario'] = $usuario->getNombres() . ' ' . $usuario->getApellidos();
+                        $result['status'] = 1;
+                        $result['message'] = 'Autenticación correcta';
                     } else {
-                        $result['exception'] = 'Alias incorrecto';
+                        $result['exception'] = 'Clave incorrecta';
                     }
+                } else {
+                    $result['exception'] = 'Alias incorrecto';
+                }
                 break;
             default:
                 exit('Acción no disponible');
@@ -293,8 +293,7 @@ if (isset($_GET['action'])) {
     // Se indica el tipo de contenido a mostrar y su respectivo conjunto de caracteres.
     header('content-type: application/json; charset=utf-8');
     // Se imprime el resultado en formato JSON y se retorna al controlador.
-	print(json_encode($result));
+    print(json_encode($result));
 } else {
-	exit('Recurso denegado');
+    exit('Recurso denegado');
 }
-?>

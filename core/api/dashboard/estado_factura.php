@@ -8,7 +8,7 @@ if (isset($_GET['action'])) {
     // Se crea una sesión o se reanuda la actual para poder utilizar variables de sesión en el script.
     session_start();
     // Se instancia la clase correspondiente.
-    $estado_factura = new Estado_Factura;
+    $estado_factura = new EstadoFactura;
     // Se declara e inicializa un arreglo para guardar el resultado que retorna la API.
     $result = array('status' => 0, 'message' => null, 'exception' => null);
     // Se verifica si existe una sesión iniciada como administrador, de lo contrario se finaliza el script con un mensaje de error.
@@ -35,4 +35,3 @@ if (isset($_GET['action'])) {
 } else {
     exit('Recurso denegado');
 }
-?>

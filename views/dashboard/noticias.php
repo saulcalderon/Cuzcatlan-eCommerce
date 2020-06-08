@@ -4,9 +4,9 @@ Dashboard::headerTemplate('Administrar noticias');
 ?>
 <div class="padd-15">
     <div class="row">
-    <div>
-    
-    </div>
+        <div>
+
+        </div>
         <!-- Formulario de búsqueda -->
         <form method="post" id="search-form">
             <div class="input-field col s6 m4">
@@ -60,7 +60,7 @@ Dashboard::headerTemplate('Administrar noticias');
                         <input id="titulo" type="text" name="titulo" class="validate" required />
                         <label for="titulo">Título</label>
                     </div>
-                      <!--
+                    <!--
               	<div class="file-field input-field col s12 m6">
                     <div class="btn waves-effect tooltipped" data-tooltip="Seleccione una imagen de al menos 500x500">
                         <span><i class="material-icons">image</i></span>
@@ -78,7 +78,7 @@ Dashboard::headerTemplate('Administrar noticias');
                     </div>
                     <div class="input-field col s12 m6">
                         <i class="material-icons prefix">time</i>
-                        <input id="fecha" type="text" name="fecha" class="validate"/>
+                        <input id="fecha" type="text" name="fecha" class="validate" />
                         <label for="fecha">Fecha de registro</label>
                     </div>
                     <div class="col s12 m6">

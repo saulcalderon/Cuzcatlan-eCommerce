@@ -1,6 +1,6 @@
 <?php
 /*
-*	Clase para manejar la tabla categorias de la base de datos. Es clase hija de Validator.
+*	Clase para manejar la tabla categorías de la base de datos.
 */
 class Categorias extends Validator
 {
@@ -27,7 +27,7 @@ class Categorias extends Validator
 
     public function setNombre($value)
     {
-        if($this->validateAlphanumeric($value, 1, 50)) {
+        if ($this->validateAlphanumeric($value, 1, 50)) {
             $this->nombre = $value;
             return true;
         } else {
@@ -104,7 +104,7 @@ class Categorias extends Validator
 
     public function createCategoria()
     {
-       $sql = 'INSERT INTO categoria_producto(categoria_producto)
+        $sql = 'INSERT INTO categoria_producto(categoria_producto)
                 VALUES(?)';
         $params = array($this->nombre);
         return Database::executeRow($sql, $params);
@@ -129,11 +129,11 @@ class Categorias extends Validator
 
     public function updateCategoria()
     {
-        
+
         $sql = 'UPDATE categoria_producto
                 SET categoria_producto = ?
                 WHERE id_categoria_producto = ?';
-       $params = array($this->nombre, $this->id);
+        $params = array($this->nombre, $this->id);
         return Database::executeRow($sql, $params);
     }
 
@@ -145,4 +145,3 @@ class Categorias extends Validator
         return Database::executeRow($sql, $params);
     }
 }
-?>

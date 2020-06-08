@@ -1,4 +1,7 @@
 <?php
+/*
+*	Clase para manejar la tabla proveedores de la base de datos.
+*/
 class Proveedores extends Validator
 {
     // Aquí van las propiedades y métodos de los clientes.

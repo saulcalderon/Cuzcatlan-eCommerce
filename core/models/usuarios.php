@@ -1,6 +1,6 @@
 <?php
 /*
-*	Clase para manejar la tabla usuarios de la base de datos. Es clase hija de Validator.
+*	Clase para manejar la tabla usuarios de la base de datos.
 */
 class Usuarios extends Validator
 {
@@ -125,11 +125,13 @@ class Usuarios extends Validator
         return $this->fechaNacimiento;
     }
 
-    private function getTelefono(){
-        return $this->telefono();
+    private function getTelefono()
+    {
+        return $this->telefono;
     }
 
-    public function getidCargo(){
+    public function getidCargo()
+    {
         return $this->idCargo;
     }
 
@@ -204,7 +206,7 @@ class Usuarios extends Validator
         $hash = password_hash($this->clave, PASSWORD_DEFAULT);
         $sql = 'INSERT INTO administrador(nombre, apellido, correo, telefono, clave, id_cargo)
                 VALUES(?, ?, ?, ?, ?,?)';
-        $params = array($this->nombres, $this->apellidos, $this->correo, $this->telefono, $hash,1);
+        $params = array($this->nombres, $this->apellidos, $this->correo, $this->telefono, $hash, 1);
         return Database::executeRow($sql, $params);
     }
 
@@ -243,4 +245,3 @@ class Usuarios extends Validator
         return Database::executeRow($sql, $params);
     }
 }
-?>

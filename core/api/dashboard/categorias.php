@@ -29,7 +29,7 @@ if (isset($_GET['action'])) {
                         $result['status'] = 1;
                         $rows = count($result['dataset']);
                         if ($rows > 1) {
-                            $result['message'] = 'Se encontraron '.$rows.' coincidencias';
+                            $result['message'] = 'Se encontraron ' . $rows . ' coincidencias';
                         } else {
                             $result['message'] = 'Solo existe una coincidencia';
                         }
@@ -70,19 +70,19 @@ if (isset($_GET['action'])) {
                 if ($categoria->setId($_POST['id_categoria'])) {
                     if ($data = $categoria->readOneCategoria()) {
                         if ($categoria->setNombre($_POST['nombre_categoria'])) {
-                                    if ($categoria->updateCategoria()) {
-                                        $result['status'] = 1;
-                                        $result['message'] = 'Categoría modificada correctamente';
-                                    } else {
-                                        $result['exception'] = Database::getException();
-                                    }
-                                }
-                        } else {
-                            $result['exception'] = 'Nombre incorrecto';
+                            if ($categoria->updateCategoria()) {
+                                $result['status'] = 1;
+                                $result['message'] = 'Categoría modificada correctamente';
+                            } else {
+                                $result['exception'] = Database::getException();
+                            }
                         }
                     } else {
-                        $result['exception'] = 'Categoría inexistente';
+                        $result['exception'] = 'Nombre incorrecto';
                     }
+                } else {
+                    $result['exception'] = 'Categoría inexistente';
+                }
                 break;
             case 'delete':
                 if ($categoria->setId($_POST['id_categoria'])) {
@@ -112,4 +112,3 @@ if (isset($_GET['action'])) {
 } else {
     exit('Recurso denegado');
 }
-?>

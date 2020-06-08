@@ -23,7 +23,7 @@ class Dashboard
                     <meta charset="utf-8">
                     <title>Cuzcatlan - ' . $titulo . '</title>
                     <link type="image/png" rel="icon" href="../../resources/img/logo.png"/>
-                    <link type="text/css" rel="stylesheet" href="../../resources/css/materialize.min.css"/>
+                    <link type="text/css" rel="stylesheet" href="../../resources/css/materialize.css"/>
                     <link type="text/css" rel="stylesheet" href="../../resources/css/material-icons.css"/>
                     <link type="text/css" rel="stylesheet" href="../../resources/css/dashboard.css"/>
                     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -125,17 +125,8 @@ class Dashboard
             } else {
                 // Se imprime el código HTML para el encabezado del documento con un menú vacío cuando sea iniciar sesión o registrar el primer usuario.
                 print('
-                    <header>
-                        <div class="navbar-fixed">
-                            <nav class="rose-m">
-                                <div class="nav-wrapper">
-                                    <a href="index.php" class="brand-logo"><i class="material-icons">dashboard</i></a>
-                                </div>
-                            </nav>
-                        </div>
-                    </header>
                     <main>
-                        <img class="img-center" src="../../resources/img/general/logo.png" alt="">
+                        <img class="img-center" src="../../resources/img/logo2.png" alt="">
                 ');
             }
         }
@@ -153,8 +144,8 @@ class Dashboard
         // Se imprime el código HTML para el pie del documento.
         print('
                 </main>
-                <script type="text/javascript" src="../../resources/js/jquery-3.4.1.min.js"></script>
-                <script type="text/javascript" src="../../resources/js/materialize.min.js"></script>
+                <script type="text/javascript" src="../../resources/js/jquery-3.4.1.js"></script>
+                <script type="text/javascript" src="../../resources/js/materialize.js"></script>
                 
                 <script type="text/javascript" src="../../resources/js/sweetalert.min.js"></script>
                 <script type="text/javascript" src="../../core/helpers/components.js"></script>

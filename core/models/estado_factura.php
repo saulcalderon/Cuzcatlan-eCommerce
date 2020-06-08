@@ -1,8 +1,8 @@
 <?php
 /*
-*	Clase para manejar la tabla usuarios de la base de datos. Es clase hija de Validator.
+*	Clase para manejar la tabla estado factura de la base de datos.
 */
-class Estado_Factura extends Validator
+class EstadoFactura extends Validator
 {
     // Declaración de atributos (propiedades).
     private $id_estado_factura = null;
@@ -45,6 +45,9 @@ class Estado_Factura extends Validator
         return $this->estado_factura;
     }
 
+    /*
+    *   Métodos para las consultas.
+    */
 
     public function readAllEstado()
     {
@@ -52,5 +55,4 @@ class Estado_Factura extends Validator
         $params = null;
         return Database::getRows($sql, $params);
     }
-
 }

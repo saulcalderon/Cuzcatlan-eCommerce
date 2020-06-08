@@ -1,4 +1,7 @@
 <?php
+/*
+*	Clase para manejar la tabla clientes de la base de datos.
+*/
 class Clientes extends Validator
 {
     // Aquí van las propiedades y métodos de los clientes.
@@ -10,23 +13,24 @@ class Clientes extends Validator
     private $telefono = null;
     private $clave = null;
     private $direccion = null;
-    private $fecha_nacimiento =null;
+    private $fecha_nacimiento = null;
 
 
     // Métodos para asignar valores a los atributos.
 
-    public function setId($value){
-        if($this ->validateNaturalNumber ($value)){
-           $this->id = $value;
-          return true;
-       } else {
+    public function setId($value)
+    {
+        if ($this->validateNaturalNumber($value)) {
+            $this->id = $value;
+            return true;
+        } else {
             return false;
-       }
+        }
     }
 
     public function setNombre($value)
     {
-        if($this->validateAlphabetic($value, 1, 50)) {
+        if ($this->validateAlphabetic($value, 1, 50)) {
             $this->nombre = $value;
             return true;
         } else {
@@ -36,7 +40,7 @@ class Clientes extends Validator
 
     public function setApellido($value)
     {
-        if($this->validateAlphabetic($value, 1, 50)) {
+        if ($this->validateAlphabetic($value, 1, 50)) {
             $this->apellido = $value;
             return true;
         } else {
@@ -56,7 +60,7 @@ class Clientes extends Validator
 
     public function setTelefono($value)
     {
-        if($this->validateAlphanumeric($value, 1, 50)) {
+        if ($this->validateAlphanumeric($value, 1, 50)) {
             $this->telefono = $value;
             return true;
         } else {
@@ -77,7 +81,7 @@ class Clientes extends Validator
 
     public function setDireccion($value)
     {
-        if($this->validateAlphanumeric($value, 1, 50)) {
+        if ($this->validateAlphanumeric($value, 1, 50)) {
             $this->direccion = $value;
             return true;
         } else {
@@ -85,9 +89,9 @@ class Clientes extends Validator
         }
     }
 
-    public function setFecha_Nacimiento($value)
+    public function setFechaNacimiento($value)
     {
-        if($this->validateAlphanumeric($value, 1, 50)) {
+        if ($this->validateAlphanumeric($value, 1, 50)) {
             $this->fecha_nacimiento = $value;
             return true;
         } else {
@@ -134,7 +138,7 @@ class Clientes extends Validator
         return $this->direccion;
     }
 
-    public function getFecha_Nacimiento()
+    public function getFechaNacimiento()
     {
         return $this->fecha_nacimiento;
     }
@@ -154,16 +158,16 @@ class Clientes extends Validator
 
     public function createCliente()
     {
-            
-            $sql = 'INSERT INTO cliente(nombre, apellido, correo, telefono, clave, direccion, fecha_nacimiento)
+
+        $sql = 'INSERT INTO cliente(nombre, apellido, correo, telefono, clave, direccion, fecha_nacimiento)
                     VALUES(?, ?, ?, ?, ?, ?, ?)';
-            $params = array($this->nombre, $this->apellido, $this->correo, $this->telefono, $this->clave, $this->direccion, $this->fecha_nacimiento);
-            return Database::executeRow($sql, $params);
+        $params = array($this->nombre, $this->apellido, $this->correo, $this->telefono, $this->clave, $this->direccion, $this->fecha_nacimiento);
+        return Database::executeRow($sql, $params);
     }
 
     public function readAllClientes()
     {
-        $sql = 'SELECT id_cliente, nombre, apellido, correo, telefono, clave, direccion, fecha_nacimiento
+        $sql = 'SELECT id_cliente, nombre, apellido, correo, telefono, direccion, fecha_nacimiento
                 FROM cliente
                 ORDER BY nombre';
         $params = null;
@@ -172,7 +176,7 @@ class Clientes extends Validator
 
     public function readOneCliente()
     {
-        $sql = 'SELECT id_cliente, nombre, apellido, correo, telefono, clave, direccion, fecha_nacimiento
+        $sql = 'SELECT id_cliente, nombre, apellido, correo, telefono, direccion, fecha_nacimiento
                 FROM cliente
                 WHERE id_cliente = ?';
         $params = array($this->id);
@@ -181,11 +185,11 @@ class Clientes extends Validator
 
     public function updateCliente()
     {
-            $sql = 'UPDATE cliente
-                    SET nombre = ?, apellido = ?, correo = ?, telefono = ?, clave = ?, direccion = ?, fecha_nacimiento = ?
+        $sql = 'UPDATE cliente
+                    SET nombre = ?, apellido = ?, correo = ?, telefono = ?, direccion = ?, fecha_nacimiento = ?
                     WHERE id_cliente = ?';
-            $params = array($this->nombre, $this->apellido, $this->correo, $this->telefono, $this->clave, $this->direccion, $this->fecha_nacimiento, $this->id);
-            return Database::executeRow($sql, $params);
+        $params = array($this->nombre, $this->apellido, $this->correo, $this->telefono, $this->direccion, $this->fecha_nacimiento, $this->id);
+        return Database::executeRow($sql, $params);
     }
 
     public function deleteCliente()
@@ -195,6 +199,4 @@ class Clientes extends Validator
         $params = array($this->id);
         return Database::executeRow($sql, $params);
     }
-
 }
-?>

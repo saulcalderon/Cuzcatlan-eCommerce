@@ -112,7 +112,7 @@ if (isset($_GET['action'])) {
                     } else {
                         $result['exception'] = 'Proveedor inexistente';
                     }
-                }else {
+                } else {
                     $result['exception'] = 'Id incorrecto';
                 }
                 break;
@@ -143,4 +143,3 @@ if (isset($_GET['action'])) {
 } else {
     exit('Recurso denegado');
 }
-?>

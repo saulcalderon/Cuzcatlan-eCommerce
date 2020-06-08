@@ -27,81 +27,73 @@ Dashboard::headerTemplate('Administrar clientes');
         <table class="highlight padd-15 pagination">
             <thead>
                 <tr>
-                    <th>Fotografia</th>
-                    <th>ID</th>
                     <th>Nombre</th>
                     <th>Apellido</th>
                     <th>Correo</th>
-                    <th>Telefono</th>
-                    <th>Clave</th>
+                    <th>Teléfono</th>
+                    <th>Dirección</th>
                     <th>Fecha de Nacimiento</th>
-                    <th><a class="tooltipped waves-effect waves-light modal-trigger" data-position="left" data-tooltip="Eliminar Todo" href="#modal3"><i class="material-icons red-text text- accent-4">clear</i></a></th>
                 </tr>
             </thead>
 
             <tbody class="black-text" id="tbody-rows">
-                
+
             </tbody>
-        </table>    
+        </table>
         <div class="col-md-12 center text-center">
-        <span class="left" id="total_reg"></span>
-        <ul class="pagination pager" id="myPager"></ul>
-    </div>
+            <span class="left" id="total_reg"></span>
+            <ul class="pagination pager" id="myPager"></ul>
+        </div>
     </div>
 
-     <!-- Componente Modal para mostrar una caja de dialogo -->
-<div id="save-modal" class="modal">
-    <div class="modal-content">
-        <h4 id="modal-title" class="center-align"></h4>
-        <!-- Formulario para crear o actualizar un registro -->
-        <form method="post" id="save-form">
-            <!-- Campo oculto para asignar el id del registro al momento de modificar -->
-            <input class="hide" type="text" id="id_cliente" name="id_cliente" />
-            <div class="row">
-                <div class="input-field col s12 m6">
-                    <i class="material-icons prefix">person</i>
-                    <input id="nombre" type="text" name="nombre" class="validate" required />
-                    <label for="nombre">Nombres</label>
+    <!-- Componente Modal para mostrar una caja de dialogo -->
+    <div id="save-modal" class="modal">
+        <div class="modal-content">
+            <h4 id="modal-title" class="center-align"></h4>
+            <!-- Formulario para crear o actualizar un registro -->
+            <form method="post" id="save-form">
+                <!-- Campo oculto para asignar el id del registro al momento de modificar -->
+                <input class="hide" type="text" id="id_cliente" name="id_cliente" />
+                <div class="row">
+                    <div class="input-field col s12 m6">
+                        <i class="material-icons prefix">person</i>
+                        <input id="nombre" type="text" name="nombre" class="validate" required />
+                        <label for="nombre">Nombres</label>
+                    </div>
+                    <div class="input-field col s12 m6">
+                        <i class="material-icons prefix">person</i>
+                        <input id="apellido" type="text" name="apellido" class="validate" required />
+                        <label for="apellido">Apellidos</label>
+                    </div>
+                    <div class="input-field col s12 m6">
+                        <i class="material-icons prefix">email</i>
+                        <input id="correo" type="email" name="correo" class="validate" required />
+                        <label for="correo">Correo</label>
+                    </div>
+                    <div class="input-field col s12 m6">
+                        <i class="material-icons prefix">phone</i>
+                        <input id="telefono" type="text" name="telefono" class="validate" required />
+                        <label for="telefono">Telefono</label>
+                    </div>
+                    <div class="input-field col s12 m6">
+                        <i class="material-icons prefix">person</i>
+                        <input id="direccion" type="text" name="direccion" class="validate" required />
+                        <label for="direccion">Direccion</label>
+                    </div>
+                    <div class="input-field col s12 m6">
+                        <i class="material-icons prefix">person</i>
+                        <input id="fecha_nacimiento" type="text" name="fecha_nacimiento" class="validate" required />
+                        <label for="fecha_nacimiento">Fecha nacimiento</label>
+                    </div>
                 </div>
-                <div class="input-field col s12 m6">
-                    <i class="material-icons prefix">person</i>
-                    <input id="apellido" type="text" name="apellido" class="validate" required />
-                    <label for="apellido">Apellidos</label>
+                <div class="row center-align">
+                    <a href="#" class="btn waves-effect grey tooltipped modal-close" data-tooltip="Cancelar"><i class="material-icons">cancel</i></a>
+                    <button type="submit" class="btn waves-effect blue tooltipped" data-tooltip="Guardar"><i class="material-icons">save</i></button>
                 </div>
-                <div class="input-field col s12 m6">
-                    <i class="material-icons prefix">email</i>
-                    <input id="correo" type="email" name="correo" class="validate" required />
-                    <label for="correo">Correo</label>
-                </div>
-                <div class="input-field col s12 m6">
-                    <i class="material-icons prefix">phone</i>
-                    <input id="telefono" type="text" name="telefono" class="validate" required />
-                    <label for="telefono">Telefono</label>
-                </div>
-                <div class="input-field col s12 m6">
-                    <i class="material-icons prefix">security</i>
-                    <input id="clave" type="password" name="clave" class="validate" required />
-                    <label for="clave">Clave</label>
-                </div>
-                <div class="input-field col s12 m6">
-                    <i class="material-icons prefix">person</i>
-                    <input id="direccion" type="text" name="direccion" class="validate" required />
-                    <label for="direccion">Direccion</label>
-                </div>
-                <div class="input-field col s12 m6">
-                    <i class="material-icons prefix">person</i>
-                    <input id="fecha_nacimiento" type="text" name="fecha_nacimiento" class="validate" required />
-                    <label for="fecha_nacimiento">Fecha nacimiento</label>
-                </div>
-            </div>
-            <div class="row center-align">
-                <a href="#" class="btn waves-effect grey tooltipped modal-close" data-tooltip="Cancelar"><i class="material-icons">cancel</i></a>
-                <button type="submit" class="btn waves-effect blue tooltipped" data-tooltip="Guardar"><i class="material-icons">save</i></button>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
-</div>
 
-<?php
-Dashboard::footerTemplate('clientes.js');
-?>
+    <?php
+    Dashboard::footerTemplate('clientes.js');
+    ?>

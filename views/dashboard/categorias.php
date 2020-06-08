@@ -8,7 +8,7 @@ Dashboard::headerTemplate('Administrar categorías');
     <form method="post" id="search-form">
         <div class="input-field col s6 m4">
             <i class="material-icons prefix">search</i>
-            <input id="search" type="text" name="search"/>
+            <input id="search" type="text" name="search" />
             <label for="search">Buscador</label>
         </div>
         <div class="input-field col s6 m4">
@@ -26,7 +26,7 @@ Dashboard::headerTemplate('Administrar categorías');
     <!-- Cabeza de la tabla para mostrar los títulos de las columnas -->
     <thead>
         <tr>
-        <th>ID</th>
+            <th>ID</th>
             <th>NOMBRE</th>
             <th>ACCIÓN</th>
         </tr>
@@ -37,9 +37,9 @@ Dashboard::headerTemplate('Administrar categorías');
 </table>
 
 <div class="col-md-12 center text-center">
-        <span class="left" id="total_reg"></span>
-        <ul class="pagination pager" id="myPager"></ul>
-    </div>
+    <span class="left" id="total_reg"></span>
+    <ul class="pagination pager" id="myPager"></ul>
+</div>
 
 <!-- Componente Modal para mostrar una caja de dialogo -->
 <div id="save-modal" class="modal">
@@ -48,11 +48,11 @@ Dashboard::headerTemplate('Administrar categorías');
         <!-- Formulario para crear o actualizar un registro -->
         <form method="post" id="save-form" enctype="multipart/form-data">
             <!-- Campo oculto para asignar el id del registro al momento de modificar -->
-            <input class="hide" type="text" id="id_categoria" name="id_categoria"/>
+            <input class="hide" type="text" id="id_categoria" name="id_categoria" />
             <div class="row">
                 <div class="input-field col s12 m12">
                     <i class="material-icons prefix">note_add</i>
-                    <input id="nombre_categoria" type="text" name="nombre_categoria" class="validate" required/>
+                    <input id="nombre_categoria" type="text" name="nombre_categoria" class="validate" required />
                     <label for="nombre_categoria">Nombre</label>
                 </div>
             </div>
