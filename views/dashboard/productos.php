@@ -18,11 +18,9 @@ Dashboard::headerTemplate('Administrar facturas');
         <div class="input-field center-align col s12 m4">
             <!-- Enlace para abrir caja de dialogo (modal) al momento de crear un nuevo registro -->
             <a href="#" onclick="openCreateModal()" class="btn waves-effect indigo tooltipped" data-tooltip="Crear"><i class="material-icons">add_circle</i></a>
-            <!-- Enlace para generar un reporte en formato PDF -->
-            <a href="../../core/reports/dashboard/productos.php" target="_blank" class="btn waves-effect amber tooltipped" data-tooltip="Reporte de productos por categoría"><i class="material-icons">assignment</i></a>
         </div>
     </div>
-    <table class="highlight padd-15 pagination">
+    <table class="highlight padd-15 pagination responsive-table">
         <thead>
             <tr>
                 <th>ID</th>
@@ -34,7 +32,7 @@ Dashboard::headerTemplate('Administrar facturas');
                 <th>ESTADO</th>
                 <th>ACCIÓN</th>
                 <!--<th><a class="tooltipped waves-effect waves-light modal-trigger" data-position="left" data-tooltip="Agregar Producto" href="#modal2"><i class="material-icons green-text text- accent-4">add_box</i></a></th>
-                <th><a class="tooltipped waves-effect waves-light modal-trigger" data-position="left" data-tooltip="Buscar" href="#modal3"><i class="material-icons white-text text- accent-4">search</i></a></th>-->
+                    <th><a class="tooltipped waves-effect waves-light modal-trigger" data-position="left" data-tooltip="Buscar" href="#modal3"><i class="material-icons white-text text- accent-4">search</i></a></th>-->
             </tr>
         </thead>
 

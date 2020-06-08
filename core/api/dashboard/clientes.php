@@ -47,15 +47,11 @@ if (isset($_GET['action'])) {
                         if ($cliente->setCorreo($_POST['correo'])) {
                             if ($cliente->setTelefono($_POST['telefono'])) {
                                 if ($cliente->setDireccion($_POST['direccion'])) {
-                                    if ($cliente->setFechaNacimiento($_POST['fecha_nacimiento'])) {
-                                        if ($cliente->createCliente()) {
-                                            $result['status'] = 1;
-                                            $result['message'] = 'Cliente creado correctamente';
-                                        } else {
-                                            $result['exception'] = Database::getException();;
-                                        }
+                                    if ($cliente->createCliente()) {
+                                        $result['status'] = 1;
+                                        $result['message'] = 'Cliente creado correctamente';
                                     } else {
-                                        $result['exception'] = 'Nacimiento incorrecto';
+                                        $result['exception'] = Database::getException();;
                                     }
                                 } else {
                                     $result['exception'] = 'Direccion incorrecta';
@@ -93,19 +89,15 @@ if (isset($_GET['action'])) {
                                 if ($cliente->setCorreo($_POST['correo'])) {
                                     if ($cliente->setTelefono($_POST['telefono'])) {
                                         if ($cliente->setDireccion($_POST['direccion'])) {
-                                            if ($cliente->setFechaNacimiento($_POST['fecha_nacimiento'])) {
+                                            if ($cliente->setEstado(isset($_POST['estado']) ? 1 : 2)) {
                                                 if ($cliente->updateCliente()) {
                                                     $result['status'] = 1;
+                                                    $result['message'] = 'Cliente modificado correctamente';
                                                 } else {
-                                                    if ($cliente->updateCliente()) {
-                                                        $result['status'] = 1;
-                                                        $result['message'] = 'Cliente modificado correctamente';
-                                                    } else {
-                                                        $result['exception'] = Database::getException();
-                                                    }
+                                                    $result['exception'] = Database::getException();
                                                 }
                                             } else {
-                                                $result['exception'] = 'Nacimiento incorrecto';
+                                                $result['exception'] = 'Estado incorrecto';
                                             }
                                         } else {
                                             $result['exception'] = 'Direccion incorrecta';
@@ -145,6 +137,18 @@ if (isset($_GET['action'])) {
                 } else {
                     $result['exception'] = 'CLiente incorrecto';
                 }
+                break;
+            case 'readCompras':
+                if ($cliente->setId($_POST['id_cliente'])) {
+                    if ($result['dataset'] = $cliente->readCompras()) {
+                        $result['status'] = 1;
+                    } else {
+                        $result['exception'] = 'Compras inexistentes';
+                    }
+                } else {
+                    $result['exception'] = 'Cliente incorrecto';
+                }
+                break;
         }
         // Se indica el tipo de contenido a mostrar y su respectivo conjunto de caracteres.
         header('content-type: application/json; charset=utf-8');

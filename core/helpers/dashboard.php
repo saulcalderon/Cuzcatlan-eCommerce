@@ -26,6 +26,7 @@ class Dashboard
                     <link type="text/css" rel="stylesheet" href="../../resources/css/materialize.css"/>
                     <link type="text/css" rel="stylesheet" href="../../resources/css/material-icons.css"/>
                     <link type="text/css" rel="stylesheet" href="../../resources/css/dashboard.css"/>
+                    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
                     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
                 </head>
                 <body>
@@ -49,8 +50,6 @@ class Dashboard
                                 <a href="#" data-target="slide-out" class="sidenav-trigger"><i
                                         class="material-icons">menu</i></a>
                                         <ul class="right hide-on-med-and-down">
-                                       
-                                        
                                         <li><a href="#" class="dropdown-trigger" data-target="dropdown"><i class="material-icons left">verified_user</i>Cuenta: <b>' . $_SESSION['alias_usuario'] . '</b></a></li>
                                     </ul>
                                     <ul id="dropdown" class="dropdown-content">
@@ -70,45 +69,45 @@ class Dashboard
                                 <a href="#" onclick="openModalProfile()">
                                     <img src="../../resources/img/dashboard/img12-1.jpg" alt="" class="circle +">
                                 </a>
-                                <span class="white-text name">'.$_SESSION['alias_usuario'].'</span>
-                                <span class="white-text">Miembro de la familia Cuzcatlán</span>
+                                <span class="white-text name">' . $_SESSION['alias_usuario'] . '</span>
+                                <span class="white-text">Miembro de Cuzcatlán</span>
                                 <hr class= "cuzcatlan-color">
                             </div>
                         </li>
                         <li>
-                            <a href="main-j.php" class="white-text"><i class="material-icons blue-text">dashboard</i>Dashboard
+                            <a href="main.php" class="white-text"><i class="material-icons white-text">dashboard</i>Dashboard
                             </a>
                         </li>
                         <li>
-                            <a href="usuarios-j.php" class="white-text"><i class="material-icons blue-text">person</i>Usuarios
+                            <a href="usuarios.php" class="white-text"><i class="material-icons white-text">person</i>Usuarios
                             </a>
                         </li>
                         <li>
-                            <a href="clientes-j.php" class="white-text"><i class="material-icons blue-text">people</i>Clientes
+                            <a href="clientes.php" class="white-text"><i class="material-icons white-text">people</i>Clientes
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="white-text"><i class="material-icons blue-text">insert_chart</i>Analíticas
+                            <a href="#" class="white-text"><i class="material-icons white-text">insert_chart</i>Analíticas
                             </a>
                         </li>
                         <li>
-                            <a href="productos-j.php" class="white-text"><i class="material-icons blue-text">shop</i>Productos
+                            <a href="productos.php" class="white-text"><i class="material-icons white-text">shop</i>Productos
                             </a>
                         </li>
                         <li>
-                            <a href="categorias.php" class="white-text"><i class="material-icons blue-text">shop</i>Categorias Productos
+                            <a href="categorias.php" class="white-text"><i class="material-icons white-text">shop</i>Categorias Productos
                             </a>
                         </li>
                         <li>
-                            <a href="noticias.php" class="white-text"><i class="material-icons blue-text">event_note</i>Noticias
+                            <a href="noticias.php" class="white-text"><i class="material-icons white-text">event_note</i>Noticias
                             </a>
                         </li>
                         <li>
-                            <a href="factura-j.php" class="white-text"><i class="material-icons blue-text">payment</i>Facturas
+                            <a href="factura.php" class="white-text"><i class="material-icons white-text">payment</i>Facturas
                             </a>
                         </li>
                         <li>
-                            <a href="proveedores-j.php" class="white-text"><i class="material-icons blue-text">local_shipping
+                            <a href="proveedores.php" class="white-text"><i class="material-icons white-text">local_shipping
                                 </i>Proveedores
                             </a>
                         </li>
@@ -145,9 +144,11 @@ class Dashboard
         // Se imprime el código HTML para el pie del documento.
         print('
                 </main>
+                <footer class="">
+                    <h6></h6>
+                </footer>
                 <script type="text/javascript" src="../../resources/js/jquery-3.4.1.js"></script>
                 <script type="text/javascript" src="../../resources/js/materialize.js"></script>
-                
                 <script type="text/javascript" src="../../resources/js/sweetalert.min.js"></script>
                 <script type="text/javascript" src="../../core/helpers/components.js"></script>
                 <script type="text/javascript" src="../../core/controllers/dashboard/initialization.js"></script>

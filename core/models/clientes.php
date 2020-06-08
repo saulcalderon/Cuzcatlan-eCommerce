@@ -13,7 +13,7 @@ class Clientes extends Validator
     private $telefono = null;
     private $clave = null;
     private $direccion = null;
-    private $fecha_nacimiento = null;
+    private $estado = null;
 
 
     // Métodos para asignar valores a los atributos.
@@ -89,10 +89,10 @@ class Clientes extends Validator
         }
     }
 
-    public function setFechaNacimiento($value)
+    public function setEstado($value)
     {
-        if ($this->validateAlphanumeric($value, 1, 50)) {
-            $this->fecha_nacimiento = $value;
+        if ($this->validateNaturalNumber($value)) {
+            $this->estado = $value;
             return true;
         } else {
             return false;
@@ -138,9 +138,9 @@ class Clientes extends Validator
         return $this->direccion;
     }
 
-    public function getFechaNacimiento()
+    public function getEstado()
     {
-        return $this->fecha_nacimiento;
+        return $this->estado;
     }
 
 
@@ -148,7 +148,7 @@ class Clientes extends Validator
 
     public function searchClientes($value)
     {
-        $sql = 'SELECT id_cliente, nombre, apellido, correo, telefono, clave, direccion, fecha_nacimiento
+        $sql = 'SELECT id_cliente, nombre, apellido, correo, telefono, clave, direccion
                 FROM cliente
                 WHERE nombre ILIKE ? OR apellido ILIKE ?
                 ORDER BY nombre';
@@ -159,24 +159,23 @@ class Clientes extends Validator
     public function createCliente()
     {
 
-        $sql = 'INSERT INTO cliente(nombre, apellido, correo, telefono, clave, direccion, fecha_nacimiento)
+        $sql = 'INSERT INTO cliente(nombre, apellido, correo, telefono, clave, direccion, id_estado)
                     VALUES(?, ?, ?, ?, ?, ?, ?)';
-        $params = array($this->nombre, $this->apellido, $this->correo, $this->telefono, $this->clave, $this->direccion, $this->fecha_nacimiento);
+        $params = array($this->nombre, $this->apellido, $this->correo, $this->telefono, $this->clave, $this->direccion, 1);
         return Database::executeRow($sql, $params);
     }
 
     public function readAllClientes()
     {
-        $sql = 'SELECT id_cliente, nombre, apellido, correo, telefono, direccion, fecha_nacimiento
-                FROM cliente
-                ORDER BY nombre';
+        $sql = 'SELECT id_cliente, nombre, apellido, correo, telefono, direccion, id_estado
+                FROM cliente ORDER BY id_cliente';
         $params = null;
         return Database::getRows($sql, $params);
     }
 
     public function readOneCliente()
     {
-        $sql = 'SELECT id_cliente, nombre, apellido, correo, telefono, direccion, fecha_nacimiento
+        $sql = 'SELECT id_cliente, nombre, apellido, correo, telefono, direccion, id_estado
                 FROM cliente
                 WHERE id_cliente = ?';
         $params = array($this->id);
@@ -186,9 +185,10 @@ class Clientes extends Validator
     public function updateCliente()
     {
         $sql = 'UPDATE cliente
-                    SET nombre = ?, apellido = ?, correo = ?, telefono = ?, direccion = ?, fecha_nacimiento = ?
+                    SET nombre = ?, apellido = ?, correo = ?, telefono = ?, direccion = ?,
+                    id_estado= ?
                     WHERE id_cliente = ?';
-        $params = array($this->nombre, $this->apellido, $this->correo, $this->telefono, $this->direccion, $this->fecha_nacimiento, $this->id);
+        $params = array($this->nombre, $this->apellido, $this->correo, $this->telefono, $this->direccion, $this->estado, $this->id);
         return Database::executeRow($sql, $params);
     }
 
@@ -198,5 +198,14 @@ class Clientes extends Validator
                 WHERE id_cliente = ?';
         $params = array($this->id);
         return Database::executeRow($sql, $params);
+    }
+
+    public function readCompras()
+    {
+        $sql = 'SELECT id_factura, fc.fecha_registro, precio_total, estado_factura, nombre, apellido
+        FROM factura fc INNER JOIN estado_factura ef USING(id_estado_factura) INNER JOIN cliente
+        USING(id_cliente) WHERE id_cliente= ?';
+        $params = array($this->id);
+        return Database::getRows($sql, $params);
     }
 }

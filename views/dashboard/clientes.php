@@ -19,12 +19,10 @@ Dashboard::headerTemplate('Administrar clientes');
         <div class="input-field center-align col s12 m4">
             <!-- Enlace para abrir caja de dialogo (modal) al momento de crear un nuevo registro -->
             <a href="#" onclick="openCreateModal()" class="btn waves-effect indigo tooltipped" data-tooltip="Crear"><i class="material-icons">add_circle</i></a>
-            <!-- Enlace para generar un reporte en formato PDF -->
-            <a href="../../core/reports/dashboard/productos.php" target="_blank" class="btn waves-effect amber tooltipped" data-tooltip="Reporte de productos por categoría"><i class="material-icons">assignment</i></a>
         </div>
     </div>
     <div class="col l8">
-        <table class="highlight padd-15 pagination">
+        <table class="highlight padd-15 pagination responsive-table">
             <thead>
                 <tr>
                     <th>Nombre</th>
@@ -32,7 +30,8 @@ Dashboard::headerTemplate('Administrar clientes');
                     <th>Correo</th>
                     <th>Teléfono</th>
                     <th>Dirección</th>
-                    <th>Fecha de Nacimiento</th>
+                    <th>Estado</th>
+                    <th>Acción</th>
                 </tr>
             </thead>
 
@@ -43,6 +42,26 @@ Dashboard::headerTemplate('Administrar clientes');
         <div class="col-md-12 center text-center">
             <span class="left" id="total_reg"></span>
             <ul class="pagination pager" id="myPager"></ul>
+        </div>
+    </div>
+
+    <div id="detalle-modal" class="modal">
+        <div class="modal-content">
+            <h5 id="modal-title-2" class="center-align"></h5>
+            <table class="highlight padd-15">
+                <!-- Cabeza de la tabla para mostrar los títulos de las columnas -->
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>FECHA</th>
+                        <th>TOTAL</th>
+                        <th>ESTADO</th>
+                    </tr>
+                </thead>
+                <!-- Cuerpo de la tabla para mostrar un registro por fila -->
+                <tbody id="tbody-details">
+                </tbody>
+            </table>
         </div>
     </div>
 
@@ -80,10 +99,18 @@ Dashboard::headerTemplate('Administrar clientes');
                         <input id="direccion" type="text" name="direccion" class="validate" required />
                         <label for="direccion">Direccion</label>
                     </div>
-                    <div class="input-field col s12 m6">
-                        <i class="material-icons prefix">person</i>
-                        <input id="fecha_nacimiento" type="text" name="fecha_nacimiento" class="validate" required />
-                        <label for="fecha_nacimiento">Fecha nacimiento</label>
+                    <div class="col s12 m6">
+                        <p>
+                            <div class="switch">
+                                <span>Estado:</span>
+                                <label>
+                                    <i class="material-icons">visibility_off</i>
+                                    <input id="estado" type="checkbox" name="estado" checked />
+                                    <span class="lever"></span>
+                                    <i class="material-icons">visibility</i>
+                                </label>
+                            </div>
+                        </p>
                     </div>
                 </div>
                 <div class="row center-align">

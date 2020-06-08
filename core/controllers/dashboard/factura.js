@@ -75,6 +75,7 @@ $('#search-form').submit(function (event) {
 function openViewDetails(id) {
     // Se abre la caja de dialogo (modal) que contiene el formulario.
     $('#detalle-modal').modal('open');
+    $('#modal-title-2').text('Detalle de compra');
     // Se establece el campo de tipo archivo como obligatorio.
     let identifier = {
         id_factura: id

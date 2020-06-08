@@ -12,6 +12,7 @@ function fillTable(dataset) {
     let content = '';
     // Se recorre el conjunto de registros (dataset) fila por fila a través del objeto row.
     dataset.forEach(function (row) {
+        (row.id_estado == 1) ? icon = 'visibility': icon = 'visibility_off';
         // Se crean y concatenan las filas de la tabla con los datos de cada registro.
         content += `
             <tr>
@@ -20,10 +21,12 @@ function fillTable(dataset) {
                 <td>${row.correo}</td>
                 <td>${row.telefono}</td>
                 <td>${row.direccion}</td>
-                <td>${row.fecha_nacimiento}</td>
+                <td><i class="material-icons">${icon}</i></td>
                 <td>
                     <a href="#" onclick="openUpdateModal(${row.id_cliente})" class="blue-text tooltipped" data-tooltip="Actualizar"><i class="material-icons">mode_edit</i></a>
                     <a href="#" onclick="openDeleteDialog(${row.id_cliente})" class="red-text tooltipped" data-tooltip="Eliminar"><i class="material-icons">delete</i></a>
+
+                    <a href="#" onclick="openViewDetails(${row.id_cliente})" class="green-text tooltipped" data-tooltip="Ver compras"><i class="material-icons">assignment</i></a>
                 </td>
             </tr>
         `;
@@ -31,6 +34,7 @@ function fillTable(dataset) {
 
     // Se agregan las filas al cuerpo de la tabla mediante su id para mostrar los registros.
     $('#tbody-rows').html(content);
+    pagination();
     // Se inicializa el componente Material Box asignado a las imagenes para que funcione el efecto Lightbox.
     $('.materialboxed').materialbox();
     // Se inicializa el componente Tooltip asignado a los enlaces para que funcionen las sugerencias textuales.
@@ -86,7 +90,7 @@ function openUpdateModal(id) {
                 $('#correo').val(response.dataset.correo);
                 $('#telefono').val(response.dataset.telefono);
                 $('#direccion').val(response.dataset.direccion);
-                $('#fecha_nacimiento').val(response.dataset.fecha_nacimiento);
+                (response.dataset.id_estado == 1) ? $('#estado').prop('checked', true): $('#estado').prop('checked', false);
 
                 // Se actualizan los campos para que las etiquetas (labels) no queden sobre los datos.
                 M.updateTextFields();
@@ -123,4 +127,39 @@ function openDeleteDialog(id) {
         id_cliente: id
     };
     confirmDelete(API_CLIENTES, identifier);
+}
+
+function openViewDetails(id) {
+    // Se abre la caja de dialogo (modal) que contiene el formulario.
+    $('#detalle-modal').modal('open');
+    $('#modal-title-2').text('Detalle de compra');
+    // Se establece el campo de tipo archivo como obligatorio.
+    let identifier = {
+        id_cliente: id
+    };
+    readRowsModified(API_CLIENTES + 'readCompras', identifier);
+}
+
+function fillTableModified(dataset) {
+    let content = '';
+
+    // Se recorre el conjunto de registros (dataset) fila por fila a través del objeto row.
+
+    // Se establece un icono para el estado del producto.
+    dataset.forEach(function (row) {
+        $('#modal-title-2').text('Compras de ' + row.nombre + ' ' + row.apellido);
+        // Se crean y concatenan las filas de la tabla con los datos de cada registro.
+        content += `
+            <tr>
+                <td>${row.id_factura}</td>
+                <td>${row.fecha_registro}</td>
+                <td>${row.precio_total}</td>
+                <td>${row.estado_factura}</td>
+            </tr>
+        `;
+    });
+    // Se agregan las filas al cuerpo de la tabla mediante su id para mostrar los registros.
+    $('#tbody-details').html(content);
+    // Se inicializa el componente Tooltip asignado a los enlaces para que funcionen las sugerencias textuales.
+    $('.tooltipped').tooltip();
 }

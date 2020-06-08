@@ -58,6 +58,7 @@ function readRowsModified(api, identifier) {
             // Si no hay datos se muestra un mensaje indicando la situación.
             if (!response.status) {
                 sweetAlert(4, response.exception, null);
+                $('#detalle-modal').modal('close');
             }
             // Se envían los datos a la función del controlador para que llene la tabla en la vista.
 

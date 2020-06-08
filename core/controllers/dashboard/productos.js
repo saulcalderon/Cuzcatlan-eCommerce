@@ -17,7 +17,6 @@ function fillTable(dataset) {
 
         (row.id_estado_producto == 1) ? icon = 'visibility': icon = 'visibility_off';
         // Se crean y concatenan las filas de la tabla con los datos de cada registro.
-        console.log(row.id_estado_producto + ' estado del producto ' + icon);
         content += `
             <tr>
                 <td>${row.id_producto}</td>
