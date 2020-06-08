@@ -1,10 +1,10 @@
 // Constantes para establecer las rutas y parámetros de comunicación con la API.
-const API_PRODUCTOS = '../../core/api/dashboard/noticias.php?action=';
+const API_NOTICIAS = '../../core/api/dashboard/noticias.php?action=';
 
 // Método que se ejecuta cuando el documento está listo.
 $(document).ready(function () {
     // Se llama a la función que obtiene los registros para llenar la tabla. Se encuentra en el archivo components.js
-    readRows(API_PRODUCTOS);
+    readRows(API_NOTICIAS);
 });
 
 // Función para llenar la tabla con los datos enviados por readRows().
@@ -13,8 +13,10 @@ function fillTable(dataset) {
     // Se recorre el conjunto de registros (dataset) fila por fila a través del objeto row.
     dataset.forEach(function (row) {
         // Se establece un icono para el estado del producto.
-        (row.id_estado) ? icon = 'visibility': icon = 'visibility_off';
+
+        (row.id_estado == 1) ? icon = 'visibility': icon = 'visibility_off';
         // Se crean y concatenan las filas de la tabla con los datos de cada registro.
+        //console.log(row.id_estado + ' estado de la noticia ' + icon);
         content += `
             <tr>
                 <td>${row.id_noticia}</td>
@@ -22,13 +24,10 @@ function fillTable(dataset) {
                 <td>${row.titulo}</td>
                 <td>${row.contenido}</td>
                 <td>${row.fecha_registro}</td>
-                <td>${row.id_estado}</td>
-                <!--<td><i class="material-icons">${icon}</i></td>-->
+                <td><i class="material-icons">${icon}</i></td>
                 <td>
                     <a href="#" onclick="openUpdateModal(${row.id_noticia})" class="blue-text tooltipped" data-tooltip="Actualizar"><i class="material-icons">mode_edit</i></a>
                     <a href="#" onclick="openDeleteDialog(${row.id_noticia})" class="red-text tooltipped" data-tooltip="Eliminar"><i class="material-icons">delete</i></a>
-
-                    <a href="#" onclick="openViewVal(${row.id_noticia})" class="green-text tooltipped" data-tooltip="Valoraciones"><i class="material-icons">assessment</i></a>
                 </td>
             </tr>
         `;
@@ -46,7 +45,7 @@ $('#search-form').submit(function (event) {
     // Se evita recargar la página web después de enviar el formulario.
     event.preventDefault();
     // Se llama a la función que realiza la búsqueda. Se encuentra en el archivo components.js
-    searchRows(API_PRODUCTOS, this);
+    searchRows(API_NOTICIAS, this);
 });
 
 // Función que prepara formulario para insertar un registro.
@@ -56,7 +55,8 @@ function openCreateModal() {
     // Se abre la caja de dialogo (modal) que contiene el formulario.
     $('#save-modal').modal('open');
     // Se asigna el título para la caja de dialogo (modal).
-    $('#modal-title').text('Crear noticia');
+    $('#modal-title').text('Crear Noticia');
+
     // Se establece el campo de tipo archivo como obligatorio.
     //$( '#archivo_producto' ).prop( 'required', true );
 }
@@ -68,15 +68,15 @@ function openUpdateModal(id) {
     // Se abre la caja de dialogo (modal) que contiene el formulario.
     $('#save-modal').modal('open');
     // Se asigna el título para la caja de dialogo (modal).
-    $('#modal-title').text('Modificar producto');
+    $('#modal-title').text('Modificar Noticia');
     // Se establece el campo de tipo archivo como opcional.
     //$( '#archivo_producto' ).prop( 'required', false );
 
     $.ajax({
             dataType: 'json',
-            url: API_PRODUCTOS + 'readOne',
+            url: API_NOTICIAS + 'readOne',
             data: {
-                id_producto: id
+                id_noticia: id
             },
             type: 'post'
         })
@@ -84,13 +84,11 @@ function openUpdateModal(id) {
             // Se comprueba si la API ha retornado una respuesta satisfactoria, de lo contrario se muestra un mensaje de error.
             if (response.status) {
                 // Se inicializan los campos del formulario con los datos del registro seleccionado previamente.
-                $('#id_producto').val(response.dataset.id_producto);
-                $('#nombre_producto').val(response.dataset.nombre);
-                $('#precio_producto').val(response.dataset.precio_unitario);
-                $('#existencias_producto').val(response.dataset.existencias);
-                $('#descripcion_producto').val(response.dataset.descripcion);
-                fillSelect(API_CATEGORIAS, 'categoria_producto', response.dataset.id_categoria);
-                (response.dataset.estado_producto) ? $('#estado_producto').prop('checked', true): $('#estado_producto').prop('checked', false);
+                $('#id_noticia').val(response.dataset.id_noticia);
+                $('#titulo').val(response.dataset.titulo);
+                $('#contenido').val(response.dataset.contenido);
+                $('#fecha').val(response.dataset.fecha_registro);
+                (response.dataset.id_estado == 1) ? $('#estado').prop('checked', true): $('#estado').prop('checked', false);
                 // Se actualizan los campos para que las etiquetas (labels) no queden sobre los datos.
                 M.updateTextFields();
             } else {
@@ -112,10 +110,10 @@ $('#save-form').submit(function (event) {
     event.preventDefault();
     // Se llama a la función que crea o actualiza un registro. Se encuentra en el archivo components.js
     // Se comprueba si el id del registro esta asignado en el formulario para actualizar, de lo contrario se crea un registro.
-    if ($('#id_producto').val()) {
-        saveRow(API_PRODUCTOS, 'update', this, 'save-modal');
+    if ($('#id_noticia').val()) {
+        saveRow(API_NOTICIAS, 'update', this, 'save-modal');
     } else {
-        saveRow(API_PRODUCTOS, 'create', this, 'save-modal');
+        saveRow(API_NOTICIAS, 'create', this, 'save-modal');
     }
 });
 
@@ -123,64 +121,12 @@ $('#save-form').submit(function (event) {
 function openDeleteDialog(id) {
     // Se declara e inicializa un objeto con el id del registro que será borrado.
     let identifier = {
-        id_producto: id
+        id_noticia: id
     };
-    confirmDelete(API_PRODUCTOS, identifier);
+    confirmDelete(API_NOTICIAS, identifier);
 }
 
-function openViewVal(id) {
-    $('#val-modal').modal('open');
-    let identifier = {
-        id_producto: id
-    };
-    readRowsModified(API_PRODUCTOS + 'readValoraciones', identifier);
-}
-
-function fillTableModified(dataset) {
-    let content = '';
-    // Se recorre el conjunto de registros (dataset) fila por fila a través del objeto row.
-    // Se establece un icono para el estado del producto.
-    dataset.forEach(function (row) {
-        $('#modal-2').text(row.nombre);
-        // Se crean y concatenan las filas de la tabla con los datos de cada registro.
-        content += `
-            <tr>
-                <td>${row.valoracion}</td>
-                <td>${row.comentario}</td>
-                <td>${row.cliente}</td>
-                <td>
-                <p>
-                  <label>
-                    <input class="estado-val${row.estado}" type="checkbox" onclick="cambiar(${row.estado},${row.id_valoracion},${row.id_producto})"/>
-                    <span class="estado-name"></span>
-                  </label>
-                </p>
-              </td>
-            </tr>
-        `;
-        if (row.estado == 1) {
-            $(function () {
-                $('.estado-val' + row.estado).prop('checked', true);
-                $('.estado-name' + row.estado).text('Activado');
-                $('.estado-val' + row.estado).attr('value', row.estado);
-                console.log($('.estado-val' + row.estado).attr('value'));
-            });
-        } else {
-            $(function () {
-                $('.estado-val' + row.estado).prop('checked', false);
-                $('.estado-name' + row.estado).text('Desactivado');
-                $('.estado-val' + row.estado).attr('value', row.estado);
-                console.log($('.estado-val' + row.estado).attr('value'));
-            });
-        }
-    });
-    // Se agregan las filas al cuerpo de la tabla mediante su id para mostrar los registros.
-    $('#tbody-details').html(content);
-    // Se inicializa el componente Tooltip asignado a los enlaces para que funcionen las sugerencias textuales.
-    $('.tooltipped').tooltip();
-}
-
-function cambiar(estado, val, id) {
+function cambiar(estado, id) {
     let newEstado = null;
     if (estado == 1) {
         newEstado = 2;
@@ -188,14 +134,13 @@ function cambiar(estado, val, id) {
         newEstado = 1;
     }
     let identifier = {
-        id_producto: id
+        id_noticia: id
     };
     $.ajax({
             dataType: 'json',
-            url: API_PRODUCTOS + 'changeStatus',
+            url: API_NOTICIAS + 'changeStatus',
             data: {
                 newEstado,
-                val
             },
             type: 'post'
         })
@@ -205,7 +150,7 @@ function cambiar(estado, val, id) {
                 sweetAlert(4, response.exception, null);
             }
             // Se envían los datos a la función del controlador para que llene la tabla en la vista.
-            readRowsModified(API_PRODUCTOS + 'readValoraciones', identifier);
+            //readRowsModified(API_NOTICIAS + 'readValoraciones', identifier);
             sweetAlert(1, response.message, null);
 
         })
