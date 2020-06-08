@@ -67,11 +67,12 @@ class Dashboard
                                 <div class="background ">
                                     <img src="" alt="" class="responsive-img">
                                 </div>
-                                <a href="">
+                                <a href="#" onclick="openModalProfile()">
                                     <img src="../../resources/img/dashboard/img12-1.jpg" alt="" class="circle +">
                                 </a>
-                                <span class="white-text name">Daniela Teos</span>
-                                <span class="white-text">Encargado de productos</span>
+                                <span class="white-text name">'.$_SESSION['alias_usuario'].'</span>
+                                <span class="white-text">Miembro de la familia Cuzcatlán</span>
+                                <hr class= "cuzcatlan-color">
                             </div>
                         </li>
                         <li>
@@ -190,9 +191,9 @@ class Dashboard
                                 <label for="correo_perfil">Correo</label>
                             </div>
                             <div class="input-field col s12 m6">
-                                <i class="material-icons prefix">person_pin</i>
+                                <i class="material-icons prefix">phone</i>
                                 <input id="alias_perfil" type="text" name="alias_perfil" class="validate" required/>
-                                <label for="alias_perfil">Alias</label>
+                                <label for="alias_perfil">Telefono</label>
                             </div>
                         </div>
                         <div class="row center-align">

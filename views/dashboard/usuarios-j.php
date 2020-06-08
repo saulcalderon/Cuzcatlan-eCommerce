@@ -19,7 +19,7 @@ Dashboard::headerTemplate('Administrar usuarios');
         <!-- Enlace para abrir caja de dialogo (modal) al momento de crear un nuevo registro -->
         <a href="#" onclick="openCreateModal()" class="btn waves-effect indigo tooltipped" data-tooltip="Crear"><i class="material-icons">add_circle</i></a>
     </div>
-    <table class="highlight padd-15">
+    <table class="highlight padd-15 pagination">
         <!-- Cabeza de la tabla para mostrar los títulos de las columnas -->
         <thead>
             <tr>
@@ -35,7 +35,10 @@ Dashboard::headerTemplate('Administrar usuarios');
         <tbody id="tbody-rows">
         </tbody>
     </table>
-
+    <div class="col-md-12 center text-center">
+            <span class="left" id="total_reg"></span>
+            <ul class="pagination pager" id="myPager"></ul>
+    </div>
 </div>
 
 <!-- Tabla para mostrar los registros existentes -->
