@@ -1,6 +1,6 @@
 <?php
-require_once('../../core/helpers/templates.php');
-Templates::headerTemplate();
+require_once('../../core/helpers/commerce.php');
+Commerce::headerTemplate();
 ?>
 <!-- Contenido principal del documento -->
 <main>
@@ -134,7 +134,7 @@ Templates::headerTemplate();
                             <div class="card-content">
                                 <h6>Pintura de frutas de madera</h6>
                                 <p style="font-size: 1.5rem;">$12</p>
-                                <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">add_shopping_cart</i></a>
+                                <a onclick="addProduct(7,465,6.00)"  class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">add_shopping_cart</i></a>
                             </div>
                         </div>
                     </div>
@@ -146,7 +146,7 @@ Templates::headerTemplate();
                             <div class="card-content">
                                 <h6>Pintura religiosa</h6>
                                 <p style="font-size: 1.5rem;">$340</p>
-                                <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">add_shopping_cart</i></a>
+                                
                             </div>
                         </div>
                     </div>
@@ -158,7 +158,7 @@ Templates::headerTemplate();
                             <div class="card-content">
                                 <h6>Pintura de frutas de madera</h6>
                                 <p style="font-size: 1.5rem;">$12</p>
-                                <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">add_shopping_cart</i></a>
+                                
                             </div>
                         </div>
                     </div>
@@ -170,7 +170,7 @@ Templates::headerTemplate();
                             <div class="card-content">
                                 <h6>Pintura religiosa</h6>
                                 <p style="font-size: 1.5rem;">$340</p>
-                                <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">add_shopping_cart</i></a>
+                                
                             </div>
                         </div>
                     </div>
@@ -182,7 +182,7 @@ Templates::headerTemplate();
                             <div class="card-content">
                                 <h6>Pintura de frutas de madera</h6>
                                 <p style="font-size: 1.5rem;">$12</p>
-                                <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">add_shopping_cart</i></a>
+                                
                             </div>
                         </div>
                     </div>
@@ -194,7 +194,7 @@ Templates::headerTemplate();
                             <div class="card-content">
                                 <h6>Pintura religiosa</h6>
                                 <p style="font-size: 1.5rem;">$340</p>
-                                <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">add_shopping_cart</i></a>
+                                
                             </div>
                         </div>
                     </div>
@@ -228,7 +228,7 @@ Templates::headerTemplate();
                             <div class="card-content">
                                 <h6>Pintura de frutas de madera</h6>
                                 <p style="font-size: 1.5rem;">$12</p>
-                                <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">add_shopping_cart</i></a>
+                                
                             </div>
                         </div>
                     </div>
@@ -240,7 +240,7 @@ Templates::headerTemplate();
                             <div class="card-content">
                                 <h6>Pintura religiosa</h6>
                                 <p style="font-size: 1.5rem;">$340</p>
-                                <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">add_shopping_cart</i></a>
+                                
                             </div>
                         </div>
                     </div>
@@ -252,7 +252,7 @@ Templates::headerTemplate();
                             <div class="card-content">
                                 <h6>Pintura de frutas de madera</h6>
                                 <p style="font-size: 1.5rem;">$12</p>
-                                <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">add_shopping_cart</i></a>
+                                
                             </div>
                         </div>
                     </div>
@@ -264,7 +264,7 @@ Templates::headerTemplate();
                             <div class="card-content">
                                 <h6>Pintura religiosa</h6>
                                 <p style="font-size: 1.5rem;">$340</p>
-                                <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">add_shopping_cart</i></a>
+                                
                             </div>
                         </div>
                     </div>
@@ -341,7 +341,11 @@ Templates::headerTemplate();
             </div>
         </div>
     </section>
+
+    <!-- Prueba -->
+    
 </main>
+
 <?php
-Templates::FooterTemplate();
+Commerce::FooterTemplate();
 ?>

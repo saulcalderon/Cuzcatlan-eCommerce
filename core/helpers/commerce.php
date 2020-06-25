@@ -2,7 +2,7 @@
 /**
  *
  */
-class Templates
+class Commerce
 {
   
   public static function headerTemplate()
@@ -38,15 +38,15 @@ class Templates
                         <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
                         <div class="container margin-left">
                             <ul class="left hide-on-med-and-down">
-                                <li><a href="products.php" class="menu-text">Productos</a></li>
-                                <li><a href="news.php" class="menu-text">Noticias</a></li>
-                                <li><a href="contact.php" class="menu-text">Contáctanos</a></li>
+                                <li><a href="productos.php" class="menu-text">Productos</a></li>
+                                <li><a href="noticias.php" class="menu-text">Noticias</a></li>
+                                <li><a href="contacto.php" class="menu-text">Contáctanos</a></li>
                             </ul>
                             <ul class="right hide-on-med-and-down">
                                 <li><a href="" data-target="slide-out" class="sidenav-trigger show-on-large"><i class="material-icons">shopping_cart</i></a></li>
                                 <li><h5>|</h5></li>
-                                <li><a href="sign_in.php" class="menu-text">Iniciar sesión</a></li>
-                                <li><a href="sign_up.php" class="menu-text">Registrarse</a></li>
+                                <li><a href="iniciar_sesion.php" class="menu-text">Iniciar sesión</a></li>
+                                <li><a href="crear_cuenta.php" class="menu-text">Registrarse</a></li>
                             </ul>
                         </div>
                     </div> 
@@ -61,12 +61,12 @@ class Templates
                         </div>
                     </div>
                 </li>
-                <li><a href="sign_in.php" class="menu-text">Iniciar sesión</a></li>
-                <li><a href="sign_up.php" class="menu-text">Registrarse</a></li>
-                <li><a href="shopping_cart.php" class="menu-text">Mi carrito</a></li>
-                <li><a href="products.php" class="menu-text">Productos</a></li>
-                <li><a href="news.php" class="menu-text">Noticias</a></li>
-                <li><a href="contact.php" class="menu-text">Contáctanos</a></li>
+                <li><a href="iniciar_sesion.php" class="menu-text">Iniciar sesión</a></li>
+                <li><a href="crear_cuenta.php" class="menu-text">Registrarse</a></li>
+                <li><a href="carrito.php" class="menu-text">Mi carrito</a></li>
+                <li><a href="productos.php" class="menu-text">Productos</a></li>
+                <li><a href="noticias.php" class="menu-text">Noticias</a></li>
+                <li><a href="contacto.php" class="menu-text">Contáctanos</a></li>
             </ul>
             <!-- Navegación lateral del carrito -->
             <ul id="slide-out" class="sidenav carrito"> 
@@ -77,7 +77,7 @@ class Templates
                                 <h5 class="margin">Carrito de compra</h5>
                             </div>
                             <div class="col s4 margin center-align">
-                                <a href=""><i class="material-icons right">close</i></a>
+                                <a href="#" onclick="cerrar()"><i class="material-icons right close">close</i></a>
                             </div>
                         </div>
                     </div>
@@ -87,38 +87,19 @@ class Templates
                     <div class="container gen">
                         <table class="highlight responsive-table">
                             <thead>
-                                <tr>
-                                    <th></th>
-                                    <th>Nombre</th>
-                                    <th>Cantidad</th>
-                                    <th>Precio</th>
-                                </tr>
-                            </thead>    
-                            <tbody>
-                                <tr>
-                                    <td><img src="../../resources/img/commerce/productos/artesanias-casa-la-abuela-2.jpg" alt="" width="80" height="50"></td>
-                                    <td>Pintura de madera con montañas</td>
-                                    <td><input id="number" type="number" value="1"></td>
-                                    <td><h6>$12</h6></td>
-                                </tr>
-                                <tr>
-                                    <td><img src="../../resources/img/commerce/productos/artesanias-casa-la-abuela-2.jpg" alt="" width="80" height="50"></td>
-                                    <td>Pintura de madera con montañas</td>
-                                    <td><input id="number" type="number" value="1"></td>
-                                    <td><h6>$12</h6></td>
-                                </tr>
-                                <tr>
-                                    <td><img src="../../resources/img/commerce/productos/artesanias-casa-la-abuela-2.jpg" alt="" width="80" height="50"></td>
-                                    <td>Pintura de madera con montañas</td>
-                                    <td><input id="number" type="number" value="1"></td>
-                                    <td><h6>$12</h6></td>
-                                </tr>
-                            </tbody>
+                            <tr>
+                                <th></th>
+                                <th>Nombre</th>
+                                <th>Cantidad</th>
+                                <th>Precio</th>
+                            </tr>
+                            </thead>
+                            <tbody id="tbody-nav"></tbody>
                         </table>
                     </div>
                 </li>
                 <li>
-                    <a class="waves-effect waves-light btn-small" href="shopping_cart.php">Ver todo</a>
+                    <a class="waves-effect waves-light btn-small" href="carrito.php">Ver todo</a>
                 </li>
             </ul>
         </header>');
@@ -168,12 +149,13 @@ class Templates
             <!-- Importación de archivos JavaScript al final del documento para una carga optimizada -->
             <script src="../../resources/js/jquery-3.4.1.js" type="text/javascript"></script>
             <script src="../../resources/js/materialize.js" type="text/javascript"></script>
+            <script type="text/javascript" src="../../resources/js/sweetalert.min.js"></script>
+            <script type="text/javascript" src="../../core/helpers/components.js"></script>
             <script src="../../resources/js/swiper.js" type="text/javascript" ></script> 
             <script src="../../resources/js/commerce.js" type="text/javascript"></script>
+            <script type="text/javascript" src="../../core/controllers/commerce/carrito.js"></script> 
+            
             </body>
         </html>');
   }
 }
-
-
- ?>

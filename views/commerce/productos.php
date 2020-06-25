@@ -1,6 +1,6 @@
 <?php
-require_once('../../core/helpers/templates.php');
-Templates::headerTemplate();
+require_once('../../core/helpers/commerce.php');
+Commerce::headerTemplate();
 ?>
 <!-- Contenido principal -->
 <main>
@@ -30,7 +30,7 @@ Templates::headerTemplate();
                         </div>
                         <div class="card-content">
                             <h6 class="black-text">Pintura de frutas de madera</h6>
-                            <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">add_shopping_cart</i></a>
+                            <a class="btn-floating halfway-fab waves-effect waves-light red" onclick="addCarrito(1)"><i class="material-icons">add_shopping_cart</i></a>
                             <h6>$14</h6>
                         </div>
                         </a>
@@ -100,5 +100,5 @@ Templates::headerTemplate();
     </div>
 </main>
 <?php
-Templates::FooterTemplate();
+Commerce::FooterTemplate();
 ?>

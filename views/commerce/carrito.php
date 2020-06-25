@@ -1,6 +1,6 @@
 <?php
-require_once('../../core/helpers/templates.php');
-Templates::headerTemplate();
+require_once('../../core/helpers/commerce.php');
+Commerce::headerTemplate();
 ?>
 <!-- Contenido principal -->
 <main>
@@ -14,43 +14,20 @@ Templates::headerTemplate();
                     <div class="card">
                         <!-- Productos individuales -->
                         <div class="card-content margin">
-                            <table class="highlight centered responsive-table">
+                            <table class="highlight responsive-table">
                                 <thead>
                                     <tr>
                                         <th>Imagen</th>
                                         <th>Productos</th>
-                                        <th>Precio</th>
                                         <th>Cantidad</th>
+                                        <th>Precio</th>
                                         <th>Subtotal</th>
+                                        <th>Accion</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <td><img src="../../resources/img/commerce/3.1.png" alt="" width="160" height="80"></td>
-                                        <td>Pintura de madera con montañas</td>
-                                        <td><h6>$12</h6></td>
-                                        <td><input id="number" type="number" value="1"></td>
-                                        <td><h6>$12</h6></td>
-                                        <td><i class="material-icons">clear</i></td>
-                                    </tr>
-                                    <tr>
-                                        <td><img src="../../resources/img/commerce/3.1.png" alt="" width="160" height="80"></td>
-                                        <td>Pintura de madera con montañas</td>
-                                        <td><h6>$12</h6></td>
-                                        <td><input id="number" type="number" value="1"></td>
-                                        <td><h6>$12</h6></td>
-                                        <td><i class="material-icons">clear</i></td>
-                                    </tr>
-                                    <tr>
-                                        <td><img src="../../resources/img/commerce/3.1.png" alt="" width="160" height="80"></td>
-                                        <td>Pintura de madera con montañas</td>
-                                        <td><h6>$12</h6></td>
-                                        <td><input id="number" type="number" value="1"></td>
-                                        <td><h6>$12</h6></td>
-                                        <td><i class="material-icons">clear</i></td>
-                                    </tr>
+                                <tbody id="tbody-rows">
                                 </tbody>
-                            </table> 
+                            </table>
                             <div class="divider"></div>
                             <!-- Botón de total a pagar -->
                             <div class="row right-align margin">
@@ -67,8 +44,26 @@ Templates::headerTemplate();
                 </div>
             </div>
         </div>
+        <div id="update" class="modal">
+            <div class="modal-content">
+                <h4 id="content"></h4>
+                <form method="post" id="updateForm">
+                    <input class="hide" type="text" id="id_detalle" name="id_detalle">
+                    <div class="row">
+                        <div class="input-field col s12 m6">
+                            <label for="cantidad">Cantidad</label>
+                            <input type="number" name="cantidad" id="cantidad">
+                        </div>
+                        <div class="input-field col s12 m6">
+                            <button type="submit" class="btn waves-effect blue tooltipped" data-tooltip="Guardar"><i class="material-icons">save</i></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
     </section>
 </main>
+
 <?php
-Templates::FooterTemplate();
+Commerce::FooterTemplate();
 ?>

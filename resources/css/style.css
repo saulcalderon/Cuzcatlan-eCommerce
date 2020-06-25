@@ -118,6 +118,7 @@ nav ul a:hover {
     margin-right: 100px;
 }
 
+
 /*********************
   SideNav Carrito
 **********************/
@@ -189,13 +190,6 @@ nav ul a:hover {
     fill: rgb(128, 0, 117);
 }
 
-/*********************
-  Sección productos
-**********************/
-/* Alinear el botón entre la imagen y el contenido */
-.btn-floating.halfway-fab {
-    bottom: 115px;
-}
 
 /*********************
   Sección noticias

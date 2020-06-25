@@ -1,6 +1,6 @@
 <?php
-require_once('../../core/helpers/templates.php');
-Templates::headerTemplate();
+require_once('../../core/helpers/commerce.php');
+Commerce::headerTemplate();
 ?>
 <!-- Contenido principal -->
 <main>
@@ -83,5 +83,5 @@ Templates::headerTemplate();
     
 </main>
 <?php
-Templates::FooterTemplate();
+Commerce::FooterTemplate();
 ?>
