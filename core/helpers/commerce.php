@@ -1,13 +1,14 @@
 <?php
+
 /**
  *
  */
 class Commerce
 {
-  
-  public static function headerTemplate()
-  {
-    print('<!DOCTYPE html>
+
+    public static function headerTemplate()
+    {
+        print('<!DOCTYPE html>
     <html lang="es">
     <head>
         <!-- Se especifica la codificación de caracteres para el documento -->
@@ -103,10 +104,11 @@ class Commerce
                 </li>
             </ul>
         </header>');
-  }
+    }
 
-  public static function footerTemplate(){
-    print(' 
+    public static function footerTemplate($controller)
+    {
+        print(' 
         <footer class="page-footer">
             <div class="container">
                 <div class="row">
@@ -149,13 +151,13 @@ class Commerce
             <!-- Importación de archivos JavaScript al final del documento para una carga optimizada -->
             <script src="../../resources/js/jquery-3.4.1.js" type="text/javascript"></script>
             <script src="../../resources/js/materialize.js" type="text/javascript"></script>
+            <script src="../../resources/js/swiper.js" type="text/javascript"></script>
             <script type="text/javascript" src="../../resources/js/sweetalert.min.js"></script>
             <script type="text/javascript" src="../../core/helpers/components.js"></script>
-            <script src="../../resources/js/swiper.js" type="text/javascript" ></script> 
             <script src="../../resources/js/commerce.js" type="text/javascript"></script>
             <script type="text/javascript" src="../../core/controllers/commerce/carrito.js"></script> 
-            
+            <script type="text/javascript" src="../../core/controllers/commerce/' . $controller . '"></script> 
             </body>
         </html>');
-  }
+    }
 }

@@ -32,11 +32,11 @@ Commerce::headerTemplate();
                             <!-- Botón de total a pagar -->
                             <div class="row right-align margin">
                                 <div class="col s12 pull-s1">
-                                    <h5>Total: <span>$24</span></h5>
+                                    <h5>Total: $<span id="precio"></span></h5>
                                     <span>Gastos de envío incluidos</span>
                                 </div>
                                 <div class="col s12 pull-s1">
-                                    <a class="waves-effect waves-light btn-large">Finalizar compra</a>
+                                    <a id="finalizar" class="waves-effect waves-light btn-large" type="submit">Finalizar compra</a>
                                 </div>
                             </div>
                         </div>
@@ -65,5 +65,5 @@ Commerce::headerTemplate();
 </main>
 
 <?php
-Commerce::FooterTemplate();
+Commerce::FooterTemplate('');
 ?>

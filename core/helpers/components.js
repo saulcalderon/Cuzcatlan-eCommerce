@@ -2,13 +2,27 @@
  *   Este archivo es de uso general en todas las páginas web. Se importa en las plantillas del pie del documento.
  */
 
-/*
- *   Función para obtener todos los registros disponibles en los mantenimientos de tablas (operación read).
- *
- *   Parámetros: api (ruta del servidor para obtener los datos).
- *
- *   Retorno: ninguno.
- */
+function carga() {
+    let carga = `
+    <div id="carga" class="center">
+        <div class="preloader-wrapper active">
+            <div class="spinner-layer spinner-red-only">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div>
+                <div class="gap-patch">
+                    <div class="circle"></div>
+                </div>
+                <div class="circle-clipper right">
+                    <div class="circle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+`;
+    $('.load').html(carga);
+}
+
 function pagination() {
     $('.pagination').pageMe({
         pagerSelector: '#myPager',
@@ -21,6 +35,13 @@ function pagination() {
     });
 }
 
+/*
+ *   Función para obtener todos los registros disponibles en los mantenimientos de tablas (operación read).
+ *
+ *   Parámetros: api (ruta del servidor para obtener los datos).
+ *
+ *   Retorno: ninguno.
+ */
 
 function readRows(api) {
     $.ajax({
@@ -49,10 +70,10 @@ function readRows(api) {
 
 function readRowsModified(api, identifier) {
     $.ajax({
+            type: 'post',
             dataType: 'json',
             url: api,
-            data: identifier,
-            type: 'post'
+            data: identifier
         })
         .done(function (response) {
             // Si no hay datos se muestra un mensaje indicando la situación.
@@ -61,7 +82,6 @@ function readRowsModified(api, identifier) {
                 $('#detalle-modal').modal('close');
             }
             // Se envían los datos a la función del controlador para que llene la tabla en la vista.
-
             fillTableModified(response.dataset);
         })
         .fail(function (jqXHR) {

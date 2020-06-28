@@ -100,6 +100,22 @@ if (isset($_GET['action'])) {
                     $result['exception'] = 'Detalle incorrecto';
                 }
                 break;
+            case 'finishBill':
+                if ($carrito->setIdFactura($_SESSION['id_factura'])) {
+                    if ($carrito->setIdEstado(4)) {
+                        if ($carrito->finishBill()) {
+                            $result['status'] = 1;
+                            $result['message'] = 'Pedido finalizado correctamente';
+                        } else {
+                            $result['exception'] = 'Ocurrió un problema al finalizar el pedido';
+                        }
+                    } else {
+                        $result['exception'] = 'Estado incorrecto';
+                    }
+                } else {
+                    $result['exception'] = 'Pedido incorrecto';
+                }
+                break;
             default:
                 exit('Acción no disponible');
         }

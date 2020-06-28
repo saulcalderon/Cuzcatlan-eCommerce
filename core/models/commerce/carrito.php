@@ -171,10 +171,18 @@ class Carrito extends Validator
         return Database::executeRow($sql, $params);
     }
 
-    public function readOne(){
+    public function readOne()
+    {
         $sql = 'SELECT id_detalle_factura, cantidad FROM detalle_factura 
         WHERE id_detalle_factura = ?';
         $params = array($this->id_detalle);
-        return Database::getRow($sql,$params);
+        return Database::getRow($sql, $params);
+    }
+
+    public function finishBill()
+    {
+        $sql = 'UPDATE factura SET id_estado_factura = ? WHERE id_factura = ?';
+        $params = array($this->id_estado , $this->id_factura);
+        return Database::executeRow($sql, $params);
     }
 }

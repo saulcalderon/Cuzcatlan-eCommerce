@@ -56,5 +56,5 @@ Commerce::headerTemplate();
     </section>     
 </main>
 <?php
-Commerce::FooterTemplate();
+Commerce::FooterTemplate('');
 ?>
