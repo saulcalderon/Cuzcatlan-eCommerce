@@ -17,10 +17,10 @@ class Database
     {
         // Credenciales para establecer la conexión con la base de datos.
         $server = 'localhost';
-        $database = 'dbcuzcatlan';
+        $database = 'dbCuzcatlan';
         $username = 'postgres';
         // Cambiar contraseña dependiendo del usuario de la pc.
-        $password = 'viernes';
+        $password = 'ricaldone';
         // Se controlan las excepciones al momento de establecer conexión con el servidor de base de datos.
         try {
             // Se crea la conexión mediante la extensión PDO y el controlador para PostgreSQL. (René utiliza el puerto 5433, los demás 5432)

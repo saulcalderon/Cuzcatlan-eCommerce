@@ -22,13 +22,15 @@ Commerce::headerTemplate();
         </div>
         <div class="col s12 l9">
             <div class="row">
-                <div class="swiper-container producto">
+                <div class="swiper-container descuento">
                     <div class="swiper-wrapper" id="swiper"> 
                     
                     </div>
                 </div>
             </div>
         </div>
+            
+        
         
     </div>
 </main>
