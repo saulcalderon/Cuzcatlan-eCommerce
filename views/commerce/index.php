@@ -150,7 +150,7 @@ Commerce::headerTemplate();
                             <div class="card-content">
                                 <h6>Pintura de frutas de madera</h6>
                                 <p style="font-size: 1.5rem;">$12</p>
-                                <a onclick="addProduct(7,465,6.00)" class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">add_shopping_cart</i></a>
+                                <a onclick="addProduct(7,2,6.00)" class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">add_shopping_cart</i></a>
                             </div>
                         </div>
                     </div>

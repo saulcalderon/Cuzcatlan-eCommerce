@@ -4,6 +4,7 @@ const API_CARRITO = '../../core/api/commerce/carrito.php?action=';
 
 $(document).ready(function () {
     readCart();
+
 })
 
 //Función para leer los productos del carrito.
@@ -23,8 +24,10 @@ function readCart() {
                 </tr>
                 `;
                 $('#tbody-nav').html(content);
+                $('#tbody-carrito').html(content);
+
             }
-            if(response.dataset){
+            if (response.dataset) {
                 fillTable(response.dataset);
                 fillNav(response.dataset);
             }
@@ -39,15 +42,15 @@ function readCart() {
 };
 
 function fillTable(dataset) {
-    let content = '';
-    // Se recorre el conjunto de registros (dataset) fila por fila a través del objeto row.
-    let total = 0;
+    if (dataset.length) {
+        let content = '';
+        let total = 0;
 
-    dataset.forEach(function (row) {
-        let subtotal = (row.cantidad * row.precio_unitario);
-        total += subtotal;
-        // Se crean y concatenan las filas de la tabla con los datos de cada registro.
-        content += `
+        dataset.forEach(function (row) {
+            let subtotal = (row.cantidad * row.precio_unitario);
+            total += subtotal;
+            // Se crean y concatenan las filas de la tabla con los datos de cada registro.
+            content += `
             <tr>
                 <td><img class="materialboxed" src="../../resources/img/commerce/productos/pro (2).jpg" alt="" width="80" height="50"></td>
                 <td>${row.nombre}</td>
@@ -60,11 +63,28 @@ function fillTable(dataset) {
                 </td>
             </tr>
         `;
-    })
+        })
 
-    // Se agregan las filas al cuerpo de la tabla mediante su id para mostrar los registros.
-    $('#tbody-rows').html(content);
-    $('#precio').text(total.toFixed(2));
+        // Se agregan las filas al cuerpo de la tabla mediante su id para mostrar los registros.
+        $('#tbody-carrito').html(content);
+        $('#finalizar').removeClass('disabled');
+        $('#precio').text(total.toFixed(2));
+
+    } else {
+        let content = `
+                <tr>
+                    <td>No hay productos en su carrito.</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                `;
+        $('#tbody-nav').html(content);
+        $('#tbody-carrito').html(content);
+        $('#finalizar').addClass('disabled');
+    }
+    // Se recorre el conjunto de registros (dataset) fila por fila a través del objeto row.
+
 }
 
 function fillNav(dataset) {
@@ -128,7 +148,7 @@ function updateDetail(id) {
     // Se abre la caja de dialogo (modal) que contiene el formulario.
     $('#update').modal('open');
     // Se asigna el título para la caja de dialogo (modal).
-    $('#content').text(id);
+    $('#content').text('Modificar cantidad');
 
     $.ajax({
             dataType: 'json',
@@ -144,6 +164,7 @@ function updateDetail(id) {
                 // Se inicializan los campos del formulario con los datos del registro seleccionado previamente.
                 $('#id_detalle').val(response.dataset.id_detalle_factura);
                 $('#cantidad').val(response.dataset.cantidad);
+                $('#existencias').text('Existencias: ' + response.dataset.existencias);
                 console.log('correcto');
 
                 // Se actualizan los campos para que las etiquetas (labels) no queden sobre los datos.
@@ -216,18 +237,21 @@ function deleteDetail(id) {
 
 $('#finalizar').click(function (e) {
     e.preventDefault();
+
     $.ajax({
             url: API_CARRITO + 'finishBill',
             dataType: 'json',
         })
         .done(function (response) {
+            $('#finalizar').addClass('disabled');
             if (!response.status) {
                 sweetAlert(4, response.exception, null);
+            } else {
+                sweetAlert(1, response.message, null);
+                setTimeout(function () {
+                    window.location = 'http://localhost/Cuzcatlan-eCommerce/views/commerce/index.php'
+                }, 1500);
             }
-            sweetAlert(1, response.message, null);
-            setTimeout(function () {
-                window.location = 'http://localhost/Cuzcatlan-eCommerce/views/commerce/index.php'
-            }, 3000);
         })
         .fail(function (jqXHR) {
             // Se verifica si la API ha respondido para mostrar la respuesta, de lo contrario se presenta el estado de la petición.
@@ -238,4 +262,3 @@ $('#finalizar').click(function (e) {
             }
         });
 });
-

@@ -25,7 +25,7 @@ Commerce::headerTemplate();
                                         <th>Accion</th>
                                     </tr>
                                 </thead>
-                                <tbody id="tbody-rows">
+                                <tbody id="tbody-carrito">
                                 </tbody>
                             </table>
                             <div class="divider"></div>
@@ -36,7 +36,7 @@ Commerce::headerTemplate();
                                     <span>Gastos de envío incluidos</span>
                                 </div>
                                 <div class="col s12 pull-s1">
-                                    <a id="finalizar" class="waves-effect waves-light btn-large" type="submit">Finalizar compra</a>
+                                    <a id="finalizar" class="waves-effect waves-light btn-large disabled" type="submit">Finalizar compra</a>
                                 </div>
                             </div>
                         </div>
@@ -46,19 +46,25 @@ Commerce::headerTemplate();
         </div>
         <div id="update" class="modal">
             <div class="modal-content">
-                <h4 id="content"></h4>
-                <form method="post" id="updateForm">
-                    <input class="hide" type="text" id="id_detalle" name="id_detalle">
-                    <div class="row">
-                        <div class="input-field col s12 m6">
-                            <label for="cantidad">Cantidad</label>
-                            <input type="number" name="cantidad" id="cantidad">
+                <h4 id="content" class="center"></h4>
+                <div class="container">
+                    <form method="post" id="updateForm">
+                        <input class="hide" type="text" id="id_detalle" name="id_detalle">
+                        <div class="row">
+                            <div class="input-field col s12 m6">
+                                <label for="cantidad">Cantidad</label>
+                                <input type="number" name="cantidad" id="cantidad">
+                            </div>
+
+                            <div class="input-field col s12 m6">
+                                <button class="btn waves-effect waves-light" type="submit" name="action">Guardar
+                                    <i class="material-icons right">send</i>
+                                </button>
+                            </div>
                         </div>
-                        <div class="input-field col s12 m6">
-                            <button type="submit" class="btn waves-effect blue tooltipped" data-tooltip="Guardar"><i class="material-icons">save</i></button>
-                        </div>
-                    </div>
-                </form>
+                    </form>
+                    <h6 id="existencias" class="center"></h6>
+                </div>
             </div>
         </div>
     </section>

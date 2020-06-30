@@ -18,19 +18,15 @@ if (isset($_GET['action'])) {
             case 'createDetail':
                 if ($carrito->setIdCliente(/*$_POST['id_cliente']*/1)) {
                     if ($carrito->readBill2()) {
-                        //$_POST = $carrito->validateForm($_POST);
+                        $_POST = $carrito->validateForm($_POST);
                         if ($carrito->setIdProducto($_POST['id_producto'])) {
                             if ($carrito->setCantidad($_POST['cantidad'])) {
-                                // if ($carrito->setPrecio($_POST['precio_unitario'])) {
-                                if ($carrito->createDetail()) {
+                                if ($carrito->verifyProduct()) {
                                     $result['status'] = 1;
                                     $result['message'] = 'Producto agregado al carrito';
                                 } else {
-                                    $result['exception'] = 'Ha ocurrido un problema en el carrito';
+                                    $result['exception'] = 'Por favor no exceder la cantidad máxima del producto';
                                 }
-                                // } else {
-                                //     $result['exception'] = 'Precio incorrecto';
-                                // }
                             } else {
                                 $result['exception'] = 'Cantidad incorrecta';
                             }
@@ -68,7 +64,7 @@ if (isset($_GET['action'])) {
                             $result['status'] = 1;
                             $result['message'] = 'Cantidad modificada correctamente';
                         } else {
-                            $result['exception'] = 'Ocurrió un problema al modificar la cantidad';
+                            $result['exception'] = 'Por favor no exceder la cantidad máxima del producto';
                         }
                     } else {
                         $result['exception'] = 'Cantidad incorrecta';
@@ -80,8 +76,17 @@ if (isset($_GET['action'])) {
             case 'deleteDetail':
                 if ($carrito->setIdDetalle($_POST['id_detalle'])) {
                     if ($carrito->deleteDetail()) {
+                        // if ($carrito->setIdFactura($_SESSION['id_factura'])) {
+                        // if ($result['dataset'] = $carrito->readOneDetail()) {
                         $result['status'] = 1;
                         $result['message'] = 'Producto eliminado correctamente';
+                        // } else {
+                        //     $result['status'] = 1;
+                        //     $result['message'] = 'Sin productos en el carrito';
+                        // }
+                        // } else {
+                        //     $result['exception'] = 'Factura incorrecto';
+                        // }
                     } else {
                         $result['exception'] = Database::getException();
                     }
@@ -102,15 +107,20 @@ if (isset($_GET['action'])) {
                 break;
             case 'finishBill':
                 if ($carrito->setIdFactura($_SESSION['id_factura'])) {
-                    if ($carrito->setIdEstado(4)) {
-                        if ($carrito->finishBill()) {
-                            $result['status'] = 1;
-                            $result['message'] = 'Pedido finalizado correctamente';
+                    if ($result['dataset'] = $carrito->readOneDetail()) {
+                        if ($carrito->setIdEstado(4)) {
+                            if ($carrito->finishBill()) {
+                                $result['status'] = 1;
+                                $result['message'] = 'Pedido finalizado correctamente';
+                                $_SESSION['id_factura'] = null;
+                            } else {
+                                $result['exception'] = 'Ocurrió un problema al finalizar el pedido';
+                            }
                         } else {
-                            $result['exception'] = 'Ocurrió un problema al finalizar el pedido';
+                            $result['exception'] = 'Estado incorrecto';
                         }
                     } else {
-                        $result['exception'] = 'Estado incorrecto';
+                        $result['exception'] = 'Finalizar incorrecto';
                     }
                 } else {
                     $result['exception'] = 'Pedido incorrecto';
