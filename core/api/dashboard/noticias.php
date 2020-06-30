@@ -103,10 +103,10 @@ if (isset($_GET['action'])) {
                         if ($producto->setTitulo($_POST['titulo'])) {
                             if ($producto->setContenido($_POST['contenido'])) {
                                 if ($producto->setFecha($_POST['fecha'])) {
-                                    if ($producto->setEstado(isset($_POST['estado_producto']) ? 1 : 2)) {
+                                    if ($producto->setEstado(isset($_POST['estado']) ? 1 : 0)) {
                                         if ($producto->updateProducto()) {
                                             $result['status'] = 1;
-                                            $result['message'] = 'Producto modificado correctamente';
+                                            $result['message'] = 'Noticia modificada correctamente';
                                         } else {
                                             $result['exception'] = Database::getException();
                                         }
@@ -148,7 +148,7 @@ if (isset($_GET['action'])) {
                 }
                 break;
             case 'delete':
-                if ($producto->setId($_POST['id_producto'])) {
+                if ($producto->setId($_POST['id_noticia'])) {
                     if ($data = $producto->readOneProducto()) {
                         if ($producto->deleteProducto()) {
                             $result['status'] = 1;
@@ -167,24 +167,7 @@ if (isset($_GET['action'])) {
                     $result['exception'] = 'Producto incorrecto';
                 }
                 break;
-            case 'cantidadProductosCategoria':
-                if ($result['dataset'] = $producto->cantidadProductosCategoria()) {
-                    $result['status'] = 1;
-                } else {
-                    $result['exception'] = 'No hay datos disponibles';
-                }
-                break;
-            case 'readValoraciones':
-                if ($producto->setId($_POST['id_producto'])) {
-                    if ($result['dataset'] = $producto->readValoraciones()) {
-                        $result['status'] = 1;
-                    } else {
-                        $result['exception'] = 'Valoraciones inexistente';
-                    }
-                } else {
-                    $result['exception'] = 'Valoraciones incorrectas';
-                }
-                break;
+            
             case 'changeStatus':
                 if ($producto->setEstado($_POST['newEstado'])) {
                     if ($producto->setId($_POST['id_noticia'])) {

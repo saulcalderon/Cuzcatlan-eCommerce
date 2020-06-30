@@ -14,7 +14,7 @@ function fillTable(dataset) {
     dataset.forEach(function (row) {
         // Se establece un icono para el estado del producto.
 
-        (row.id_estado == 1) ? icon = 'visibility': icon = 'visibility_off';
+        (row.id_estado ) ? icon = 'visibility': icon = 'visibility_off';
         // Se crean y concatenan las filas de la tabla con los datos de cada registro.
         //console.log(row.id_estado + ' estado de la noticia ' + icon);
         content += `
@@ -88,7 +88,8 @@ function openUpdateModal(id) {
                 $('#titulo').val(response.dataset.titulo);
                 $('#contenido').val(response.dataset.contenido);
                 $('#fecha').val(response.dataset.fecha_registro);
-                (response.dataset.id_estado == 1) ? $('#estado').prop('checked', true): $('#estado').prop('checked', false);
+                (response.dataset.id_estado ) ? $('#estado').prop('checked', true): $('#estado').prop('checked', false);
+                
                 // Se actualizan los campos para que las etiquetas (labels) no queden sobre los datos.
                 M.updateTextFields();
             } else {
@@ -129,7 +130,7 @@ function openDeleteDialog(id) {
 function cambiar(estado, id) {
     let newEstado = null;
     if (estado == 1) {
-        newEstado = 2;
+        newEstado = 0;
     } else {
         newEstado = 1;
     }

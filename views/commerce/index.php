@@ -292,51 +292,13 @@ Commerce::headerTemplate();
         <h5 class="center-align">Conoce las últimas novedades que Cuzcatlán tiene para ti.</h5>
         <div class="container noticias">
             <!-- Cada una de las cartas de noticias -->
-            <div class="row">
-                <div class="col s12 m6 l4 margin">
-                    <div class="card">
-                        <div class="card-image">
-                            <img src="../../resources/img/commerce/img3.jpg" alt="">
-                            <span class="card-title">Nueva colección</span>
-                        </div>
-                        <div class="card-content">
-                            <h6>por Saúl Calderón | Enero 20, 2020</h6>
-                            <br>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad, ipsam accusamus blanditiis hic ducimus eos excepturi saepe ex temporibus voluptates commodi architecto! Aperiam autem eveniet delectus ea eos illo ex.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col s12 m6 l4">
-                    <div class="card">
-                        <div class="card-image">
-                            <img src="../../resources/img/commerce/img3.jpg" alt="">
-                            <span class="card-title">Nueva colección</span>
-                        </div>
-                        <div class="card-content">
-                            <h6>por Saúl Calderón | Enero 20, 2020</h6>
-                            <br>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad, ipsam accusamus blanditiis hic ducimus eos excepturi saepe ex temporibus voluptates commodi architecto! Aperiam autem eveniet delectus ea eos illo ex.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col s12 m6 l4 margin">
-                    <div class="card">
-                        <div class="card-image">
-                            <img src="../../resources/img/commerce/img3.jpg" alt="">
-                            <span class="card-title">Nueva colección</span>
-                        </div>
-                        <div class="card-content">
-                            <h6>por Saúl Calderón | Enero 20, 2020</h6>
-                            <br>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad, ipsam accusamus blanditiis hic ducimus eos excepturi saepe ex temporibus voluptates commodi architecto! Aperiam autem eveniet delectus ea eos illo ex.</p>
-                        </div>
-                    </div>
-                </div>
+            <div class="row" id= "noticias-index">
+               
             </div>
             <!-- Botón para ver más noticias -->
             <div class="row">
                 <div class="col s12 center-align">
-                    <a class="waves-effect waves-light btn-large margin"><i class="material-icons right">chevron_right</i>Ver más noticias</a>
+                    <a href="noticias.php" class="waves-effect waves-light btn-large margin"><i class="material-icons right">chevron_right</i>Ver más noticias</a>
                 </div>
             </div>
         </div>
@@ -347,5 +309,5 @@ Commerce::headerTemplate();
 </main>
 
 <?php
-Commerce::FooterTemplate();
+Commerce::FooterTemplate('index.js');
 ?>
