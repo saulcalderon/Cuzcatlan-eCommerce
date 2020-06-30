@@ -1,22 +1,36 @@
 // Constante para establecer la ruta y parámetros de comunicación con la API.
 const API_CARRITO = '../../core/api/commerce/carrito.php?action=';
 
+
 $(document).ready(function () {
     readCart();
+
 })
 
 //Función para leer los productos del carrito.
 function readCart() {
     $.ajax({
-        url: API_CARRITO + 'readCart',
-        dataType: 'json'
-    })
+            url: API_CARRITO + 'readCart',
+            dataType: 'json'
+        })
         .done(function (response) {
             if (!response.status) {
-                sweetAlert(4, response.exception, null);
+                let content = `
+                <tr>
+                    <td>No hay productos en su carrito.</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                `;
+                $('#tbody-nav').html(content);
+                $('#tbody-carrito').html(content);
+
             }
-            fillTable(response.dataset);
-            fillNav(response.dataset);
+            if (response.dataset) {
+                fillTable(response.dataset);
+                fillNav(response.dataset);
+            }
         })
         .fail(function (jqXHR) {
             if (jqXHR.status == 200) {
@@ -28,16 +42,17 @@ function readCart() {
 };
 
 function fillTable(dataset) {
-    let content = '';
-    // Se recorre el conjunto de registros (dataset) fila por fila a través del objeto row.
-    console.log(dataset);
+    if (dataset.length) {
+        let content = '';
+        let total = 0;
 
-    dataset.forEach(function (row) {
-        let subtotal = (row.cantidad * row.precio_unitario);
-        // Se crean y concatenan las filas de la tabla con los datos de cada registro.
-        content += `
+        dataset.forEach(function (row) {
+            let subtotal = (row.cantidad * row.precio_unitario);
+            total += subtotal;
+            // Se crean y concatenan las filas de la tabla con los datos de cada registro.
+            content += `
             <tr>
-                <td><img src="../../resources/img/commerce/productos/pro (2).jpg" alt="" width="80" height="50"></td>
+                <td><img class="materialboxed" src="../../resources/img/commerce/productos/pro (2).jpg" alt="" width="80" height="50"></td>
                 <td>${row.nombre}</td>
                 <td>${row.cantidad}</td>
                 <td>${row.precio_unitario}</td>
@@ -48,10 +63,28 @@ function fillTable(dataset) {
                 </td>
             </tr>
         `;
-    })
+        })
 
-    // Se agregan las filas al cuerpo de la tabla mediante su id para mostrar los registros.
-    $('#tbody-rows').html(content);
+        // Se agregan las filas al cuerpo de la tabla mediante su id para mostrar los registros.
+        $('#tbody-carrito').html(content);
+        $('#finalizar').removeClass('disabled');
+        $('#precio').text(total.toFixed(2));
+
+    } else {
+        let content = `
+                <tr>
+                    <td>No hay productos en su carrito.</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                `;
+        $('#tbody-nav').html(content);
+        $('#tbody-carrito').html(content);
+        $('#finalizar').addClass('disabled');
+    }
+    // Se recorre el conjunto de registros (dataset) fila por fila a través del objeto row.
+
 }
 
 function fillNav(dataset) {
@@ -82,12 +115,12 @@ $('#update').submit(function (event) {
     event.preventDefault();
     // Se comprueba si el id del registro esta asignado en el formulario para actualizar, de lo contrario se crea un registro.
     $.ajax({
-        type: 'post',
-        url: API_CARRITO + 'update',
-        data: $('#updateForm').serialize(),
-        dataType: 'json',
+            type: 'post',
+            url: API_CARRITO + 'update',
+            data: $('#updateForm').serialize(),
+            dataType: 'json',
 
-    })
+        })
         .done(function (response) {
             if (response.status) {
                 // Se cargan nuevamente las filas en la tabla de la vista después de agregar o modificar un registro.
@@ -115,22 +148,23 @@ function updateDetail(id) {
     // Se abre la caja de dialogo (modal) que contiene el formulario.
     $('#update').modal('open');
     // Se asigna el título para la caja de dialogo (modal).
-    $('#content').text(id);
+    $('#content').text('Modificar cantidad');
 
     $.ajax({
-        dataType: 'json',
-        url: API_CARRITO + 'readOne',
-        data: {
-            id_detalle: id
-        },
-        type: 'post'
-    })
+            dataType: 'json',
+            url: API_CARRITO + 'readOne',
+            data: {
+                id_detalle: id
+            },
+            type: 'post'
+        })
         .done(function (response) {
             // Se comprueba si la API ha retornado una respuesta satisfactoria, de lo contrario se muestra un mensaje de error.
             if (response.status) {
                 // Se inicializan los campos del formulario con los datos del registro seleccionado previamente.
                 $('#id_detalle').val(response.dataset.id_detalle_factura);
                 $('#cantidad').val(response.dataset.cantidad);
+                $('#existencias').text('Existencias: ' + response.dataset.existencias);
                 console.log('correcto');
 
                 // Se actualizan los campos para que las etiquetas (labels) no queden sobre los datos.
@@ -149,18 +183,17 @@ function updateDetail(id) {
         });
 }
 
-
 function addProduct(id, ct, pr) {
     $.ajax({
-        type: 'post',
-        url: API_CARRITO + 'createDetail',
-        data: {
-            id_producto: id,
-            cantidad: ct,
-            precio_unitario: pr
-        },
-        dataType: 'json',
-    })
+            type: 'post',
+            url: API_CARRITO + 'createDetail',
+            data: {
+                id_producto: id,
+                cantidad: ct,
+                precio_unitario: pr
+            },
+            dataType: 'json',
+        })
         .done(function (response) {
             if (!response.status) {
                 sweetAlert(4, response.exception, null);
@@ -179,11 +212,13 @@ function addProduct(id, ct, pr) {
 
 function deleteDetail(id) {
     $.ajax({
-        type: 'post',
-        url: API_CARRITO + 'deleteDetail',
-        data: { id_detalle: id },
-        dataType: 'json',
-    })
+            type: 'post',
+            url: API_CARRITO + 'deleteDetail',
+            data: {
+                id_detalle: id
+            },
+            dataType: 'json',
+        })
         .done(function (response) {
             if (!response.status) {
                 sweetAlert(4, response.exception, null);
@@ -200,80 +235,30 @@ function deleteDetail(id) {
         });
 }
 
+$('#finalizar').click(function (e) {
+    e.preventDefault();
 
-
-// // Función que prepara formulario para insertar un registro.
-// function openCreateModal() {
-//     // Se limpian los campos del formulario.
-//     $('#save-form')[0].reset();
-//     // Se abre la caja de dialogo (modal) que contiene el formulario.
-//     $('#save-modal').modal('open');
-//     // Se asigna el título para la caja de dialogo (modal).
-//     $('#modal-title').text('Crear categoría');
-//     // Se establece el campo de tipo archivo como obligatorio.
-//     $('#archivo_categoria').prop('required', true);
-// }
-
-// // Función que prepara formulario para modificar un registro.
-// function openUpdateModal(id) {
-//     // Se limpian los campos del formulario.
-//     $('#save-form')[0].reset();
-//     // Se abre la caja de dialogo (modal) que contiene el formulario.
-//     $('#save-modal').modal('open');
-//     // Se asigna el título para la caja de dialogo (modal).
-//     $('#modal-title').text('Modificar categoría');
-//     // Se establece el campo de tipo archivo como opcional.
-//     $('#archivo_categoria').prop('required', false);
-
-//     $.ajax({
-//         dataType: 'json',
-//         url: API_CATEGORIAS + 'readOne',
-//         data: {
-//             id_categoria: id
-//         },
-//         type: 'post'
-//     })
-//         .done(function (response) {
-//             // Se comprueba si la API ha retornado una respuesta satisfactoria, de lo contrario se muestra un mensaje de error.
-//             if (response.status) {
-//                 // Se inicializan los campos del formulario con los datos del registro seleccionado previamente.
-//                 $('#id_categoria').val(response.dataset.id_categoria_producto);
-//                 $('#nombre_categoria').val(response.dataset.categoria_producto);
-//                 // Se actualizan los campos para que las etiquetas (labels) no queden sobre los datos.
-//                 M.updateTextFields();
-//             } else {
-//                 sweetAlert(2, response.exception, null);
-//             }
-//         })
-//         .fail(function (jqXHR) {
-//             // Se verifica si la API ha respondido para mostrar la respuesta, de lo contrario se presenta el estado de la petición.
-//             if (jqXHR.status == 200) {
-//                 console.log(jqXHR.responseText);
-//             } else {
-//                 console.log(jqXHR.status + ' ' + jqXHR.statusText);
-//             }
-//         });
-// }
-
-// Evento para crear o modificar un registro.
-// $('#save-form').submit(function (event) {
-//     // Se evita recargar la página web después de enviar el formulario.
-//     event.preventDefault();
-//     // Se llama a la función que crea o actualiza un registro. Se encuentra en el archivo components.js
-//     // Se comprueba si el id del registro esta asignado en el formulario para actualizar, de lo contrario se crea un registro.
-//     if ($('#id_categoria').val()) {
-//         saveRow(API_CATEGORIAS, 'update', this, 'save-modal');
-//     } else {
-//         saveRow(API_CATEGORIAS, 'create', this, 'save-modal');
-//     }
-// });
-
-// // Función para establecer el registro a eliminar mediante el id recibido.
-// function openDeleteDialog(id) {
-//     // Se declara e inicializa un objeto con el id del registro que será borrado.
-//     let identifier = {
-//         id_categoria: id
-//     };
-//     // Se llama a la función que elimina un registro. Se encuentra en el archivo components.js
-//     confirmDelete(API_CATEGORIAS, identifier);
-// }
+    $.ajax({
+            url: API_CARRITO + 'finishBill',
+            dataType: 'json',
+        })
+        .done(function (response) {
+            $('#finalizar').addClass('disabled');
+            if (!response.status) {
+                sweetAlert(4, response.exception, null);
+            } else {
+                sweetAlert(1, response.message, null);
+                setTimeout(function () {
+                    window.location = 'http://localhost/Cuzcatlan-eCommerce/views/commerce/index.php'
+                }, 1500);
+            }
+        })
+        .fail(function (jqXHR) {
+            // Se verifica si la API ha respondido para mostrar la respuesta, de lo contrario se presenta el estado de la petición.
+            if (jqXHR.status == 200) {
+                console.log(jqXHR.responseText);
+            } else {
+                console.log(jqXHR.status + ' ' + jqXHR.statusText);
+            }
+        });
+});

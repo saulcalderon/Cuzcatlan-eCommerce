@@ -17,13 +17,13 @@ class Database
     {
         // Credenciales para establecer la conexión con la base de datos.
         $server = 'localhost';
-        $database = 'dbCuzcatlan';
+        $database = 'dbcuzcatlan';
         $username = 'postgres';
-        // Cambiar contraseña dependiendo del usuario de la pc.
-        $password = 'ricaldone';
+        // Cambiar dependiendo del usuario de la pc.
+        $password = 'Lula12';
         // Se controlan las excepciones al momento de establecer conexión con el servidor de base de datos.
         try {
-            // Se crea la conexión mediante la extensión PDO y el controlador para PostgreSQL. (René utiliza el puerto 5433, los demás 5432)
+            // Se crea la conexión mediante la extensión PDO y el controlador para PostgreSQL.
             self::$connection = new PDO('pgsql:host='.$server.';dbname='.$database.';port=5432', $username, $password);
             
         } catch(PDOException $error) {

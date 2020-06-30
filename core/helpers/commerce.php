@@ -1,17 +1,18 @@
 <?php
+
 /**
  *
  */
 class Commerce
 {
-  
-  public static function headerTemplate()
-  {
-      //Se activa o reanuda una sesión
-    session_start();
 
-    //Se imprime el encabezado del documento
-    print('<!DOCTYPE html>
+    public static function headerTemplate()
+    {
+        //Se activa o reanuda una sesión
+        session_start();
+
+        //Se imprime el encabezado del documento
+        print('<!DOCTYPE html>
     <html lang="es">
     <head>
         <!-- Se especifica la codificación de caracteres para el documento -->
@@ -33,14 +34,14 @@ class Commerce
     </head>
     <body>
     ');
-    // Se obtiene el nombre del archivo de la página web actual.
-    $filename = basename($_SERVER['PHP_SELF']);
-    // Se comprueba si existe una sesión de cliente para mostrar el menú de opciones, de lo contrario se muestra otro menú.
-    if (isset($_SESSION['id_cliente'])) {
-        // Se verifica si la página web actual es diferente a login.php y register.php, de lo contrario se direcciona a index.php
-        if ($filename != 'login.php' && $filename != 'registrarse.php') {
-            self::modals();
-            print('
+        // Se obtiene el nombre del archivo de la página web actual.
+        $filename = basename($_SERVER['PHP_SELF']);
+        // Se comprueba si existe una sesión de cliente para mostrar el menú de opciones, de lo contrario se muestra otro menú.
+        if (isset($_SESSION['id_cliente'])) {
+            // Se verifica si la página web actual es diferente a login.php y register.php, de lo contrario se direcciona a index.php
+            if ($filename != 'login.php' && $filename != 'registrarse.php') {
+                self::modals();
+                print('
                 <header>
                 <!-- Barra de Navegación -->
                 <div class="navbar-fixed">
@@ -68,13 +69,13 @@ class Commerce
                 </header>
                 <main>
             ');
+            } else {
+                header('location: index.php');
+            }
         } else {
-            header('location: index.php');
-        }
-    } else {
-        // Se verifica si la página web actual es diferente a index.php (Iniciar sesión) y a register.php (Crear primer usuario) para direccionar a index.php, de lo contrario se muestra un menú vacío.
-        if ($filename != 'carrito.php') {
-            print('
+            // Se verifica si la página web actual es diferente a index.php (Iniciar sesión) y a register.php (Crear primer usuario) para direccionar a index.php, de lo contrario se muestra un menú vacío.
+            if ($filename != 'carrito.php') {
+                print('
                 <header>
                 <!-- Barra de Navegación -->
                 <div class="navbar-fixed">
@@ -95,20 +96,39 @@ class Commerce
                                     <li><a href="crear_cuenta.php" class="menu-text">Registrarse</a></li>
                                 </ul>
                             </div>
-                        </div> 
-                    </nav>
-                </div>
-                </header>
-                <main>
-            ');
-        } else {
-            header('location: login.php');
+                        </div>
+                    </div>
+                </li>               
+                <li><div class="divider"></div></li>
+                <li>
+                    <div class="container gen">
+                        <table class="highlight responsive-table">
+                            <thead>
+                            <tr>
+                                <th></th>
+                                <th>Nombre</th>
+                                <th>Cantidad</th>
+                                <th>Precio</th>
+                            </tr>
+                            </thead>
+                            <tbody id="tbody-nav"></tbody>
+                        </table>
+                    </div>
+                </li>
+                <li>
+                    <a class="waves-effect waves-light btn-small" href="carrito.php">Ver todo</a>
+                </li>
+            </ul>
+        </header>');
+            } else {
+                header('location: login.php');
+            }
         }
     }
-  }
 
-  public static function footerTemplate($controller){
-    print(' 
+    public static function footerTemplate($controller)
+    {
+        print(' 
         <footer class="page-footer">
             <div class="container">
                 <div class="row">
@@ -151,18 +171,18 @@ class Commerce
             <!-- Importación de archivos JavaScript al final del documento para una carga optimizada -->
             <script src="../../resources/js/jquery-3.4.1.js" type="text/javascript"></script>
             <script src="../../resources/js/materialize.js" type="text/javascript"></script>
+            <script src="../../resources/js/swiper.js" type="text/javascript"></script>
             <script type="text/javascript" src="../../resources/js/sweetalert.min.js"></script>
             <script type="text/javascript" src="../../core/helpers/components.js"></script>
-            <script src="../../resources/js/swiper.js" type="text/javascript" ></script> 
             <script src="../../resources/js/commerce.js" type="text/javascript"></script>
             <script type="text/javascript" src="../../core/controllers/commerce/carrito.js"></script> 
             <script type="text/javascript" src="../../core/controllers/commerce/account.js"></script> 
-            <script type="text/javascript" src="../../core/controllers/commerce/'.$controller.'"></script> 
+            <script type="text/javascript" src="../../core/controllers/commerce/' . $controller . '"></script> 
             </body>
         </html>');
-  }
+    }
 
-/*
+    /*
     *   Método para imprimir las cajas de dialogo (modals) de editar pefil y cambiar contraseña.
     */
     private static function modals()
@@ -266,4 +286,3 @@ class Commerce
         ');
     }
 }
-?>

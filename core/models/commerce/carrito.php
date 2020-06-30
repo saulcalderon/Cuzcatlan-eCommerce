@@ -10,7 +10,7 @@ class Carrito extends Validator
     private $cantidad = null;
     private $precio = null;
     private $id_detalle = null;
-
+    private $nueva_cantidad = null;
 
 
     // Métodos para asignar valores a los atributos
@@ -132,8 +132,8 @@ class Carrito extends Validator
             $this->id_factura = $data['id_factura'];
             return true;
         } else {
-            $sql = 'INSERT INTO factura (id_cliente)
-            VALUES (?)';
+            $sql = 'INSERT INTO factura (id_cliente, id_estado_factura)
+            VALUES (?,1)';
             $params = array($this->id_cliente);
             if (Database::executeRow($sql, $params)) {
                 $sql = 'SELECT id_factura FROM factura WHERE id_cliente = ? AND id_estado_factura = 1';
@@ -147,12 +147,25 @@ class Carrito extends Validator
         }
     }
 
-    public function createDetail()
+    public function verifyProduct()
     {
-        $sql = 'INSERT INTO detalle_factura (cantidad, precio_unitario, id_factura, id_producto)
+        $sql = 'SELECT id_detalle_factura, cantidad, existencias FROM detalle_factura INNER JOIN producto USING(id_producto) WHERE id_factura= ? and id_producto = ? ';
+        $params = array($this->id_factura, $this->id_producto);
+        if ($data = Database::getRow($sql, $params)) {
+            $data['cantidad'] += intval($this->cantidad);
+            if ($data['cantidad'] > $data['existencias']) {
+                return false;
+            } else {
+                $sql = 'UPDATE detalle_factura SET cantidad = ? WHERE id_detalle_factura = ?';
+                $params = array($data['cantidad'], $data['id_detalle_factura']);
+                return Database::executeRow($sql, $params);
+            }
+        } else {
+            $sql = 'INSERT INTO detalle_factura (cantidad, precio_unitario, id_factura, id_producto)
                 VALUES (?, ?, ?, ?)';
-        $params = array($this->cantidad, 6.00, $this->id_factura, $this->id_producto);
-        return Database::executeRow($sql, $params);
+            $params = array($this->cantidad, 6.00, $this->id_factura, $this->id_producto);
+            return Database::executeRow($sql, $params);
+        }
     }
 
     public function deleteDetail()
@@ -164,17 +177,33 @@ class Carrito extends Validator
 
     public function updateDetail()
     {
-        $sql = 'UPDATE detalle_factura
+        $sql = 'SELECT existencias FROM detalle_factura 
+        INNER JOIN producto USING(id_producto) WHERE id_detalle_factura = ?';
+        $params = array($this->id_detalle);
+        $data = Database::getRow($sql, $params);
+        if (intval($this->cantidad) < $data['existencias']) {
+            $sql = 'UPDATE detalle_factura
                 SET cantidad = ?
                 WHERE id_detalle_factura = ?';
-        $params = array($this->cantidad, $this->id_detalle);
-        return Database::executeRow($sql, $params);
+            $params = array($this->cantidad, $this->id_detalle);
+            return Database::executeRow($sql, $params);
+        } else {
+            return false;
+        }
     }
 
-    public function readOne(){
-        $sql = 'SELECT id_detalle_factura, cantidad FROM detalle_factura 
-        WHERE id_detalle_factura = ?';
+    public function readOne()
+    {
+        $sql = 'SELECT id_detalle_factura, cantidad, existencias FROM detalle_factura 
+        INNER JOIN producto USING(id_producto) WHERE id_detalle_factura = ?';
         $params = array($this->id_detalle);
-        return Database::getRow($sql,$params);
+        return Database::getRow($sql, $params);
+    }
+
+    public function finishBill()
+    {
+        $sql = 'UPDATE factura SET id_estado_factura = ? WHERE id_factura = ?';
+        $params = array($this->id_estado, $this->id_factura);
+        return Database::executeRow($sql, $params);
     }
 }
