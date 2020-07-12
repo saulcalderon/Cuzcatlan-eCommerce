@@ -15,7 +15,20 @@ function readCart() {
         })
         .done(function (response) {
             if (!response.status) {
-                let content = `
+                let page = 'http://localhost/Cuzcatlan-eCommerce/views/commerce/shopping_cart.php'
+                let content;
+                
+                if (window.location == page) {
+                     content = `
+                <tr>
+                    <td>There are no products in your shopping cart.</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                `;
+                } else {
+                    content = `
                 <tr>
                     <td>No hay productos en su carrito.</td>
                     <td></td>
@@ -23,6 +36,8 @@ function readCart() {
                     <td></td>
                 </tr>
                 `;
+                }
+
                 $('#tbody-nav').html(content);
                 $('#tbody-carrito').html(content);
 
@@ -71,14 +86,29 @@ function fillTable(dataset) {
         $('#precio').text(total.toFixed(2));
 
     } else {
-        let content = `
-                <tr>
-                    <td>No hay productos en su carrito.</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                `;
+        let page = 'http://localhost/Cuzcatlan-eCommerce/views/commerce/shopping_cart.php'
+        let content;
+        
+        if (window.location == page) {
+             content = `
+        <tr>
+            <td>There are no products in your shopping cart.</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        `;
+        } else {
+            content = `
+        <tr>
+            <td>No hay productos en su carrito.</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        `;
+        }
+
         $('#tbody-nav').html(content);
         $('#tbody-carrito').html(content);
         $('#finalizar').addClass('disabled');

@@ -47,20 +47,20 @@ class Commerce
                 <div class="navbar-fixed">
                     <nav>
                         <div class="nav-wrapper">
-                            <a href="index.php" class="logo-cuzcatlan brand-logo margin-logo">Cuzcatlán</a>
+                            <a href="index_en.php" class="logo-cuzcatlan brand-logo margin-logo">Cuzcatlán</a>
                             <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
                             <div class="container margin-left">
                                 <ul class="left hide-on-med-and-down">
-                                    <li><a href="productos.php" class="menu-text">Productos</a></li>
-                                    <li><a href="noticias.php" class="menu-text">Noticias</a></li>
-                                    <li><a href="contacto.php" class="menu-text">Contáctanos</a></li>
+                                    <li><a href="productos.php" class="menu-text">Products</a></li>
+                                    <li><a href="noticias.php" class="menu-text">News</a></li>
+                                    <li><a href="contact.php" class="menu-text">Contact Us</a></li>
                                 </ul>
                                 <ul class="right hide-on-med-and-down">
                                 
                                     <li><h5>|</h5></li>
-                                    <li><a href="#" onclick="openModalProfile()" ><i class="material-icons left">account_circle</i>Mi usuario</a></li>
-                                    <li><a href="carrito.php"><i class="material-icons left">shopping_cart</i>Carrito</a></li>
-                                    <li><a href="#" onclick="logOut()"><i class="material-icons left">close</i>Cerrar sesión</a></li>
+                                    <li><a href="#" onclick="openModalProfile()" ><i class="material-icons left">account_circle</i>My account</a></li>
+                                    <li><a href="shopping_cart.php"><i class="material-icons left">shopping_cart</i>Cart</a></li>
+                                    <li><a href="#" onclick="logOut()"><i class="material-icons left">close</i>Sign out</a></li>
                                 </ul>
                             </div>
                         </div> 
@@ -85,15 +85,15 @@ class Commerce
                             <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
                             <div class="container margin-left">
                                 <ul class="left hide-on-med-and-down">
-                                    <li><a href="productos.php" class="menu-text">Productos</a></li>
-                                    <li><a href="noticias.php" class="menu-text">Noticias</a></li>
-                                    <li><a href="contacto.php" class="menu-text">Contáctanos</a></li>
+                                    <li><a href="productos.php" class="menu-text">Products</a></li>
+                                    <li><a href="noticias.php" class="menu-text">News</a></li>
+                                    <li><a href="contacto.php" class="menu-text">Contact Us</a></li>
                                 </ul>
                                 <ul class="right hide-on-med-and-down">
                                     <li><a href="" data-target="slide-out" class="sidenav-trigger show-on-large"><i class="material-icons">shopping_cart</i></a></li>
                                     <li><h5>|</h5></li>
-                                    <li><a href="iniciar_sesion.php" class="menu-text">Iniciar sesión</a></li>
-                                    <li><a href="crear_cuenta.php" class="menu-text">Registrarse</a></li>
+                                    <li><a href="iniciar_sesion.php" class="menu-text">Log In</a></li>
+                                    <li><a href="crear_cuenta.php" class="menu-text">Sign Up</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -114,7 +114,7 @@ class Commerce
             <div class="container">
                 <div class="row">
                     <div class="col l6 s12">
-                        <h5 class="white-text">Síguenos en nuestras redes sociales</h5>
+                        <h5 class="white-text">Follow us on our social networks</h5>
                         <div class="row margin">
                             <div class="col s12 m6 center-align">
                                 <a href="https://www.facebook.com/">
@@ -131,21 +131,19 @@ class Commerce
                         </div>
                     </div>
                     <div class="col l4 offset-l2 s12">
-                        <h5 class="white-text">Menú inferior</h5>
+                        <h5 class="white-text">Bottom menu</h5>
                         <ul>
-                            <li><a class="grey-text text-lighten-3" href="about_us.php">¿Quiénes somos?</a></li>
-                            <li><a class="grey-text text-lighten-3" href="shopping_cart.php">Carrito</a></li>
-                            <li><a class="grey-text text-lighten-3" href="my_account.php">Mi cuenta</a></li>
-                            <li><a class="grey-text text-lighten-3" href="payment.php">Completar transacción</a></li>
-                            <li><a class="grey-text text-lighten-3" href="restore_password.php">Restablecer contraseña</a></li>
+                            <li><a class="grey-text text-lighten-3" href="about_us.php">About Us</a></li>
+                            <li><a class="grey-text text-lighten-3" href="shopping_cart.php">Cart</a></li>
+                            <li><a class="grey-text text-lighten-3" href="restore_password.php">Reset password</a></li>
                         </ul>
                     </div>
                 </div>
             </div>
             <div class="footer-copyright">
                 <div class="container">
-                © 2020 Derechos reservados por Cuzcatlán
-                <a class="grey-text text-lighten-4 right" href="#!">Términos y condiciones</a>
+                © 2020 All rights reserved by Cuzcatlán
+                <a class="grey-text text-lighten-4 right" href="#!">Terms and Conditions</a>
                 </div>
             </div>
         </footer>
