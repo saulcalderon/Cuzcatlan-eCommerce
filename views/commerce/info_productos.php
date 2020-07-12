@@ -8,7 +8,7 @@ Commerce::headerTemplate();
         <div class="col s12 m6">
             <!-- Slider de fotos del producto -->
             <div class="swiper-container gallery-top margin">
-                <div class="swiper-wrapper">
+                <div class="swiper-wrapper" id="swiper">
                     <div class="swiper-slide fondo-imagen" style="background-image:url(../../resources/img/commerce/2.1.png);"></div>
                     <div class="swiper-slide fondo-imagen" style="background-image:url(../../resources/img/commerce/3.1.png);"></div>
                     <div class="swiper-slide fondo-imagen" style="background-image:url(../../resources/img/commerce/1.2.png);"></div>
@@ -28,35 +28,35 @@ Commerce::headerTemplate();
         <div class="col s12 m6 margin">
             <div class="container gen">
                 <!-- Información del producto-->
-                <h4>Pintura de frutas de madera</h4>
+                <h4>River Hammock</h4>
                 <div class="row">
                         <div class="col s12 m6">
                             <h5>$20</h5>
                         </div>
                         <div class="col s12 m6">
-                            <h5>Cat.Hogar</h5>
+                            <h5>Cat.Home</h5>
                         </div>
                         <div class="col s12">
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus hic neque quos amet aspernatur magnam consequatur sapiente non quas cumque ut deleniti facilis eligendi, ipsam reiciendis reprehenderit iste tempora numquam.</p>
+                            <p>A product designed by the best weaver using perfect and colour schemem this is the ideal product for Home if you like artisan.</p>
                         </div>
                 </div>
                 <div class="row">
                         <div class="col s12 m3">
-                            <h5>Cantidad:</h5>
+                            <h5>Quantity:</h5>
                         </div>
                         <div class="col s12 m2">
                             <input id="number" type="number" value="1">
                         </div>
                         <div class="col s12 m4 push-m2">
-                            <h5>4 disponibles</h5>
+                            <h5>4 available</h5>
                         </div>
                 </div>
                 <div class="row">
                         <div class="col s6">
-                            <a class="waves-effect waves-light btn-large margin"><i class="material-icons left">add_shopping_cart</i>Agregar al carrito</a>
+                            <a class="waves-effect waves-light btn-large margin" href="carrito.php"><i class="material-icons left">add_shopping_cart</i>Add to Shopping Cart</a>
                         </div>
                         <div class="col s6">
-                            <a class="waves-effect waves-light btn-large margin"><i class="material-icons right">arrow_downward</i>Comprar ahora!</a>
+                            <a class="waves-effect waves-light btn-large margin" href="pago.php"><i class="material-icons right">arrow_downward</i>Buy it Now!</a>
                         </div>
                 </div>
                 <div class="row">
@@ -69,7 +69,7 @@ Commerce::headerTemplate();
                             </p>
                         </div>-->
                         <div class="col s7 margin">
-                            <h6>Proveedor: <span>Mercado de Artesanías</span></h6>
+                            <h6>Provider: <span>Craft Market</span></h6>
                         </div>
                 </div>
             </div>
@@ -77,7 +77,7 @@ Commerce::headerTemplate();
     </div>
     <div class="divider margin"></div>
     <!-- Apartado de valoraciones y reseñas -->
-    <h1 class="center-align slider-text margin-separador">Valoraciones y reseñas</h1>
+    <h1 class="center-align slider-text margin-separador">Ratings & Reviews</h1>
     <div class="container gen">
         <!-- Información en general de valoraciones -->
         <div class="row">
@@ -96,7 +96,7 @@ Commerce::headerTemplate();
                         <i class="material-icons">star_half</i>
                     </div>
                     <div class="col s12">
-                        <h6>16 valoraciones</h6>
+                        <h6>16 reviews</h6>
                     </div>
                 </div>
             </div>
@@ -156,7 +156,7 @@ Commerce::headerTemplate();
                 </div>
             </div>
             <div class="col s4">
-                <a class="waves-effect waves-light btn-large margin"><i class="material-icons right">chevron_right</i>Escribir una reseña</a>
+                <a class="waves-effect waves-light btn-large margin"><i class="material-icons right">chevron_right</i>Write us your opinion</a>
             </div>
         </div>
         <!-- Valoraciones de los usuarios -->
@@ -168,10 +168,10 @@ Commerce::headerTemplate();
                             </div>
                             <div class="card-stacked">
                                 <div class="card-content">
-                                    <h4 class="header">Nueva colección: Lula's shirts, te trae lo mejor en comodidad y estilo</h4>
-                                    <p>por Saúl Calderón  |  Enero 20, 2020</p>
-                                    <p>Siempre con los mejores proveedores, Lula's shirts es el nuevo estilo proporcionado por el prestigioso empresario y diseñador de moda Saúl Calderón. </p>
-                                    <a href="#">Ver más</a>
+                                    <h4 class="header">The New Collection: Lula's shirts, offers you the best in comfort and style clothes</h4>
+                                    <p>By Saúl Calderón  |  January 20, 2020</p>
+                                    <p>Always with the best providers, Lula's shirts is the new look given by the prestigious entreprenour & fashion designer Saúl Calderón. </p>
+                                    <a href="#">Show more</a>
                                 </div>
                             </div>
                         </div>
@@ -180,7 +180,7 @@ Commerce::headerTemplate();
         </div>
     <div class="row">
         <div class="col s12 center-align">
-            <a class="waves-effect waves-light btn-large margin"><i class="material-icons right">chevron_right</i>Ver más reseñas</a>
+            <a class="waves-effect waves-light btn-large margin"><i class="material-icons right">chevron_right</i>Show more opinions</a>
         </div>
     </div>
 </main>

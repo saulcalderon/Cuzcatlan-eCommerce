@@ -9,6 +9,28 @@
  *
  *   Retorno: ninguno.
  */
+function carga() {
+    let carga = `
+    <div id="carga" class="center">
+        <div class="preloader-wrapper active">
+            <div class="spinner-layer spinner-red-only">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div>
+                <div class="gap-patch">
+                    <div class="circle"></div>
+                </div>
+                <div class="circle-clipper right">
+                    <div class="circle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+`;
+    $('.load').html(carga);
+}
+
+
 function pagination() {
     $('.pagination').pageMe({
         pagerSelector: '#myPager',
@@ -34,8 +56,8 @@ function readRows(api) {
             }
             // Se envían los datos a la función del controlador para que llene la tabla en la vista.
             fillTable(response.dataset);
-            $('#myPager').empty();
-            pagination();
+            //$('#myPager').empty();
+            //pagination();
         })
         .fail(function (jqXHR) {
             // Se verifica si la API ha respondido para mostrar la respuesta, de lo contrario se presenta el estado de la petición.

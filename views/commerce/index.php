@@ -141,14 +141,14 @@ Commerce::headerTemplate();
             </div>
             <!-- Cada una de las cartas de los diferentes productos -->
             <div class="swiper-container producto">
-                <div class="swiper-wrapper" id="swiper">
-                    
+                <div class="swiper-wrapper" id="swiper"> 
+                      
                 </div>
                 <!-- Paginación de los productos -->
                 <div class="swiper-pagination prod"></div>
                 <div class="swiper-button-prev"></div>
                 <div class="swiper-button-next"></div>
-            </div>
+            </div> 
             <!-- Botones para el control deslizante de los productos -->
 
         </article>

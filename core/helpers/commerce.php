@@ -107,7 +107,7 @@ class Commerce
     }
   }
 
-  public static function footerTemplate($controller){
+  public static function footerTemplate(){
     print(' 
         <footer class="page-footer">
             <div class="container">
@@ -132,7 +132,7 @@ class Commerce
                     <div class="col l4 offset-l2 s12">
                         <h5 class="white-text">Menú inferior</h5>
                         <ul>
-                            <li><a class="grey-text text-lighten-3" href="about_us.php">¿Quiénes somos?</a></li>
+                            <li><a class="grey-text text-lighten-3" href="nosotros.php">¿Quiénes somos?</a></li>
                             <li><a class="grey-text text-lighten-3" href="shopping_cart.php">Carrito</a></li>
                             <li><a class="grey-text text-lighten-3" href="my_account.php">Mi cuenta</a></li>
                             <li><a class="grey-text text-lighten-3" href="payment.php">Completar transacción</a></li>
@@ -157,7 +157,7 @@ class Commerce
             <script src="../../resources/js/commerce.js" type="text/javascript"></script>
             <script type="text/javascript" src="../../core/controllers/commerce/carrito.js"></script> 
             <script type="text/javascript" src="../../core/controllers/commerce/account.js"></script> 
-            <script type="text/javascript" src="../../core/controllers/commerce/'.$controller.'"></script> 
+            <script type="text/javascript" src="../../core/controllers/commerce/productos.js"></script> 
             </body>
         </html>');
   }

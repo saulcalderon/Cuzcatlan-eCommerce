@@ -27,7 +27,7 @@ function fillTable(dataset) {
                     <div class="card-content">
                         <h6>${row.nombre}</h6>
                         <p style="font-size: 1.5rem;">${row.precio_unitario}</p>
-                        <a class="waves-effect waves-light" href="info_productos.php"><i class="material-icons right"></i>Ver más</a>
+                        <a class="waves-effect waves-light" href="info_productos.php"><i class="material-icons right"></i>Show more</a>
                 </div>
             </div>
         </div>
