@@ -1,11 +1,25 @@
 /*********************
   General
 **********************/
+main {
+    flex: 1 0 auto;
+}
+
+#carga {
+    margin: 10rem 0;
+}
+
+.swal-overlay {
+    overflow-y: hidden;
+}
+
 /* Cambiar el color y la fuente del sitio */
 body {
     background-color: #f0f0f0;
     font-family: 'Montserrat';
-    
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
 }
 
 .row {
@@ -134,6 +148,10 @@ nav ul a:hover {
 /*********************
   Sección Mapa de El Salvador
 **********************/
+path {
+    cursor: pointer;
+}
+
 #AH:hover {
     fill: goldenrod;
 }

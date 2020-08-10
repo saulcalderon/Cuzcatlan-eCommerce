@@ -1,30 +1,33 @@
 document.addEventListener('DOMContentLoaded', function () {
     M.AutoInit();
+
     var elems = document.querySelectorAll('.slider');
     var instances = M.Slider.init(elems, {
         indicators: false,
         height: 500
     });
+
     var elems = document.querySelectorAll('.carrito');
     var instances = M.Sidenav.init(elems, {
         edge: 'right'
     });
 
-});
+})
 
-function cerrar(){
+function cerrar() {
     // var instance = M.Sidenav.getInstance('.carrito');
     // instance.close();
     $('.carrito').sidenav('close');
 }
 
-
 //----------------------------------//
 // Instancias de la librería Swiper //
 //----------------------------------//
 
-var swiper = new Swiper('.swiper-container.producto', {
+var swiper = new Swiper('.swiper-container', {
     autoHeight: true,
+    // slidesPerView: 4,
+    // spaceBetween: 25,
     breakpoints: {
         // when window width is >= 320px
         320: {

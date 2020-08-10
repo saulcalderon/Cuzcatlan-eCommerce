@@ -272,8 +272,7 @@ class Productos extends Validator
 
     public function readValoraciones()
     {
-        $sql = 'SELECT id_valoracion, pr.nombre, pr.id_producto ,valoracion, comentario, cl.nombre AS cliente, id_estado AS estado FROM valoracion vl INNER JOIN cliente cl USING(id_cliente) 
-        INNER JOIN producto pr USING(id_producto) WHERE id_producto = ?';
+        $sql = 'SELECT id_valoracion, pr.nombre, pr.id_producto ,valoracion, comentario, cl.nombre AS cliente, vl.id_estado AS estado FROM valoracion vl INNER JOIN cliente cl USING(id_cliente) INNER JOIN producto pr USING(id_producto) WHERE id_producto = ?';
         $params = array($this->id);
         return Database::getRows($sql, $params);
     }
