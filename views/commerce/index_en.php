@@ -109,12 +109,12 @@ Commerce::headerTemplate();
                 <table id="p-dep" class="highlight responsive-table hide">
                     <thead>
                         <tr>
-                            <th>Imagen</th>
-                            <th>Producto</th>
-                            <th>Existencias</th>
-                            <th>Precio</th>
-                            <th>Categoría</th>
-                            <th>Proveedor</th>
+                            <th>Image</th>
+                            <th>Product</th>
+                            <th>Stocks</th>
+                            <th>Price</th>
+                            <th>Category</th>
+                            <th>Supplier</th>
                         </tr>
                     </thead>
                     <tbody id="tbody-dep"></tbody>
@@ -122,7 +122,7 @@ Commerce::headerTemplate();
                 <div class="load"></div>
             </div>
             <div class="modal-footer">
-                <a href="#!" class="modal-close waves-effect waves-green btn-flat">Volver</a>
+                <a href="#!" class="modal-close waves-effect waves-green btn-flat">Back</a>
             </div>
         </div>
     </section>
@@ -141,8 +141,54 @@ Commerce::headerTemplate();
             </div>
             <!-- Cada una de las cartas de los diferentes productos -->
             <div class="swiper-container producto">
-                <div class="swiper-wrapper" id="swiper">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <div class="card small">
+                            <div class="card-image ">
+                                <img src="../../resources/img/commerce/productos/pro (1).jpg">
+                            </div>
+                            <div class="card-content">
+                                <h6>Pintura de frutas de madera</h6>
+                                <p style="font-size: 1.5rem;">$12</p>
+                                <!-- <a href="#" onclick="addProduct(7,2,6.00)">Ver</a> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="card small">
+                            <div class="card-image">
+                                <img src="../../resources/img/commerce/productos/pro (2).jpg">
+                            </div>
+                            <div class="card-content">
+                                <h6>Pintura religiosa</h6>
+                                <p style="font-size: 1.5rem;">$340</p>
+                                <!-- <a href="#" onclick="addProduct(6,7,12.00)">Ver</a> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="card small">
+                            <div class="card-image ">
+                                <img src="../../resources/img/commerce/productos/pro (3).jpg">
+                            </div>
+                            <div class="card-content">
+                                <h6>Pintura de frutas de madera</h6>
+                                <p style="font-size: 1.5rem;">$12</p>
 
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="card small">
+                            <div class="card-image">
+                                <img src="../../resources/img/commerce/productos/pro (4).jpg">
+                            </div>
+                            <div class="card-content">
+                                <h6>Pintura religiosa</h6>
+                                <p style="font-size: 1.5rem;">$340</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <!-- Paginación de los productos -->
                 <div class="swiper-pagination prod"></div>
@@ -168,31 +214,31 @@ Commerce::headerTemplate();
                     <div class="swiper-slide">
                         <div class="card small">
                             <div class="card-image ">
-                                <img src="../../resources/img/commerce/3.1.png">
+                                <img src="../../resources/img/commerce/productos/pro (5).jpg">
                             </div>
                             <div class="card-content">
                                 <h6>Pintura de frutas de madera</h6>
                                 <p style="font-size: 1.5rem;">$12</p>
-                                <a href="#" onclick="addProduct(7,2,6.00)">Ver</a>
+                                <!-- <a href="#" onclick="addProduct(7,2,6.00)">Ver</a> -->
                             </div>
                         </div>
                     </div>
                     <div class="swiper-slide">
                         <div class="card small">
                             <div class="card-image">
-                                <img src="../../resources/img/commerce/3.1.png">
+                                <img src="../../resources/img/commerce/productos/pro (6).jpg">
                             </div>
                             <div class="card-content">
                                 <h6>Pintura religiosa</h6>
                                 <p style="font-size: 1.5rem;">$340</p>
-                                <a href="#" onclick="addProduct(6,7,12.00)">Ver</a>
+                                <!-- <a href="#" onclick="addProduct(6,7,12.00)">Ver</a> -->
                             </div>
                         </div>
                     </div>
                     <div class="swiper-slide">
                         <div class="card small">
                             <div class="card-image ">
-                                <img src="../../resources/img/commerce/3.1.png">
+                                <img src="../../resources/img/commerce/productos/pro (7).jpg">
                             </div>
                             <div class="card-content">
                                 <h6>Pintura de frutas de madera</h6>
@@ -204,12 +250,11 @@ Commerce::headerTemplate();
                     <div class="swiper-slide">
                         <div class="card small">
                             <div class="card-image">
-                                <img src="../../resources/img/commerce/3.1.png">
+                                <img src="../../resources/img/commerce/productos/pro (8).jpg">
                             </div>
                             <div class="card-content">
                                 <h6>Pintura religiosa</h6>
                                 <p style="font-size: 1.5rem;">$340</p>
-
                             </div>
                         </div>
                     </div>
