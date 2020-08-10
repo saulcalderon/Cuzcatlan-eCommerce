@@ -1,16 +1,16 @@
 <?php
-require_once('../../core/helpers/templates.php');
-Templates::headerTemplate();
+require_once('../../core/helpers/commerce.php');
+Commerce::headerTemplate();
 ?>
 <!-- Contenido principal -->
 <main>
     <!-- Header de la página de la información -->
-    <h5 class="center-align">Acerca de Cuzcatlán</h5>
-    <h1 class="center-align margin slider-text">Más que una tienda, Historia y Cultura</h1>
+    <h5 class="center-align">About Cuzcatlán</h5>
+    <h1 class="center-align margin slider-text">More than a Store, History & Culture</h1>
     <div class="container">
-        <h6 class="center-align margin-separador ">Cuzcatlán nace como una empresa de venta online de diferentes tipos de
-        artesanías, creadas en distintos departamentos y municipios del país, cada una 
-        con un estilo que caracteriza a las poblaciones donde se crean.</h6>
+        <h6 class="center-align margin-separador ">Cuzcatlán was born as an online sell company about different kind of
+        handicraft, made in different departments and towns around the country, each one  
+        with a unique style that identifies every population where were they created.</h6>
     </div>
     <!-- Cartas para la misión, visión y valores -->
     <div class="row">
@@ -18,8 +18,8 @@ Templates::headerTemplate();
         <div class="col s12 m6 l4 margin">
             <div class="card small">
                 <div class="card-content">
-                    <h4 class="center-align">Misión</h4>
-                    <p>Expandir la historia y cultura de todos los departamentos donde por medio de las creaciones a mano, o de los diferentes materiales, representan un significado del origen y lo expresan mediante el arte.</p>
+                    <h4 class="center-align">Mission</h4>
+                    <p>Expand the history and culture of all departaments through creations, or different materials, can show a meaning of the origin and express it through art.</p>
                 </div>
             </div>
         </div>
@@ -27,8 +27,8 @@ Templates::headerTemplate();
         <div class="col s12 m6 l4 margin">
             <div class="card small">
                 <div class="card-content">
-                    <h4 class="center-align">Visión</h4>
-                    <p>Ser para el año 2025 una de las tiendas online con mayor expansión el mercado salvadoreño</p>
+                    <h4 class="center-align">Vision</h4>
+                    <p>Be the 2025 a store with the further expansion in salvadorian market</p>
                 </div>
             </div>
         </div>
@@ -36,19 +36,19 @@ Templates::headerTemplate();
         <div class="col s12 l4 margin">
             <div class="card small">
                 <div class="card-content">
-                    <h4 class="center-align">Valores</h4>
+                    <h4 class="center-align">Values</h4>
                     <ul class="center-align">
-                        <li>Compromiso</li>
-                        <li>Honestidad</li>
-                        <li>Transparencia</li>
-                        <li>Integridad</li>
+                        <li>Compromise</li>
+                        <li>Honesty</li>
+                        <li>Transparency</li>
+                        <li>Integrity</li>
                     </ul>
                 </div>
             </div>
         </div>
     </div>
     <!-- Patrocinadores -->
-    <h1 class="center-align slider-text margin">Patrocinadores</h1>
+    <h1 class="center-align slider-text margin">Sponsors</h1>
     <div class="patrocinadores">
         <div class="container">
             <div class="row margin">
@@ -72,5 +72,5 @@ Templates::headerTemplate();
     </div>
 </main>
 <?php
-Templates::FooterTemplate();
+Commerce::FooterTemplate();
 ?>

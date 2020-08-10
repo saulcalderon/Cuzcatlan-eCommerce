@@ -2,7 +2,7 @@
 /*
 *	Clase para manejar la tabla productos de la base de datos.
 */
-class Productos extends Validator
+class Descuento extends Validator
 {
     // Declaración de atributos (propiedades).
     private $id = null;
@@ -12,7 +12,7 @@ class Productos extends Validator
     private $existencias = null;
     private $imagen = null;
     private $archivo = null;
-    private $categoria = null;
+    private $id_categoria = null;
     private $estado = null;
     private $ruta = '../../../resources/img/productos/';
     private $cliente = null;
@@ -82,10 +82,10 @@ class Productos extends Validator
         }
     }
 
-    public function setCategoria($value)
+    public function setIdCategoria($value)
     {
         if ($this->validateNaturalNumber($value)) {
-            $this->categoria = $value;
+            $this->id_categoria = $value;
             return true;
         } else {
             return false;
@@ -214,12 +214,10 @@ class Productos extends Validator
         }*/
     }
 
-    public function readAllProductos()
+    public function readAllDescuento()
     {
-        $sql = 'SELECT id_producto, nombre, existencias, descripcion, precio_unitario, categoria_producto, id_estado_producto 
-        FROM producto pr INNER JOIN categoria_producto cp USING(id_categoria_producto) 
-        ORDER BY id_producto';
-        $params = null;
+        $sql = 'select nombre, precio_unitario from producto where id_estado_producto = 1 and precio_unitario <= 10.00';
+        $params = array($this->precio);
         return Database::getRows($sql, $params);
     }
 
@@ -229,7 +227,7 @@ class Productos extends Validator
                 FROM productos INNER JOIN categorias USING(id_categoria)
                 WHERE id_categoria = ? AND estado_producto = true
                 ORDER BY nombre_producto';
-        $params = array($this->categoria);
+        $params = array($this->id_categoria);
         return Database::getRows($sql, $params);
     }
 
@@ -238,7 +236,7 @@ class Productos extends Validator
         $sql = 'SELECT id_producto, nombre, existencias, descripcion, precio_unitario, id_categoria_producto, id_estado_producto 
         FROM producto
                 WHERE id_producto = ?';
-        $params = array($this->id);
+        $params = array($this->id_categoria);
         return Database::getRow($sql, $params);
     }
 
@@ -272,7 +270,8 @@ class Productos extends Validator
 
     public function readValoraciones()
     {
-        $sql = 'SELECT id_valoracion, pr.nombre, pr.id_producto ,valoracion, comentario, cl.nombre AS cliente, vl.id_estado AS estado FROM valoracion vl INNER JOIN cliente cl USING(id_cliente) INNER JOIN producto pr USING(id_producto) WHERE id_producto = ?';
+        $sql = 'SELECT id_valoracion, pr.nombre, pr.id_producto ,valoracion, comentario, cl.nombre AS cliente, id_estado AS estado FROM valoracion vl INNER JOIN cliente cl USING(id_cliente) 
+        INNER JOIN producto pr USING(id_producto) WHERE id_producto = ?';
         $params = array($this->id);
         return Database::getRows($sql, $params);
     }

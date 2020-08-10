@@ -1,12 +1,12 @@
 <?php
-require_once('../../core/helpers/commerce.php');
+require_once('../../core/helpers/commerce_en.php');
 Commerce::headerTemplate();
 ?>
 <!-- Contenido principal -->
 <main>
     <!-- Carrito -->
     <section>
-        <h1 class="center-align slider-text margin">Carrito</h1>
+        <h1 class="center-align slider-text margin">Shopping Cart</h1>
         <div class="container login-container">
             <!-- Productos contenidos en el carrito -->
             <div class="row">
@@ -17,12 +17,12 @@ Commerce::headerTemplate();
                             <table class="highlight responsive-table">
                                 <thead>
                                     <tr>
-                                        <th>Imagen</th>
-                                        <th>Productos</th>
-                                        <th>Cantidad</th>
-                                        <th>Precio</th>
+                                        <th>Image</th>
+                                        <th>Products</th>
+                                        <th>Quantity</th>
+                                        <th>Price</th>
                                         <th>Subtotal</th>
-                                        <th>Accion</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody id="tbody-carrito">
@@ -33,10 +33,10 @@ Commerce::headerTemplate();
                             <div class="row right-align margin">
                                 <div class="col s12 pull-s1">
                                     <h5>Total: $<span id="precio"></span></h5>
-                                    <span>Gastos de envío incluidos</span>
+                                    <span>Shipping costs included</span>
                                 </div>
                                 <div class="col s12 pull-s1">
-                                    <a id="finalizar" class="waves-effect waves-light btn-large disabled" type="submit">Finalizar compra</a>
+                                    <a id="finalizar" class="waves-effect waves-light btn-large disabled" type="submit">Finalize purchase</a>
                                 </div>
                             </div>
                         </div>
@@ -52,12 +52,12 @@ Commerce::headerTemplate();
                         <input class="hide" type="text" id="id_detalle" name="id_detalle">
                         <div class="row">
                             <div class="input-field col s12 m6">
-                                <label for="cantidad">Cantidad</label>
+                                <label for="cantidad">Quantity</label>
                                 <input type="number" name="cantidad" id="cantidad">
                             </div>
 
                             <div class="input-field col s12 m6">
-                                <button class="btn waves-effect waves-light" type="submit" name="action">Guardar
+                                <button class="btn waves-effect waves-light" type="submit" name="action">Save
                                     <i class="material-icons right">send</i>
                                 </button>
                             </div>

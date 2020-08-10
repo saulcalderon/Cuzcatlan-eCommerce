@@ -1,5 +1,5 @@
 <?php
-require_once('../../core/helpers/commerce.php');
+require_once('../../core/helpers/commerce_en.php');
 Commerce::headerTemplate();
 ?>
 <!-- Contenido principal del documento -->
@@ -12,22 +12,22 @@ Commerce::headerTemplate();
                 <li>
                     <img src="../../resources/img/commerce/img4-1.jpg">
                     <div class="caption center-align">
-                        <h1 class="slider-text">Cultura y Arte Sin Fronteras</h1>
-                        <h5 class="light grey-text text-lighten-3">Venta de artesanías de diferentes departamentos<br>de El Salvador</h5>
+                        <h1 class="slider-text">Culture and Art without borders</h1>
+                        <h5 class="light grey-text text-lighten-3">Sale of handicrafts from different departments<br>of El Salvador</h5>
                     </div>
                 </li>
                 <li>
                     <img src="../../resources/img/commerce/img12-1.jpg">
                     <div class="caption left-align">
-                        <h1 class="slider-text">Artesanías de todos los lugares de El Salvador!</h1>
-                        <h5 class="light grey-text text-lighten-3">14 departamentos llenos de vida y cultura.</h5>
+                        <h1 class="slider-text">Handicrafts from all over El Salvador!</h1>
+                        <h5 class="light grey-text text-lighten-3">14 departments full of life and culture.</h5>
                     </div>
                 </li>
                 <li>
                     <img src="../../resources/img/commerce/img11-1.jpg">
                     <div class="caption right-align">
-                        <h1 class="slider-text">"Más que una tienda, Historia y Cultura."</h1>
-                        <h5 class="light grey-text text-lighten-3">Más de 20 años alzando a nuestra patria.</h5>
+                        <h1 class="slider-text">"More than a shop, History and Culture."</h1>
+                        <h5 class="light grey-text text-lighten-3">More than 20 years raising our country.</h5>
                     </div>
                 </li>
             </ul>
@@ -38,10 +38,10 @@ Commerce::headerTemplate();
         <!-- Cartas con el nombre de cada categoría -->
         <div class="row padding-mod center-align">
             <div class="col s12 m6 l2 offset-l1 ">
-                <a href="#!" >
+                <a href="#!">
                     <div class="card-panel categories white hoverable">
                         <img src="../../resources/img/commerce/iconos/home.png" alt="">
-                        <h5 class="light grey-text text-darken-3">Hogar</h5>
+                        <h5 class="light grey-text text-darken-3">Home</h5>
                     </div>
                 </a>
             </div>
@@ -49,7 +49,7 @@ Commerce::headerTemplate();
                 <a href="ropa.php">
                     <div class="card-panel categories white hoverable">
                         <img src="../../resources/img/commerce/iconos/shirt.png" alt="">
-                        <h5 class="light grey-text text-darken-3">Ropa</h5>
+                        <h5 class="light grey-text text-darken-3">Clothes</h5>
                     </div>
                 </a>
             </div>
@@ -57,7 +57,7 @@ Commerce::headerTemplate();
                 <a href="carteras.php">
                     <div class="card-panel categories white hoverable">
                         <img src="../../resources/img/commerce/iconos/briefcase.png" alt="">
-                        <h5 class="light grey-text text-darken-3">Carteras</h5>
+                        <h5 class="light grey-text text-darken-3">Handbags</h5>
                     </div>
                 </a>
             </div>
@@ -65,7 +65,7 @@ Commerce::headerTemplate();
                 <a href="adornos.php">
                     <div class="card-panel categories white hoverable">
                         <img src="../../resources/img/commerce/iconos/mask.png" alt="">
-                        <h5 class="light grey-text text-darken-3">Adornos</h5>
+                        <h5 class="light grey-text text-darken-3">Ornaments</h5>
                     </div>
                 </a>
             </div>
@@ -73,7 +73,7 @@ Commerce::headerTemplate();
                 <a href="accesorios.php">
                     <div class="card-panel categories white hoverable">
                         <img src="../../resources/img/commerce/iconos/jewel.png" alt="">
-                        <h5 class="light grey-text text-darken-3">Accesorios</h5>
+                        <h5 class="light grey-text text-darken-3">Accessories</h5>
                     </div>
                 </a>
             </div>
@@ -81,7 +81,7 @@ Commerce::headerTemplate();
     </section>
     <!-- Mapa de El Salvador -->
     <section>
-        <h1 class="center-align lo slider-text">Mapa de El Salvador</h1>
+        <h1 class="center-align lo slider-text">Map of El Salvador</h1>
 
         <!-- Imagen .svg utilizada para el mapa interactivo -->
         <div class="container">
@@ -105,16 +105,16 @@ Commerce::headerTemplate();
         <div id="modal2" class="modal modal-fixed-footer">
             <div class="modal-content">
                 <h4 id="modal-header" class="center"></h4>
-                
+
                 <table id="p-dep" class="highlight responsive-table hide">
                     <thead>
                         <tr>
-                            <th>Imagen</th>
-                            <th>Producto</th>
-                            <th>Existencias</th>
-                            <th>Precio</th>
-                            <th>Categoría</th>
-                            <th>Proveedor</th>
+                            <th>Image</th>
+                            <th>Product</th>
+                            <th>Stocks</th>
+                            <th>Price</th>
+                            <th>Category</th>
+                            <th>Supplier</th>
                         </tr>
                     </thead>
                     <tbody id="tbody-dep"></tbody>
@@ -122,44 +122,21 @@ Commerce::headerTemplate();
                 <div class="load"></div>
             </div>
             <div class="modal-footer">
-                <a href="#!" class="modal-close waves-effect waves-green btn-flat">Volver</a>
+                <a href="#!" class="modal-close waves-effect waves-green btn-flat">Back</a>
             </div>
         </div>
     </section>
     <!-- Productos destacados -->
     <section>
-        <h1 class="center-align slider-text margin">Productos Destacados</h1>
+        <h1 class="center-align slider-text margin">Featured Products</h1>
         <!-- Agregados recientemente -->
         <article>
             <div class="row margin">
                 <div class="col s12 m6 push-m1">
-                    <h5>Agregados recientemente</h5>
+                    <h5>Recently added</h5>
                 </div>
                 <div class="col s12 m4">
-                    <h5><a href="">Ver más</a></h5>
-                </div>
-            </div>
-            <!-- Cada una de las cartas de los diferentes productos -->
-            <div class="swiper-container producto">
-                <div class="swiper-wrapper" id="swiper"> 
-                      
-                </div>
-                <!-- Paginación de los productos -->
-                <div class="swiper-pagination prod"></div>
-                <div class="swiper-button-prev"></div>
-                <div class="swiper-button-next"></div>
-            </div> 
-            <!-- Botones para el control deslizante de los productos -->
-
-        </article>
-        <!-- Camisas personalizadas-->
-        <article>
-            <div class="row margin">
-                <div class="col s12 m6 push-m1">
-                    <h5>Agregados recientemente</h5>
-                </div>
-                <div class="col s12 m4">
-                    <h5><a href="">Ver más</a></h5>
+                    <h5><a href="">See more</a></h5>
                 </div>
             </div>
             <!-- Cada una de las cartas de los diferentes productos -->
@@ -168,31 +145,31 @@ Commerce::headerTemplate();
                     <div class="swiper-slide">
                         <div class="card small">
                             <div class="card-image ">
-                                <img src="../../resources/img/commerce/3.1.png">
+                                <img src="../../resources/img/commerce/productos/pro (1).jpg">
                             </div>
                             <div class="card-content">
                                 <h6>Pintura de frutas de madera</h6>
                                 <p style="font-size: 1.5rem;">$12</p>
-                                <a href="#" onclick="addProduct(7,2,6.00)">Ver</a>
+                                <!-- <a href="#" onclick="addProduct(7,2,6.00)">Ver</a> -->
                             </div>
                         </div>
                     </div>
                     <div class="swiper-slide">
                         <div class="card small">
                             <div class="card-image">
-                                <img src="../../resources/img/commerce/3.1.png">
+                                <img src="../../resources/img/commerce/productos/pro (2).jpg">
                             </div>
                             <div class="card-content">
                                 <h6>Pintura religiosa</h6>
                                 <p style="font-size: 1.5rem;">$340</p>
-                                <a href="#" onclick="addProduct(6,7,12.00)">Ver</a>
+                                <!-- <a href="#" onclick="addProduct(6,7,12.00)">Ver</a> -->
                             </div>
                         </div>
                     </div>
                     <div class="swiper-slide">
                         <div class="card small">
                             <div class="card-image ">
-                                <img src="../../resources/img/commerce/3.1.png">
+                                <img src="../../resources/img/commerce/productos/pro (3).jpg">
                             </div>
                             <div class="card-content">
                                 <h6>Pintura de frutas de madera</h6>
@@ -204,12 +181,80 @@ Commerce::headerTemplate();
                     <div class="swiper-slide">
                         <div class="card small">
                             <div class="card-image">
-                                <img src="../../resources/img/commerce/3.1.png">
+                                <img src="../../resources/img/commerce/productos/pro (4).jpg">
                             </div>
                             <div class="card-content">
                                 <h6>Pintura religiosa</h6>
                                 <p style="font-size: 1.5rem;">$340</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Paginación de los productos -->
+                <div class="swiper-pagination prod"></div>
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
+            </div>
+            <!-- Botones para el control deslizante de los productos -->
 
+        </article>
+        <!-- Camisas personalizadas-->
+        <article>
+            <div class="row margin">
+                <div class="col s12 m6 push-m1">
+                    <h5>Recently added</h5>
+                </div>
+                <div class="col s12 m4">
+                    <h5><a href="">See more</a></h5>
+                </div>
+            </div>
+            <!-- Cada una de las cartas de los diferentes productos -->
+            <div class="swiper-container producto">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <div class="card small">
+                            <div class="card-image ">
+                                <img src="../../resources/img/commerce/productos/pro (5).jpg">
+                            </div>
+                            <div class="card-content">
+                                <h6>Pintura de frutas de madera</h6>
+                                <p style="font-size: 1.5rem;">$12</p>
+                                <!-- <a href="#" onclick="addProduct(7,2,6.00)">Ver</a> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="card small">
+                            <div class="card-image">
+                                <img src="../../resources/img/commerce/productos/pro (6).jpg">
+                            </div>
+                            <div class="card-content">
+                                <h6>Pintura religiosa</h6>
+                                <p style="font-size: 1.5rem;">$340</p>
+                                <!-- <a href="#" onclick="addProduct(6,7,12.00)">Ver</a> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="card small">
+                            <div class="card-image ">
+                                <img src="../../resources/img/commerce/productos/pro (7).jpg">
+                            </div>
+                            <div class="card-content">
+                                <h6>Pintura de frutas de madera</h6>
+                                <p style="font-size: 1.5rem;">$12</p>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="card small">
+                            <div class="card-image">
+                                <img src="../../resources/img/commerce/productos/pro (8).jpg">
+                            </div>
+                            <div class="card-content">
+                                <h6>Pintura religiosa</h6>
+                                <p style="font-size: 1.5rem;">$340</p>
                             </div>
                         </div>
                     </div>
@@ -226,15 +271,15 @@ Commerce::headerTemplate();
         <div class="container margin">
             <div class="row">
                 <div class="col s12 center-align">
-                    <a class="waves-effect waves-light btn-large" href="productos.php"><i class="material-icons right">chevron_right</i>Ver más productos</a>
+                    <a class="waves-effect waves-light btn-large" href="productos.php"><i class="material-icons right">chevron_right</i>See more products</a>
                 </div>
             </div>
         </div>
     </section>
     <!-- Sección de Noticias -->
     <section>
-        <h1 class="center-align">Noticias</h1>
-        <h5 class="center-align">Conoce las últimas novedades que Cuzcatlán tiene para ti.</h5>
+        <h1 class="center-align">News</h1>
+        <h5 class="center-align">Get to know the latest news that Cuzcatlán has for you.</h5>
         <div class="container noticias">
             <!-- Cada una de las cartas de noticias -->
             <div class="row">
@@ -242,23 +287,23 @@ Commerce::headerTemplate();
                     <div class="card">
                         <div class="card-image">
                             <img src="../../resources/img/commerce/img3.jpg" alt="">
-                            <span class="card-title">Nueva colección</span>
+                            <span class="card-title">New collection</span>
                         </div>
                         <div class="card-content">
-                            <h6>por Saúl Calderón | Enero 20, 2020</h6>
+                            <h6>by Saúl Calderón | January 20, 2020</h6>
                             <br>
                             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad, ipsam accusamus blanditiis hic ducimus eos excepturi saepe ex temporibus voluptates commodi architecto! Aperiam autem eveniet delectus ea eos illo ex.</p>
                         </div>
                     </div>
                 </div>
-                <div class="col s12 m6 l4">
+                <div class="col s12 m6 l4 ">
                     <div class="card">
                         <div class="card-image">
                             <img src="../../resources/img/commerce/img3.jpg" alt="">
-                            <span class="card-title">Nueva colección</span>
+                            <span class="card-title">New collection</span>
                         </div>
                         <div class="card-content">
-                            <h6>por Saúl Calderón | Enero 20, 2020</h6>
+                            <h6>by Saúl Calderón | January 20, 2020</h6>
                             <br>
                             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad, ipsam accusamus blanditiis hic ducimus eos excepturi saepe ex temporibus voluptates commodi architecto! Aperiam autem eveniet delectus ea eos illo ex.</p>
                         </div>
@@ -268,10 +313,10 @@ Commerce::headerTemplate();
                     <div class="card">
                         <div class="card-image">
                             <img src="../../resources/img/commerce/img3.jpg" alt="">
-                            <span class="card-title">Nueva colección</span>
+                            <span class="card-title">New collection</span>
                         </div>
                         <div class="card-content">
-                            <h6>por Saúl Calderón | Enero 20, 2020</h6>
+                            <h6>by Saúl Calderón | January 20, 2020</h6>
                             <br>
                             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad, ipsam accusamus blanditiis hic ducimus eos excepturi saepe ex temporibus voluptates commodi architecto! Aperiam autem eveniet delectus ea eos illo ex.</p>
                         </div>
@@ -281,14 +326,14 @@ Commerce::headerTemplate();
             <!-- Botón para ver más noticias -->
             <div class="row">
                 <div class="col s12 center-align">
-                    <a class="waves-effect waves-light btn-large margin"><i class="material-icons right">chevron_right</i>Ver más noticias</a>
+                    <a class="waves-effect waves-light btn-large margin"><i class="material-icons right">chevron_right</i>See more news</a>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Prueba -->
-    
+
 </main>
 
 <?php

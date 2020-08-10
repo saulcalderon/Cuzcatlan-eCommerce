@@ -71,7 +71,7 @@ class Noticias extends Validator
 
     public function setEstado($value)
     {
-        if ($this->validateNaturalNumber($value)) {
+        if ($this->validateBoolean($value)) {
             $this->estado = $value;
             return true;
         } else {
@@ -169,13 +169,23 @@ class Noticias extends Validator
         return Database::getRows($sql, $params);
     }
 
-    public function readProductosCategoria()
+    public function readAllProductosEstado()
     {
-        $sql = 'SELECT nombre_categoria, id_producto, imagen_producto, nombre_producto, descripcion_producto, precio_producto
-                FROM productos INNER JOIN categorias USING(id_categoria)
-                WHERE id_categoria = ? AND estado_producto = true
-                ORDER BY nombre_producto';
-        $params = array($this->categoria);
+        $sql = 'SELECT id_noticia, titulo, contenido, imagen, fecha_registro, id_estado 
+        FROM noticias
+        WHERE id_estado = true
+        ORDER BY id_noticia';
+        $params = null;
+        return Database::getRows($sql, $params);
+    }
+
+    public function readNewProductosEstado()
+    {
+        $sql = 'SELECT id_noticia, titulo, contenido, imagen, fecha_registro, id_estado 
+        FROM noticias
+        WHERE id_estado = true
+        ORDER BY id_noticia DESC LIMIT 3';
+        $params = null;
         return Database::getRows($sql, $params);
     }
 
@@ -190,7 +200,7 @@ class Noticias extends Validator
 
     public function updateProducto()
     {
-        
+        $params = null;
         $sql = 'UPDATE noticias
         SET titulo = ?, contenido = ?, fecha_registro = ?, id_estado = ?
         WHERE id_noticia = ?';
@@ -209,7 +219,8 @@ class Noticias extends Validator
     public function changeStatus()
     {
         $sql = 'UPDATE noticias SET id_estado = ? WHERE id_noticia = ?';
-        $params = array($this->estado, $this->valoracion);
+        print_r(array($this->estado, $this->id, 'ChangeStatus'));
+        $params = array($this->estado, $this->id);
         return Database::executeRow($sql, $params);
     }
 }

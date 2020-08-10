@@ -38,7 +38,7 @@ Commerce::headerTemplate();
         <!-- Cartas con el nombre de cada categoría -->
         <div class="row padding-mod center-align">
             <div class="col s12 m6 l2 offset-l1 ">
-                <a href="#!" >
+                <a href="index.php">
                     <div class="card-panel categories white hoverable">
                         <img src="../../resources/img/commerce/iconos/home.png" alt="">
                         <h5 class="light grey-text text-darken-3">Hogar</h5>
@@ -141,14 +141,14 @@ Commerce::headerTemplate();
             </div>
             <!-- Cada una de las cartas de los diferentes productos -->
             <div class="swiper-container producto">
-                <div class="swiper-wrapper" id="swiper"> 
-                      
+                <div class="swiper-wrapper" id="swiper">
+                    
                 </div>
                 <!-- Paginación de los productos -->
                 <div class="swiper-pagination prod"></div>
                 <div class="swiper-button-prev"></div>
                 <div class="swiper-button-next"></div>
-            </div> 
+            </div>
             <!-- Botones para el control deslizante de los productos -->
 
         </article>
@@ -173,7 +173,7 @@ Commerce::headerTemplate();
                             <div class="card-content">
                                 <h6>Pintura de frutas de madera</h6>
                                 <p style="font-size: 1.5rem;">$12</p>
-                                <a href="#" onclick="addProduct(7,2,6.00)">Ver</a>
+
                             </div>
                         </div>
                     </div>
@@ -185,7 +185,7 @@ Commerce::headerTemplate();
                             <div class="card-content">
                                 <h6>Pintura religiosa</h6>
                                 <p style="font-size: 1.5rem;">$340</p>
-                                <a href="#" onclick="addProduct(6,7,12.00)">Ver</a>
+
                             </div>
                         </div>
                     </div>
