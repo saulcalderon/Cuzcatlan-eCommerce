@@ -133,7 +133,7 @@ class Commerce
                     <div class="col l4 offset-l2 s12">
                         <h5 class="white-text">Menú inferior</h5>
                         <ul>
-                            <li><a class="grey-text text-lighten-3" href="about_us.php">¿Quiénes somos?</a></li>
+                            <li><a class="grey-text text-lighten-3" href="nosotros.php">¿Quiénes somos?</a></li>
                             <li><a class="grey-text text-lighten-3" href="shopping_cart.php">Carrito</a></li>
                             <li><a class="grey-text text-lighten-3" href="my_account.php">Mi cuenta</a></li>
                             <li><a class="grey-text text-lighten-3" href="payment.php">Completar transacción</a></li>

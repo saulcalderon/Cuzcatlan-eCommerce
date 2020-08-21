@@ -161,9 +161,9 @@ class Carrito extends Validator
                 return Database::executeRow($sql, $params);
             }
         } else {
-            $sql = 'INSERT INTO detalle_factura (cantidad, precio_unitario, id_factura, id_producto)
-                VALUES (?, ?, ?, ?)';
-            $params = array($this->cantidad, 6.00, $this->id_factura, $this->id_producto);
+            $sql = 'INSERT INTO detalle_factura (cantidad, id_factura, id_producto)
+                VALUES (?, ?, ?)';
+            $params = array($this->cantidad, $this->id_factura, $this->id_producto);
             return Database::executeRow($sql, $params);
         }
     }
@@ -202,8 +202,27 @@ class Carrito extends Validator
 
     public function finishBill()
     {
-        $sql = 'UPDATE factura SET id_estado_factura = ? WHERE id_factura = ?';
-        $params = array($this->id_estado, $this->id_factura);
-        return Database::executeRow($sql, $params);
+        $sql = 'UPDATE factura SET id_estado_factura = ?, precio_total=? WHERE id_factura = ?';
+        $params = array($this->id_estado, $this->precio, $this->id_factura);
+        if(Database::executeRow($sql, $params)){
+            return $this->id_factura;
+        }else{
+            return false;
+        }
+    }
+
+    public function comprobante(){
+        $sql = 'SELECT nombre, descripcion, cantidad, precio_unitario FROM detalle_factura 
+        INNER JOIN producto USING(id_producto) WHERE id_factura = ? ';
+        $params = array($this->id_factura);
+        return Database::getRows($sql,$params);
+    }
+
+    public function profileData()
+    {        
+        $sql = 'SELECT fecha_registro, precio_total, nombre, apellido, correo, direccion FROM factura INNER JOIN cliente USING(id_cliente) WHERE id_factura = ?';
+        $params = array($this->id_factura);
+        return Database::getRow($sql, $params);
     }
 }
+    

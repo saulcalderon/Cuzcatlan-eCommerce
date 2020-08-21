@@ -55,8 +55,8 @@ function readRows(api) {
             }
             // Se envían los datos a la función del controlador para que llene la tabla en la vista.
             fillTable(response.dataset);
-            $('#myPager').empty();
-            pagination();
+            //$('#myPager').empty();
+            //pagination();
         })
         .fail(function (jqXHR) {
             // Se verifica si la API ha respondido para mostrar la respuesta, de lo contrario se presenta el estado de la petición.

@@ -107,20 +107,25 @@ if (isset($_GET['action'])) {
                 break;
             case 'finishBill':
                 if ($carrito->setIdFactura($_SESSION['id_factura'])) {
-                    if ($result['dataset'] = $carrito->readOneDetail()) {
-                        if ($carrito->setIdEstado(4)) {
-                            if ($carrito->finishBill()) {
-                                $result['status'] = 1;
-                                $result['message'] = 'Pedido finalizado correctamente';
-                                $_SESSION['id_factura'] = null;
+                    if ($carrito->setPrecio($_POST['precio'])) {
+                        if ($result['dataset'] = $carrito->readOneDetail()) {
+                            if ($carrito->setIdEstado(4)) {
+                                if ($result['dataset'] = $carrito->finishBill()) {
+                                    $result['status'] = 1;
+                                    $result['message'] = 'Pedido finalizado correctamente';
+                                    $_SESSION['last_id_factura'] = $_SESSION['id_factura'];
+                                    $_SESSION['id_factura'] = null;
+                                } else {
+                                    $result['exception'] = 'Ocurrió un problema al finalizar el pedido';
+                                }
                             } else {
-                                $result['exception'] = 'Ocurrió un problema al finalizar el pedido';
+                                $result['exception'] = 'Estado incorrecto';
                             }
                         } else {
-                            $result['exception'] = 'Estado incorrecto';
+                            $result['exception'] = 'Finalizar incorrecto';
                         }
                     } else {
-                        $result['exception'] = 'Finalizar incorrecto';
+                        $result['exception'] = 'Precio incorrecto';
                     }
                 } else {
                     $result['exception'] = 'Pedido incorrecto';
