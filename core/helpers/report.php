@@ -1,7 +1,7 @@
 <?php
 require('../../helpers/database.php');
 require('../../helpers/validator.php');
-require('../../../libraries/fpdf181/fpdf.php');
+require('../../../libraries/fpdf.php');
 
 /**
 *   Clase para definir las plantillas de los reportes del sitio privado. Para más información http://www.fpdf.org/
@@ -23,13 +23,15 @@ class Report extends FPDF
         // Se establece la zona horaria a utilizar durante la ejecución del reporte.
         ini_set('date.timezone', 'America/El_Salvador');
         // Se crea una sesión o se reanuda la actual para poder utilizar variables de sesión en los reportes.
-        session_start();
+        
         // Se verifica si un administrador ha iniciado sesión para generar el documento, de lo contrario se direcciona a main.php
-        if (isset($_SESSION['id_usuario'])) {
+        if (isset($_SESSION['id_cliente'])) {
             // Se asigna el título del documento a la propiedad de la clase.
             $this->title = $title;
             // Se establece el título del documento (true = utf-8).
             $this->SetTitle($this->title, true);
+
+            // $this->SetFillColor(254,125,103);
             // Se establecen los margenes del documento (izquierdo, superior y derecho).
             $this->setMargins(15, 15, 15);
             // Se añade una nueva página al documento (orientación vertical y formato carta) y se llama al método Header()
@@ -48,17 +50,18 @@ class Report extends FPDF
     public function Header()
     {
         // Se establece el logo.
-        $this->Image('../../../resources/img/logo.png', 15, 15, 20);
+        $this->Image('../../../resources/img/logo2.png', 15,15,80);
         // Se ubica el título.
         $this->Cell(20);
-        $this->SetFont('Arial', 'B', 15);
-        $this->Cell(166, 10, utf8_decode($this->title), 0, 1, 'C');
+        $this->AddFont('Poppins','','poppins.php');
+        $this->SetFont('Poppins', '', 15);
+        $this->Cell(240, 10, utf8_decode($this->title), 0, 1, 'C');
         // Se ubica la fecha y hora del servidor.
         $this->Cell(20);
-        $this->SetFont('Arial', '', 10);
-        $this->Cell(166, 10, 'Fecha/Hora: '.date('d-m-Y H:i:s'), 0, 1, 'C');
+        $this->SetFont('Poppins', '', 10);
+        $this->Cell(240, 10, 'Fecha/Hora: '.date('d-m-Y H:i:s'), 0, 1, 'C');
         // Se agrega un salto de línea para mostrar el contenido principal del documento.
-        $this->Ln(10);
+        $this->Ln(12);
     }
 
     /*
@@ -70,7 +73,7 @@ class Report extends FPDF
         // Se establece la posición para el número de página (a 15 milimetros del final).
         $this->SetY(-15);
         // Se establece la fuente para el número de página.
-        $this->SetFont('Arial', 'I', 8);
+        $this->SetFont('Poppins', '', 8);
         // Se imprime una celda con el número de página.
         $this->Cell(0, 10, utf8_decode('Página ').$this->PageNo().'/{nb}', 0, 0, 'C');
     }

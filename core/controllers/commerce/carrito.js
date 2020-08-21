@@ -18,9 +18,9 @@ function readCart() {
         .done(function (response) {
             if (!response.status) {
                 let content;
-                
-                 if (window.location == page) {
-                      content = `
+
+                if (window.location == page) {
+                    content = `
                  <tr>
                      <td>There are no products in your shopping cart.</td>
                      <td></td>
@@ -28,8 +28,8 @@ function readCart() {
                      <td></td>
                  </tr>
                  `;
-                 } else {
-                  content = `
+                } else {
+                    content = `
                 <tr>
                     <td>No hay productos en su carrito.</td>
                     <td></td>
@@ -37,7 +37,7 @@ function readCart() {
                     <td></td>
                 </tr>
                 `;
-             }
+                }
 
                 $('#tbody-nav').html(content);
                 $('#tbody-carrito').html(content);
@@ -89,9 +89,9 @@ function fillTable(dataset) {
     } else {
         // let page = 'http://localhost/Cuzcatlan-eCommerce/views/commerce/shopping_cart.php'
         let content;
-        
-         if (window.location == page) {
-              content = `
+
+        if (window.location == page) {
+            content = `
          <tr>
              <td>There are no products in your shopping cart.</td>
              <td></td>
@@ -99,7 +99,7 @@ function fillTable(dataset) {
              <td></td>
          </tr>
          `;
-         } else {
+        } else {
             content = `
         <tr>
             <td>No hay productos en su carrito.</td>
@@ -214,14 +214,13 @@ function updateDetail(id) {
         });
 }
 
-function addProduct(id, ct, pr) {
+function addProduct(id, ct) {
     $.ajax({
             type: 'post',
             url: API_CARRITO + 'createDetail',
             data: {
                 id_producto: id,
-                cantidad: ct,
-                precio_unitario: pr
+                cantidad: ct
             },
             dataType: 'json',
         })
@@ -268,20 +267,66 @@ function deleteDetail(id) {
 
 $('#finalizar').click(function (e) {
     e.preventDefault();
-
+    let precio = parseFloat($('#precio').text());
+    console.log(precio);
     $.ajax({
+            type: 'post',
             url: API_CARRITO + 'finishBill',
+            data: {
+                precio: parseFloat(precio)
+            },
             dataType: 'json',
+
         })
         .done(function (response) {
             $('#finalizar').addClass('disabled');
             if (!response.status) {
                 sweetAlert(4, response.exception, null);
             } else {
-                sweetAlert(1, response.message, null);
-                setTimeout(function () {
-                    window.location = 'http://localhost/Cuzcatlan-eCommerce/views/commerce/index.php'
-                }, 1500);
+                var toastHTML = response.message;
+                M.toast({
+                    html: toastHTML
+                });
+                setTimeout(() => {
+                    swal({
+                            title: 'Aviso',
+                            text: '¿Desea ver el comprobante de compra?',
+                            icon: 'success',
+                            buttons: ['No, regresar al inicio.', 'Ok'],
+                            closeOnClickOutside: false,
+                            closeOnEsc: false
+                        })
+                        .then((value) => {
+                            if (value) {
+                                console.log(response.dataset);
+                                // $.ajax({
+                                //         type: 'post',
+                                //         url: '../../core/reports/commerce/comprobante.php?action=comprobante',
+                                //         data: {
+                                //             id_factura : response.dataset
+                                //         },
+                                //         dataType: 'json',
+                                //         success: function (response) {
+                                //             console.log('Funciono');
+                                //         }
+                                //     });
+
+
+
+                                window.open(`http://localhost/Cuzcatlan-eCommerce/core/reports/commerce/comprobante.php?action=comprobante`);
+                                setTimeout(() => {
+                                    window.location = 'http://localhost/Cuzcatlan-eCommerce/views/commerce/index.php';
+                                }, 2000);
+
+                            } else {
+                                window.location = 'http://localhost/Cuzcatlan-eCommerce/views/commerce/index.php';
+                            }
+                        });
+                }, 3000);
+
+
+
+
             }
         })
         .fail(function (jqXHR) {

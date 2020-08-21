@@ -173,7 +173,7 @@ Commerce::headerTemplate();
                             <div class="card-content">
                                 <h6>Pintura de frutas de madera</h6>
                                 <p style="font-size: 1.5rem;">$12</p>
-                                <a href="#" onclick="addProduct(7,2,6.00)">Ver</a>
+                                <a href="#" onclick="addProduct(10,2)">Ver</a>
                             </div>
                         </div>
                     </div>
@@ -185,7 +185,7 @@ Commerce::headerTemplate();
                             <div class="card-content">
                                 <h6>Pintura religiosa</h6>
                                 <p style="font-size: 1.5rem;">$340</p>
-                                <a href="#" onclick="addProduct(6,7,12.00)">Ver</a>
+                                <a href="#" onclick="addProduct(11,7)">Ver</a>
                             </div>
                         </div>
                     </div>

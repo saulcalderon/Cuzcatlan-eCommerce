@@ -367,3 +367,7 @@ img.responsive-img {
     top: -0.75em;
     z-index: 3;
 }
+
+.toast{
+    background-color: #e91e63;
+}
