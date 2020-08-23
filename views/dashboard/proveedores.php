@@ -18,6 +18,9 @@ Dashboard::headerTemplate('Administrar facturas');
         <div class="input-field center-align col s12 m4">
             <!-- Enlace para abrir caja de dialogo (modal) al momento de crear un nuevo registro -->
             <a href="#" onclick="openCreateModal()" class="btn waves-effect indigo tooltipped" data-tooltip="Crear"><i class="material-icons">add_circle</i></a>
+
+            <a href="../../core/reports/dashboard/proveedores.php" target="_blank" class="btn waves-effect amber tooltipped" data-tooltip="Reporte de proveedores por departamento"><i class="material-icons">assignment</i></a>
+            
         </div>
     </div>
 

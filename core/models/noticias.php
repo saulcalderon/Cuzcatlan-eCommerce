@@ -164,7 +164,24 @@ class Noticias extends Validator
     {
         $sql = 'SELECT id_noticia, titulo, contenido, imagen, fecha_registro, id_estado 
         FROM noticias
-        ORDER BY id_noticia';
+        ORDER BY fecha_registro desc';
+        $params = null;
+        return Database::getRows($sql, $params);
+    }
+
+    public function readCantidadProductos()
+    {
+        $sql = 'SELECT COUNT(id_noticia)
+        FROM noticias';
+        $params = null;
+        return Database::getRows($sql, $params);
+    }
+
+    public function readCantidadProductosEstado()
+    {
+        $sql = 'SELECT COUNT(id_noticia)
+        FROM noticias
+        WHERE id_estado = true';
         $params = null;
         return Database::getRows($sql, $params);
     }

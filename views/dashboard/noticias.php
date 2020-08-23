@@ -18,6 +18,8 @@ Dashboard::headerTemplate('Administrar noticias');
         <div class="input-field center-align col s12 m4">
             <!-- Enlace para abrir caja de dialogo (modal) al momento de crear un nuevo registro -->
             <a href="#" onclick="openCreateModal()" class="btn waves-effect indigo tooltipped" data-tooltip="Crear"><i class="material-icons">add_circle</i></a>
+
+            <a href="../../core/reports/dashboard/noticias.php" target="_blank" class="btn waves-effect amber tooltipped" data-tooltip="Reporte de noticias"><i class="material-icons">assignment</i></a>
         </div>
     </div>
     <table class="highlight padd-15 pagination responsive-table">
