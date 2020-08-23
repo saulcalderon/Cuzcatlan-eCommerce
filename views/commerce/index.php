@@ -186,6 +186,9 @@ Commerce::headerTemplate();
                                 <h6>Pintura religiosa</h6>
                                 <p style="font-size: 1.5rem;">$340</p>
                                 <a href="#" onclick="addProduct(11,7)">Ver</a>
+                                <a href="#" onclick="addProduct(1,7)">Ver</a>
+                                <a href="#" onclick="addProduct(4,7)">Ver</a>
+                                <a href="#" onclick="addProduct(15,7)">Ver</a>
                             </div>
                         </div>
                     </div>

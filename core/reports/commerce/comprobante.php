@@ -55,23 +55,26 @@ if (isset($_GET['action'])) {
                                 $pdf->SetTextColor(0, 0, 0);
                                 $i = true;
                                 $y = 105;
-                                if (count($data) > 3) {
-                                    $pdf->AddPage('p', 'letter');
-                                    $y = 105;
-                                }
-                                array_chunk($data,2);
+                                $num = 0;
+                                $total = 0;
                                 foreach ($data as $row) {
+                                    if ($num == 7) {
+                                        $y = 20;
+                                        
+                                        $pdf->AddPage('p', 'letter');
+                                    }
+                                    $num++;
                                     if ($i) {
                                         $pdf->SetFillColor(237, 237, 237);
                                         $i = false;
                                     } else {
-                                        $pdf->SetFillColor(255,255, 255);
+                                        $pdf->SetFillColor(255, 255, 255);
                                         $i = true;
                                     }
 
                                     $pdf->SetFont('Poppins', '', 9);
                                     // Apartado : Rectángulo gris y blanco.
-                                        $pdf->Rect(15, $y - 8, 185, 23, 'F');
+                                    $pdf->Rect(15, $y - 8, 185, 23, 'F');
 
                                     // Apartado : Nombre del producto.
                                     $pdf->SetY($y);
@@ -92,12 +95,14 @@ if (isset($_GET['action'])) {
                                     // Apartado : Subtotal de la cantidad por el precio unitario.
                                     $pdf->SetY($y);
                                     $pdf->SetX($x + 160);
-                                    $pdf->Cell(25, 5, '$' . doubleval(utf8_decode($row['cantidad']) * utf8_decode($row['precio_unitario'])), 0, 0, 'C');
-
+                                    $pdf->Cell(25, 5, '$' . doubleval(utf8_decode($row['cantidad']) *  utf8_decode($row['precio_unitario'])), 0, 0, 'C');
                                     $y += 23;
-                                   
-                                    
+                                    $total += doubleval(utf8_decode($row['cantidad']) *  utf8_decode($row['precio_unitario']));
                                 }
+                                $pdf->Ln(25);
+                                $pdf->SetFont('Helvetica', 'B', 15);
+                                $pdf->SetX(160);
+                                $pdf->Cell(25, 5, 'Total: $' . $total, 0, 0, 'C');
                                 
                             } else {
                                 $pdf->Cell(40, 20, utf8_decode('Fallo'), 1, 0, '', false);
