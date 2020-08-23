@@ -1,5 +1,7 @@
-// Constante para establecer la ruta y parámetros de comunicación con la API.
+// Constantes para establecer las rutas y parámetros de comunicación con la APIs.
 const API_PRODUCTOS = '../../core/api/dashboard/productos.php?action=';
+const API_PROVEEDORES = '../../core/api/dashboard/proveedores.php?action=';
+const API_NOTICIAS = '../../core/api/dashboard/noticias.php?action=';
 
 // Método que se ejecuta cuando el documento está listo.
 $(document).ready(function () {
@@ -20,30 +22,31 @@ $(document).ready(function () {
     // Se muestra el saludo en la página web.
     $('#greeting').text(greeting);
     // Se llama a la función que muestra una gráfica en la página web.
-    graficaCategorias();
+    graficaProveedores();
+    graficaNoticias();
 });
 
-// Función para graficar la cantidad de productos por categoría.
-function graficaCategorias() {
+// Función para graficar la cantidad de proveedores por departamentos.
+function graficaProveedores() {
     $.ajax({
             dataType: 'json',
-            url: API_PRODUCTOS + 'cantidadProductosCategoria',
+            url: API_PROVEEDORES + 'proveedoresDepartamento',
             data: null
         })
         .done(function (response) {
             // Se comprueba si la API ha retornado datos, de lo contrario se remueve la etiqueta canvas asignada para la gráfica.
             if (response.status) {
                 // Se declaran los arreglos para guardar los datos por gráficar.
-                let categorias = [];
+                let departamento = [];
                 let cantidad = [];
                 // Se recorre el conjunto de registros devuelto por la API (dataset) fila por fila a través del objeto row.
                 response.dataset.forEach(function (row) {
                     // Se asignan los datos a los arreglos.
-                    categorias.push(row.nombre_categoria);
+                    departamento.push(row.departamento);
                     cantidad.push(row.cantidad);
                 });
                 // Se llama a la función que genera y muestra una gráfica de barras. Se encuentra en el archivo components.js
-                barGraph('chart', categorias, cantidad, 'Cantidad de productos', 'Cantidad de productos por categoría');
+                barGraph('chart-proveedores', departamento, cantidad, 'Cantidad de proveedores', 'Cantidad de proveedores por departamento');
             } else {
                 $('#chart').remove();
             }
@@ -57,3 +60,40 @@ function graficaCategorias() {
             }
         });
 }
+
+/*
+// Buscar una gráfica para noticias
+function graficaNoticias() {
+    $.ajax({
+            dataType: 'json',
+            url: API_PROVEEDORES + 'proveedoresDepartamento',
+            data: null
+        })
+        .done(function (response) {
+            // Se comprueba si la API ha retornado datos, de lo contrario se remueve la etiqueta canvas asignada para la gráfica.
+            if (response.status) {
+                // Se declaran los arreglos para guardar los datos por gráficar.
+                let departamento = [];
+                let cantidad = [];
+                // Se recorre el conjunto de registros devuelto por la API (dataset) fila por fila a través del objeto row.
+                response.dataset.forEach(function (row) {
+                    // Se asignan los datos a los arreglos.
+                    departamento.push(row.departamento);
+                    cantidad.push(row.cantidad);
+                });
+                // Se llama a la función que genera y muestra una gráfica de barras. Se encuentra en el archivo components.js
+                lineGraph('chart-noticias', departamento, cantidad, 'Cantidad de proveedores', 'Cantidad de proveedores por departamento');
+            } else {
+                $('#chart').remove();
+            }
+        })
+        .fail(function (jqXHR) {
+            // Se verifica si la API ha respondido para mostrar la respuesta, de lo contrario se presenta el estado de la petición.
+            if (jqXHR.status == 200) {
+                console.log(jqXHR.responseText);
+            } else {
+                console.log(jqXHR.status + ' ' + jqXHR.statusText);
+            }
+        });
+}
+*/

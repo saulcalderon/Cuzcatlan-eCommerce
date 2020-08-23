@@ -120,17 +120,34 @@ class Proveedores extends Validator
     }
     public function readAllProveedores()
     {
-        $sql = 'SELECT id_proveedor, nombre_contacto, nombre_empresa, telefono, departamento
+        $sql = 'SELECT id_proveedor, nombre_contacto, nombre_empresa, telefono, departamento, id_departamento
         FROM proveedor pr INNER JOIN departamento dp USING(id_departamento) ORDER BY nombre_contacto';
         $params = null;
         return Database::getRows($sql, $params);
     }
+
+    public function readAllProveedoresDepartamento()
+    {
+        $sql = 'SELECT id_proveedor, nombre_contacto, nombre_empresa, telefono, departamento, id_departamento
+        FROM proveedor pr INNER JOIN departamento dp USING(id_departamento) WHERE id_departamento = ? ORDER BY nombre_contacto';
+        $params = array($this->id_departamento);
+        return Database::getRows($sql, $params);
+    }
+
     public function readDepartamentos()
     {
         $sql = 'SELECT id_departamento, departamento FROM departamento';
         $params = null;
         return Database::getRows($sql, $params);
     }
+
+    public function readOnlyDepartamentos()
+    {
+        $sql = 'SELECT departamento FROM departamento';
+        $params = null;
+        return Database::getRows($sql, $params);
+    }
+
 
     public function readOneProveedor()
     {
@@ -156,4 +173,17 @@ class Proveedores extends Validator
         $params = array($this->id_proveedor);
         return Database::executeRow($sql, $params);
     }
+
+    //Métodos para generar gráficas
+
+    public function cantidadProveedoresDepartamento(){
+        $sql = 'SELECT departamento, COUNT(id_proveedor) cantidad 
+        FROM proveedor INNER JOIN departamento USING (id_departamento)
+        GROUP BY id_departamento, departamento';
+        $params = null;
+        return Database::getRows($sql, $params);
+
+    }
+
 }
+?>

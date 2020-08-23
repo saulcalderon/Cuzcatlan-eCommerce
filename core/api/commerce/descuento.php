@@ -16,7 +16,7 @@ if (isset($_GET['action'])) {
         // Se compara la acción a realizar cuando un administrador ha iniciado sesión.
         switch ($_GET['action']) {
             case 'readAll':
-                if ($descuento->setPrecio(<=10)) {
+                if ($descuento->setPrecio(0<=10)) {
                     if ($result['dataset'] = $descuento->readAllDescuento()) {
                         
                         $result['status'] = 2;

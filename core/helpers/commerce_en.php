@@ -39,7 +39,7 @@ class Commerce
         // Se comprueba si existe una sesión de cliente para mostrar el menú de opciones, de lo contrario se muestra otro menú.
         if (isset($_SESSION['id_cliente'])) {
             // Se verifica si la página web actual es diferente a login.php y register.php, de lo contrario se direcciona a index.php
-            if ($filename != 'login.php' && $filename != 'registrarse.php') {
+            if ($filename != 'iniciar_sesion_en.php' && $filename != 'crear_cuenta_en.php') {
                 self::modals();
                 print('
                 <header>
@@ -52,7 +52,7 @@ class Commerce
                             <div class="container margin-left">
                                 <ul class="left hide-on-med-and-down">
                                     <li><a href="productos.php" class="menu-text">Products</a></li>
-                                    <li><a href="noticias.php" class="menu-text">News</a></li>
+                                    <li><a href="noticias_en.php" class="menu-text">News</a></li>
                                     <li><a href="contact.php" class="menu-text">Contact Us</a></li>
                                 </ul>
                                 <ul class="right hide-on-med-and-down">
@@ -70,7 +70,7 @@ class Commerce
                 <main>
             ');
             } else {
-                header('location: index.php');
+                header('location: index_en.php');
             }
         } else {
             // Se verifica si la página web actual es diferente a index.php (Iniciar sesión) y a register.php (Crear primer usuario) para direccionar a index.php, de lo contrario se muestra un menú vacío.
@@ -81,19 +81,19 @@ class Commerce
                 <div class="navbar-fixed">
                     <nav>
                         <div class="nav-wrapper">
-                            <a href="index.php" class="logo-cuzcatlan brand-logo margin-logo">Cuzcatlán</a>
+                            <a href="index_en.php" class="logo-cuzcatlan brand-logo margin-logo">Cuzcatlán</a>
                             <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
                             <div class="container margin-left">
                                 <ul class="left hide-on-med-and-down">
                                     <li><a href="productos.php" class="menu-text">Products</a></li>
-                                    <li><a href="noticias.php" class="menu-text">News</a></li>
+                                    <li><a href="noticias_en.php" class="menu-text">News</a></li>
                                     <li><a href="contacto.php" class="menu-text">Contact Us</a></li>
                                 </ul>
                                 <ul class="right hide-on-med-and-down">
                                     <li><a href="" data-target="slide-out" class="sidenav-trigger show-on-large"><i class="material-icons">shopping_cart</i></a></li>
                                     <li><h5>|</h5></li>
-                                    <li><a href="iniciar_sesion.php" class="menu-text">Log In</a></li>
-                                    <li><a href="crear_cuenta.php" class="menu-text">Sign Up</a></li>
+                                    <li><a href="iniciar_sesion_en.php" class="menu-text">Log In</a></li>
+                                    <li><a href="crear_cuenta_en.php" class="menu-text">Sign Up</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -102,7 +102,7 @@ class Commerce
             </ul>
         </header>');
             } else {
-                header('location: login.php');
+                header('location: iniciar_sesion_en.php');
             }
         }
     }

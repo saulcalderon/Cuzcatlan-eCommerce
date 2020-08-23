@@ -131,6 +131,19 @@ if (isset($_GET['action'])) {
                 } else {
                     $result['exception'] = 'Proveedor incorrecto';
                 }
+            break;
+
+            case 'proveedoresDepartamento':
+                if($result['dataset']=$proveedor->cantidadProveedoresDepartamento()){
+                    $result['status'] = 1;
+                }else{
+                    $result['exception'] = 'No hay datos disponibles';
+                }
+            break;
+
+            default:
+                $result['exception'] = 'Error fatal';
+            break;
         }
 
         // Se indica el tipo de contenido a mostrar y su respectivo conjunto de caracteres.
