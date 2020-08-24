@@ -40,6 +40,10 @@ footer,
     margin: 35px 0 0;
 }
 
+.m-middle {
+    margin: 0 30px;
+}
+
 .m-0 {
     margin: 0;
 }
