@@ -272,4 +272,9 @@ class Clientes extends Validator
         return Database::getRows($sql, null);
     }
 
+    public function monthlyClients(){
+        $sql = "SELECT extract(month FROM fecha_registro) -1 AS Mes, count(id_cliente) AS cantidad FROM cliente WHERE extract(year FROM fecha_registro) = '2020' GROUP BY extract(month FROM fecha_registro) ORDER BY extract(month FROM fecha_registro)";
+        return Database::getRows($sql, null);
+    }
+
 }

@@ -149,6 +149,13 @@ if (isset($_GET['action'])) {
                     $result['exception'] = 'Cliente incorrecto';
                 }
                 break;
+            case 'newClients':
+                if ($result['dataset'] = $cliente->monthlyClients()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['exception'] = 'Fallo al cargar la gráfica';
+                }
+                break;
             default:
                 exit('Acción no disponible');
         }
