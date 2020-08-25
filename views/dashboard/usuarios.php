@@ -3,6 +3,7 @@ require_once('../../core/helpers/dashboard.php');
 Dashboard::headerTemplate('Administrar usuarios');
 ?>
 
+
 <div class="padd-15">
     <div class="row">
         <!-- Formulario de búsqueda -->

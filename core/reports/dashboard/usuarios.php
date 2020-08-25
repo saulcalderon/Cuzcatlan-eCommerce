@@ -104,3 +104,6 @@ if (isset($_SESSION['id_usuario'])) {
 } else {
     exit('Acceso no disponible');
 }
+
+
+
