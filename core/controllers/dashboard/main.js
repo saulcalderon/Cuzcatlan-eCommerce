@@ -63,28 +63,28 @@ function graficaProveedores() {
         });
 }
 
-/*
-// Buscar una gráfica para noticias
+
+// Gráfica de noticias por fecha
 function graficaNoticias() {
     $.ajax({
             dataType: 'json',
-            url: API_PROVEEDORES + 'proveedoresDepartamento',
+            url: API_NOTICIAS + 'graficaFecha',
             data: null
         })
         .done(function (response) {
             // Se comprueba si la API ha retornado datos, de lo contrario se remueve la etiqueta canvas asignada para la gráfica.
             if (response.status) {
                 // Se declaran los arreglos para guardar los datos por gráficar.
-                let departamento = [];
+                let fecha_registro = [];
                 let cantidad = [];
                 // Se recorre el conjunto de registros devuelto por la API (dataset) fila por fila a través del objeto row.
                 response.dataset.forEach(function (row) {
                     // Se asignan los datos a los arreglos.
-                    departamento.push(row.departamento);
+                    fecha_registro.push(row.fecha_registro);
                     cantidad.push(row.cantidad);
                 });
                 // Se llama a la función que genera y muestra una gráfica de barras. Se encuentra en el archivo components.js
-                lineGraph('chart-noticias', departamento, cantidad, 'Cantidad de proveedores', 'Cantidad de proveedores por departamento');
+                lineGraph('chart-noticias', fecha_registro, cantidad, 'Cantidad de noticias', 'Cantidad de noticias por fecha');
             } else {
                 $('#chart').remove();
             }
@@ -98,8 +98,6 @@ function graficaNoticias() {
             }
         });
 }
-*/
-
 
 let months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
 
