@@ -80,10 +80,10 @@ if (isset($_SESSION['id_usuario'])) {
                         $y += 23;
                     }
                 } else {
-                    $pdf->Cell(40, 20, utf8_decode('Fallo'), 1, 0, '', false);
+                    $pdf->Cell(40, 20, utf8_decode('Fallo al cargar los datos de clientes'), 0, 0, '', false);
                 }
             } else {
-                $pdf->Cell(40, 20, utf8_decode('sdhahaudhas'), 1, 0, '', false);
+                $pdf->Cell(40, 20, utf8_decode('Fallo al cargar los datos del usuario'),0, 0, '', false);
             }
         } else {
         }

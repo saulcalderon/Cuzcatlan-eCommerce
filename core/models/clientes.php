@@ -268,7 +268,7 @@ class Clientes extends Validator
     }
 
     public function readActiveClients(){
-        $sql = 'SELECT id_cliente, nombre, apellido, correo, telefono, direccion, fecha_nacimiento as nacimiento, estado FROM cliente WHERE estado = true ORDER BY id_cliente';
+        $sql = 'SELECT id_cliente, nombre, apellido, correo, telefono, direccion, estado FROM cliente WHERE estado = true ORDER BY id_cliente';
         return Database::getRows($sql, null);
     }
 

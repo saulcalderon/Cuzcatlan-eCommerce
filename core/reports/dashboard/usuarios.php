@@ -5,7 +5,6 @@ require('../../models/usuarios.php');
 
 
 session_start();
-$cliente = new Clientes;
 $user = new Usuarios;
 
 if (isset($_SESSION['id_usuario'])) {
