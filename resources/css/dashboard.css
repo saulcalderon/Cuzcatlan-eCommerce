@@ -53,7 +53,7 @@ body {
     font-family: 'Poppins', sans-serif;
 }
 
-.bg-aqua {
+/* .bg-aqua {
     background-color: #00c0ef !important;
 }
 
@@ -115,9 +115,25 @@ body {
     z-index: 10;
     background: rgba(0, 0, 0, 0.1);
     text-decoration: none;
-}
+} */
 
 .chart-container {
     width: 600px;
     height: 400px;
+}
+
+nav .brand-logo{
+    font-size: 1.5rem;
+}
+
+.img-resize{
+    width: 90%;
+}
+
+.sidenav .user-view .name{
+    margin: 0;
+}
+
+.sidenav .user-view{
+    padding: 15px 38px 0;
 }
