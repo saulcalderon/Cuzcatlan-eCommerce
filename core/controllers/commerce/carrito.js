@@ -299,24 +299,10 @@ $('#finalizar').click(function (e) {
                         .then((value) => {
                             if (value) {
                                 console.log(response.dataset);
-                                // $.ajax({
-                                //         type: 'post',
-                                //         url: '../../core/reports/commerce/comprobante.php?action=comprobante',
-                                //         data: {
-                                //             id_factura : response.dataset
-                                //         },
-                                //         dataType: 'json',
-                                //         success: function (response) {
-                                //             console.log('Funciono');
-                                //         }
-                                //     });
-
-
-
                                 window.open(`http://localhost/Cuzcatlan-eCommerce/core/reports/commerce/comprobante.php?action=comprobante`);
                                 setTimeout(() => {
                                     window.location = 'http://localhost/Cuzcatlan-eCommerce/views/commerce/index.php';
-                                }, 2000);
+                                }, 1000);
 
                             } else {
                                 window.location = 'http://localhost/Cuzcatlan-eCommerce/views/commerce/index.php';

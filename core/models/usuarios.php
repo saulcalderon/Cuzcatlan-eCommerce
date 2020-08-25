@@ -244,4 +244,10 @@ class Usuarios extends Validator
         $params = array($this->id);
         return Database::executeRow($sql, $params);
     }
+
+    public function readTipoUser(){
+        $sql = 'SELECT nombre, apellido, correo, telefono, cargo FROM administrador, cargo ORDER BY cargo';
+        return Database::getRows($sql, null);
+    }
+
 }

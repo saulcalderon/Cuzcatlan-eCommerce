@@ -128,8 +128,13 @@ if (isset($_GET['action'])) {
                     $result['exception'] = 'Producto incorrecto';
                 }
                 break;
-
-
+            case 'monthlyBills':
+                if ($result['dataset'] = $factura->monthlyBills()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['exception'] = 'Fallo al cargar la gráfica';
+                }
+                break;
             default:
                 exit('Acción no disponible');
         }

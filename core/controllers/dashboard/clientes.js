@@ -5,6 +5,8 @@ const API_CLIENTES = '../../core/api/dashboard/clientes.php?action=';
 $(document).ready(function () {
     // Se llama a la función que obtiene los registros para llenar la tabla. Se encuentra en el archivo components.js
     readRows(API_CLIENTES);
+    lineGraphClients();
+    lineGraphBills();
 });
 
 // Función para llenar la tabla con los datos enviados por readRows().
@@ -162,4 +164,91 @@ function fillTableModified(dataset) {
     $('#tbody-details').html(content);
     // Se inicializa el componente Tooltip asignado a los enlaces para que funcionen las sugerencias textuales.
     $('.tooltipped').tooltip();
+}
+
+let months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+
+function lineGraphClients() {
+
+    $.ajax({
+            url: API_CLIENTES + 'newClients',
+            dataType: 'json'
+        })
+        .done(function (response) {
+            // Se comprueba si la API ha retornado una respuesta satisfactoria, de lo contrario se muestra un mensaje de error.
+            if (response.status) {
+                let posMonths = [];
+                let clients = [];
+                response.dataset.forEach(function (row) {
+                    posMonths.push(row.mes);
+                    clients.push(row.cantidad);
+                })
+                let state = false;
+                for (let i = 0; i < months.length; i++) {
+                    for (let j = 0; j < posMonths.length; j++) {
+                        if (i == parseInt(posMonths[j])) {
+                            state = true;
+                        }
+                    }
+                    if (state == false) {
+                        clients.splice(i, 0, 0);
+                    }
+                    state = false;
+                }
+                lineGraph('myChart', months, clients, 'asdasd', 'adasfas');
+            } else {
+                sweetAlert(2, response.exception, null);
+            }
+        })
+        .fail(function (jqXHR) {
+            // Se verifica si la API ha respondido para mostrar la respuesta, de lo contrario se presenta el estado de la petición.
+            if (jqXHR.status == 200) {
+                console.log(jqXHR.responseText);
+            } else {
+                console.log(jqXHR.status + ' ' + jqXHR.statusText);
+            }
+        });
+}
+
+function lineGraphBills() {
+    $.ajax({
+            url: '../../core/api/dashboard/factura.php?action=monthlyBills',
+            dataType: 'json'
+        })
+        .done(function (response) {
+            // Se comprueba si la API ha retornado una respuesta satisfactoria, de lo contrario se muestra un mensaje de error.
+            if (response.status) {
+                console.log(response.dataset);
+                let posMonths = [];
+                let money = [];
+                response.dataset.forEach(function (row) {
+                    posMonths.push(row.mes);
+                    money.push(row.cantidad);
+                })
+                let state = false;
+                for (let i = 0; i < months.length; i++) {
+                    for (let j = 0; j < posMonths.length; j++) {
+                        if (i == parseInt(posMonths[j])) {
+                            state = true;
+                        }
+                    }
+                    if (state == false) {
+                        money.splice(i, 0, 0);
+                    }
+                    state = false;
+                }
+                // // console.log(clients);
+                lineGraph2('myChart2', months , money, 'asdasd', 'adasfas');
+            } else {
+                sweetAlert(2, response.exception, null);
+            }
+        })
+        .fail(function (jqXHR) {
+            // Se verifica si la API ha respondido para mostrar la respuesta, de lo contrario se presenta el estado de la petición.
+            if (jqXHR.status == 200) {
+                console.log(jqXHR.responseText);
+            } else {
+                console.log(jqXHR.status + ' ' + jqXHR.statusText);
+            }
+        });
 }
