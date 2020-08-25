@@ -240,4 +240,18 @@ class Noticias extends Validator
         $params = array($this->estado, $this->id);
         return Database::executeRow($sql, $params);
     }
+
+    /*
+    *Métodos para generar gráficas
+    *
+    */ 
+
+    public function cantidadNoticiasFecha()
+    {
+        $sql = 'SELECT COUNT(id_noticia) cantidad, fecha_registro
+        FROM noticias
+		GROUP BY fecha_registro';
+        $params = null;
+        return Database::getRows($sql, $params);
+    }
 }

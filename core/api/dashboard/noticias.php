@@ -184,6 +184,14 @@ if (isset($_GET['action'])) {
                     $result['exception'] = 'Estado incorrecto';
                 }
                 break;
+
+                case 'graficaFecha':
+                    if($result['dataset'] = $producto->cantidadNoticiasFecha()){
+                        $result['status'] = 1;
+                    }else{
+                        $result['exception'] = 'No hay datos disponibles';
+                    }
+                break;
             default:
                 exit('Acción no disponible');
         }
