@@ -446,7 +446,7 @@ function lineGraph2(canvas, xAxis, yAxis, legend, title) {
             datasets: [{
                 label: legend,
                 data: yAxis,
-                backgroundColor: 'rgb(0,0,0,0.1)',
+                backgroundColor: colors,
                 borderColor: '#000000',
                 borderWidth: 1
             }]

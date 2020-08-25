@@ -121,10 +121,6 @@ Dashboard::headerTemplate('Administrar clientes');
             </form>
         </div>
     </div>
-
-    <!-- Apartado de gráfico -->
-    <canvas id="myChart"></canvas>
-    <canvas id="myChart2"></canvas>
     <?php
     Dashboard::footerTemplate('clientes.js');
     ?>

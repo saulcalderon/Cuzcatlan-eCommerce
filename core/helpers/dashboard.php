@@ -46,7 +46,7 @@ class Dashboard
                     <nav class="rose-m">
                         <div class="nav wrapper">
                             <div class="container">
-                                <a href="" class="brand-logo center">Cuzcatlán</a>
+                                <a href="" class="brand-logo center">' . $titulo . '</a>
                                 <a href="#" data-target="slide-out" class="sidenav-trigger"><i
                                         class="material-icons">menu</i></a>
                                         <ul class="right hide-on-med-and-down">
@@ -66,9 +66,14 @@ class Dashboard
                                 <div class="background ">
                                     <img src="" alt="" class="responsive-img">
                                 </div>
-                                <a href="#" onclick="openModalProfile()">
-                                    <img src="../../resources/img/dashboard/img12-1.jpg" alt="" class="circle +">
-                                </a>
+                                <div class="row m-0">
+                                    <div class="col s6">
+                                        <img src="../../resources/img/dashboard/img12-1.jpg" alt="" class="circle +">
+                                    </div>
+                                    <div class="col s6 ">
+                                        <img src="../../resources/img/logo.png" alt="" class="img-resize">
+                                    </div>
+                                </div>
                                 <span class="white-text name">' . $_SESSION['alias_usuario'] . '</span>
                                 <span class="white-text">Miembro de Cuzcatlán</span>
                                 <hr class= "cuzcatlan-color">

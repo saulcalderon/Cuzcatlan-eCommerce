@@ -23,7 +23,9 @@ $(document).ready(function () {
     $('#greeting').text(greeting);
     // Se llama a la función que muestra una gráfica en la página web.
     graficaProveedores();
-    graficaNoticias();
+    // graficaNoticias();
+    lineGraphBills();
+    lineGraphClients();
 });
 
 // Función para graficar la cantidad de proveedores por departamentos.
@@ -97,3 +99,91 @@ function graficaNoticias() {
         });
 }
 */
+
+
+let months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+
+function lineGraphClients() {
+
+    $.ajax({
+            url: '../../core/api/dashboard/clientes.php?action=newClients',
+            dataType: 'json'
+        })
+        .done(function (response) {
+            // Se comprueba si la API ha retornado una respuesta satisfactoria, de lo contrario se muestra un mensaje de error.
+            if (response.status) {
+                let posMonths = [];
+                let clients = [];
+                response.dataset.forEach(function (row) {
+                    posMonths.push(row.mes);
+                    clients.push(row.cantidad);
+                })
+                let state = false;
+                for (let i = 0; i < months.length; i++) {
+                    for (let j = 0; j < posMonths.length; j++) {
+                        if (i == parseInt(posMonths[j])) {
+                            state = true;
+                        }
+                    }
+                    if (state == false) {
+                        clients.splice(i, 0, 0);
+                    }
+                    state = false;
+                }
+                lineGraph('chart-clientes', months, clients, 'asdasd', 'Clientes registrados por mes');
+            } else {
+                sweetAlert(2, response.exception, null);
+            }
+        })
+        .fail(function (jqXHR) {
+            // Se verifica si la API ha respondido para mostrar la respuesta, de lo contrario se presenta el estado de la petición.
+            if (jqXHR.status == 200) {
+                console.log(jqXHR.responseText);
+            } else {
+                console.log(jqXHR.status + ' ' + jqXHR.statusText);
+            }
+        });
+}
+
+function lineGraphBills() {
+    $.ajax({
+            url: '../../core/api/dashboard/factura.php?action=monthlyBills',
+            dataType: 'json'
+        })
+        .done(function (response) {
+            // Se comprueba si la API ha retornado una respuesta satisfactoria, de lo contrario se muestra un mensaje de error.
+            if (response.status) {
+                console.log(response.dataset);
+                let posMonths = [];
+                let money = [];
+                response.dataset.forEach(function (row) {
+                    posMonths.push(row.mes);
+                    money.push(row.cantidad);
+                })
+                let state = false;
+                for (let i = 0; i < months.length; i++) {
+                    for (let j = 0; j < posMonths.length; j++) {
+                        if (i == parseInt(posMonths[j])) {
+                            state = true;
+                        }
+                    }
+                    if (state == false) {
+                        money.splice(i, 0, 0);
+                    }
+                    state = false;
+                }
+                // // console.log(clients);
+                lineGraph2('chart-facturas', months, money, 'Total: $ ', 'Ganancias totales por mes');
+            } else {
+                sweetAlert(2, response.exception, null);
+            }
+        })
+        .fail(function (jqXHR) {
+            // Se verifica si la API ha respondido para mostrar la respuesta, de lo contrario se presenta el estado de la petición.
+            if (jqXHR.status == 200) {
+                console.log(jqXHR.responseText);
+            } else {
+                console.log(jqXHR.status + ' ' + jqXHR.statusText);
+            }
+        });
+}
