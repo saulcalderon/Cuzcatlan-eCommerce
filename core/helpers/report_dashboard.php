@@ -73,7 +73,10 @@ class Report extends FPDF
         // Se establece la fuente para el número de página.
         $this->SetFont('Poppins', '', 8);
         // Se imprime una celda con el número de página.
+        // Se imprime una celda con el nombre del usuario que lo solicito
+        $this->Cell(0, 10, utf8_decode('Reporte solicitado por: '.$_SESSION['alias_usuario']), 0, 0, 'L');
         $this->Cell(0, 10, utf8_decode('Página ').$this->PageNo().'/{nb}', 0, 0, 'C');
+        
     }
 }
 ?>
