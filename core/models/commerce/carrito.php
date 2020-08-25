@@ -220,7 +220,7 @@ class Carrito extends Validator
 
     public function profileData()
     {        
-        $sql = 'SELECT fecha_registro, precio_total, nombre, apellido, correo, direccion FROM factura INNER JOIN cliente USING(id_cliente) WHERE id_factura = ?';
+        $sql = 'SELECT fc.fecha_registro, precio_total, nombre, apellido, correo, direccion FROM factura fc INNER JOIN cliente USING(id_cliente) WHERE id_factura = ?';
         $params = array($this->id_factura);
         return Database::getRow($sql, $params);
     }

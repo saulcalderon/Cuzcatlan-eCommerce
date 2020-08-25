@@ -23,7 +23,7 @@ if (isset($_GET['action'])) {
                                 // Apartado: Información de la factura
                                 $pdf->SetFont('Poppins', '', 10);
                                 $pdf->SetX(160);
-                                $pdf->Cell(25, 7, utf8_decode('Factura : 12'), 0, 0, 'L');
+                                $pdf->Cell(25, 7, utf8_decode('Factura : '. $_SESSION['last_id_factura']), 0, 0, 'L');
                                 $pdf->Ln();
 
                                 // Apartado : correo electrónico cliente.
@@ -108,10 +108,10 @@ if (isset($_GET['action'])) {
                                 $pdf->Cell(40, 20, utf8_decode('Fallo'), 1, 0, '', false);
                             }
                         } else {
-                            $pdf->Cell(40, 20, utf8_decode('sdhahaudhas'), 1, 0, '', false);
+                            $pdf->Cell(40, 20, utf8_decode('Datos usuario'), 1, 0, '', false);
                         }
                     } else {
-                        $pdf->Cell(40, 20, utf8_decode('sdhahaudhas'), 1, 0, '', false);
+                        $pdf->Cell(40, 20, utf8_decode('ID factura'), 1, 0, '', false);
                     }
                 } catch (Exception $e) {
                     echo 'Caught exception: ',  $e->getMessage(), "\n";

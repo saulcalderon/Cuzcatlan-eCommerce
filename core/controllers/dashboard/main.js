@@ -104,7 +104,6 @@ function graficaNoticias() {
 let months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
 
 function lineGraphClients() {
-
     $.ajax({
             url: '../../core/api/dashboard/clientes.php?action=newClients',
             dataType: 'json'
@@ -112,12 +111,15 @@ function lineGraphClients() {
         .done(function (response) {
             // Se comprueba si la API ha retornado una respuesta satisfactoria, de lo contrario se muestra un mensaje de error.
             if (response.status) {
+                // Se declaran los arreglos para guardar los datos por gráficar.
                 let posMonths = [];
                 let clients = [];
+                // Se recorre el arreglo de la información devuelta por la API y se inserta en los arreglos anteriores.
                 response.dataset.forEach(function (row) {
                     posMonths.push(row.mes);
                     clients.push(row.cantidad);
                 })
+                // Se recorren dos arreglos para asignar el valor 0 cuando en algún mes no se encuentre información.
                 let state = false;
                 for (let i = 0; i < months.length; i++) {
                     for (let j = 0; j < posMonths.length; j++) {
@@ -130,6 +132,7 @@ function lineGraphClients() {
                     }
                     state = false;
                 }
+                // Se llama a la función ubicada en components.js
                 lineGraph('chart-clientes', months, clients, 'asdasd', 'Clientes registrados por mes');
             } else {
                 sweetAlert(2, response.exception, null);
@@ -153,13 +156,15 @@ function lineGraphBills() {
         .done(function (response) {
             // Se comprueba si la API ha retornado una respuesta satisfactoria, de lo contrario se muestra un mensaje de error.
             if (response.status) {
-                console.log(response.dataset);
+                // Se declaran los arreglos para guardar los datos por gráficar.
                 let posMonths = [];
                 let money = [];
+                // Se recorre el arreglo de la información devuelta por la API y se inserta en los arreglos anteriores.
                 response.dataset.forEach(function (row) {
                     posMonths.push(row.mes);
                     money.push(row.cantidad);
                 })
+                // Se recorren dos arreglos para asignar el valor 0 cuando en algún mes no se encuentre información
                 let state = false;
                 for (let i = 0; i < months.length; i++) {
                     for (let j = 0; j < posMonths.length; j++) {
@@ -172,7 +177,7 @@ function lineGraphBills() {
                     }
                     state = false;
                 }
-                // // console.log(clients);
+                // Se llama a la función ubicada en components.js
                 lineGraph2('chart-facturas', months, money, 'Total: $ ', 'Ganancias totales por mes');
             } else {
                 sweetAlert(2, response.exception, null);
