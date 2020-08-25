@@ -23,9 +23,10 @@ $(document).ready(function () {
     $('#greeting').text(greeting);
     // Se llama a la función que muestra una gráfica en la página web.
     graficaProveedores();
-    // graficaNoticias();
+    graficaNoticias();
     lineGraphBills();
     lineGraphClients();
+    GraphCompras();
 });
 
 // Función para graficar la cantidad de proveedores por departamentos.
@@ -110,12 +111,15 @@ function lineGraphClients() {
         .done(function (response) {
             // Se comprueba si la API ha retornado una respuesta satisfactoria, de lo contrario se muestra un mensaje de error.
             if (response.status) {
+                // Se declaran los arreglos para guardar los datos por gráficar. 
                 let posMonths = [];
                 let clients = [];
+                // Se recorre el conjunto de registros devuelto por la API (dataset) fila por fila a través del objeto row.
                 response.dataset.forEach(function (row) {
                     posMonths.push(row.mes);
                     clients.push(row.cantidad);
                 })
+                // Se recorren dos arreglos para asignar el valor 0 cuando no se registren datos.
                 let state = false;
                 for (let i = 0; i < months.length; i++) {
                     for (let j = 0; j < posMonths.length; j++) {
@@ -128,6 +132,7 @@ function lineGraphClients() {
                     }
                     state = false;
                 }
+                // Se llama a la función que genera y muestra una gráfica de barras. Se encuentra en el archivo components.js
                 lineGraph('chart-clientes', months, clients, 'asdasd', 'Clientes registrados por mes');
             } else {
                 sweetAlert(2, response.exception, null);
@@ -151,13 +156,15 @@ function lineGraphBills() {
         .done(function (response) {
             // Se comprueba si la API ha retornado una respuesta satisfactoria, de lo contrario se muestra un mensaje de error.
             if (response.status) {
-                console.log(response.dataset);
+                // Se declaran los arreglos para guardar los datos por gráficar. 
                 let posMonths = [];
                 let money = [];
+                // Se recorre el conjunto de registros devuelto por la API (dataset) fila por fila a través del objeto row.
                 response.dataset.forEach(function (row) {
                     posMonths.push(row.mes);
                     money.push(row.cantidad);
                 })
+                // Se recorren dos arreglos para asignar el valor 0 cuando no se registren datos.
                 let state = false;
                 for (let i = 0; i < months.length; i++) {
                     for (let j = 0; j < posMonths.length; j++) {
@@ -172,6 +179,47 @@ function lineGraphBills() {
                 }
                 // // console.log(clients);
                 lineGraph2('chart-facturas', months, money, 'Total: $ ', 'Ganancias totales por mes');
+            } else {
+                sweetAlert(2, response.exception, null);
+            }
+        })
+        .fail(function (jqXHR) {
+            // Se verifica si la API ha respondido para mostrar la respuesta, de lo contrario se presenta el estado de la petición.
+            if (jqXHR.status == 200) {
+                console.log(jqXHR.responseText);
+            } else {
+                console.log(jqXHR.status + ' ' + jqXHR.statusText);
+            }
+        });
+}
+
+function GraphCompras() {
+    $.ajax({
+            url: '../../core/api/dashboard/factura.php?action=cantidadCompras',
+            dataType: 'json'
+        })
+        .done(function (response) {
+            // Se comprueba si la API ha retornado una respuesta satisfactoria, de lo contrario se muestra un mensaje de error.
+            if (response.status) {
+                // Se declaran los arreglos para guardar los datos por gráficar. 
+                let posMonths = [];
+                let cantidad = [];
+                let activeMonths = [];
+                // Se recorre el conjunto de registros devuelto por la API (dataset) fila por fila a través del objeto row.
+                response.dataset.forEach(function (row) {
+                    posMonths.push(row.mes);
+                    cantidad.push(row.cantidad);
+                })
+                // Se recorren dos arreglos para asignar el mes correspondiente a la posición.
+                for (let i = 0; i < months.length; i++) {
+                    for (let j = 0; j < posMonths.length; j++) {
+                        if (i == parseInt(posMonths[j])) {
+                            activeMonths.push(months[i]);
+                        }
+                    }
+                }
+                // Se llama a la función que genera y muestra una gráfica de barras. Se encuentra en el archivo components.js
+                pieGraph('chart-compras', activeMonths, cantidad, 'Cantidad :', 'Compras');
             } else {
                 sweetAlert(2, response.exception, null);
             }

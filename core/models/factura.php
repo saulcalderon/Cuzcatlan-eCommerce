@@ -194,10 +194,19 @@ class Factura extends Validator
         return Database::executeRow($sql, $params);
     }
 
-    public function monthlyBills(){
+    public function monthlyBills()
+    {
         $sql = "SELECT extract(month FROM fecha_registro) -1 AS Mes, SUM(precio_total) AS cantidad 
         FROM factura WHERE extract(year FROM fecha_registro) = '2020' 
         GROUP BY extract(month FROM fecha_registro) ORDER BY extract(month FROM fecha_registro)";
+        return Database::getRows($sql, null);
+    }
+
+    public function cantidadCompras()
+    {
+        $sql = "SELECT extract(month FROM fecha_registro) -1 AS Mes, COUNT(id_factura) AS cantidad 
+                FROM factura WHERE extract(year FROM fecha_registro) = '2020' 
+                GROUP BY extract(month FROM fecha_registro) ORDER BY COUNT(id_factura) desc LIMIT 5";
         return Database::getRows($sql, null);
     }
 }
