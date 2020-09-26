@@ -17,8 +17,11 @@ Dashboard::headerTemplate('Dashboard');
     </div>
     <!-- Gráfica de noticias por fecha -->
     <div class="col s12 m6 l6">
-        <div class="card-content">
-            <canvas id="chart-noticias"></canvas>
+        <div class="card white">
+            <div class="card-content">
+                <span class="card-title center">Gráfica de noticias</span>
+                <canvas id="chart-noticias"></canvas>
+            </div>
         </div>
     </div>
     <!-- Gráfica de ganancias por mes -->
@@ -36,6 +39,15 @@ Dashboard::headerTemplate('Dashboard');
             <div class="card-content">
                 <span class="card-title center">Gráfica de clientes</span>
                 <canvas id="chart-clientes"></canvas>
+            </div>
+        </div>
+    </div>
+    <!-- Gráfica de compras por mes -->
+    <div class="col s12 m6 l6">
+        <div class="card white">
+            <div class="card-content">
+                <span class="card-title center">Meses con más compras</span>
+                <canvas id="chart-compras"></canvas>
             </div>
         </div>
     </div>

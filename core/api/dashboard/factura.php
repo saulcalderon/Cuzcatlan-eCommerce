@@ -135,6 +135,13 @@ if (isset($_GET['action'])) {
                     $result['exception'] = 'Fallo al cargar la gráfica';
                 }
                 break;
+            case 'cantidadCompras':
+                if ($result['dataset'] = $factura->cantidadCompras()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['exception'] = 'Fallo al cargar la gráfica';
+                }
+                break;
             default:
                 exit('Acción no disponible');
         }
