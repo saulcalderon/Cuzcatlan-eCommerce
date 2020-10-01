@@ -1,10 +1,10 @@
 // Constante para establecer la ruta y parámetros de comunicación con la API.
-const API_USUARIOS = '../../core/api/dashboard/usuarios.php?action=';
-
+const API_USUARIOS = "../../core/api/dashboard/usuarios.php?action=";
+let intentos = 3;
 // Método que se ejecuta cuando el documento está listo.
 $(document).ready(function () {
-    // Se llama a la función que verifica la existencia de usuarios. Se encuentra en el archivo account.js
-    checkUsuarios();
+  // Se llama a la función que verifica la existencia de usuarios. Se encuentra en el archivo account.js
+  checkUsuarios();
 });
 
 // Evento para validar el usuario al momento de iniciar sesión.

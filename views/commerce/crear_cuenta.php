@@ -11,7 +11,7 @@ Commerce::headerTemplate();
                     <div class="container login-container">
                         <h3 class="center-align">Crear mi cuenta</h3>
                         <div class="row">
-                            <form method="post" id="register-form" class="col s12">
+                            <form method="post" id="register-form" class="col s12" autocomplete="off">
                             <!-- Campo oculto para asignar el token del reCAPTCHA -->
                             <input type="hidden" id="g-recaptcha-response" name="g-recaptcha-response"/>
                                 <div class="row">

@@ -24,7 +24,7 @@ Commerce::headerTemplate();
                     <!-- Información de la cuenta -->
                     <div class="col s12 m8">
                         <div class="row">
-                            <form action="" class="col s12">
+                            <form action="" class="col s12" autocomplete="off">
                                 <!-- Nombre y apellido -->
                                 <div class="row">
                                     <div class="input-field col s12 m6">
@@ -185,5 +185,5 @@ Commerce::headerTemplate();
     </div>    
 </main>
 <?php
-Commerce::FooterTemplate();
+Commerce::FooterTemplate('cuenta');
 ?>

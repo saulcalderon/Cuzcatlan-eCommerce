@@ -271,20 +271,52 @@ if (isset($_GET['action'])) {
                     $result['exception'] = 'Nombres incorrectos';
                 }
                 break;
+                //Seguridad 1
             case 'login':
                 $_POST = $usuario->validateForm($_POST);
-                if ($usuario->checkCorreo($_POST['alias'])) {
-                    if ($usuario->checkPassword($_POST['clave'])) {
-                        $_SESSION['id_usuario'] = $usuario->getId();
-                        $_SESSION['alias_usuario'] = $usuario->getNombres() . ' ' . $usuario->getApellidos();
-                        $result['status'] = 1;
-                        $result['message'] = 'Autenticación correcta';
+                //Verficar si el usuario no ha sido bloqueado, utilizando la cookie block
+                if(isset($_COOKIE["block".$_POST['alias']])){
+                    $result['exception'] = 'Su cuenta está bloqueada por un minuto';
+                }else{
+                    if ($usuario->checkCorreo($_POST['alias'])) {
+                        if ($usuario->checkPassword($_POST['clave'])) {
+                            //Seguridad 2 (Terminar)
+                            if($usuario->checkDispositivo()){
+                                $_SESSION['id_usuario'] = $usuario->getId();
+                                $_SESSION['alias_usuario'] = $usuario->getNombres() . ' ' . $usuario->getApellidos();
+                                $result['status'] = 1;
+                                $result['message'] = 'Autenticación correcta';
+                            }else{
+                                $result['exception'] = "Se tiene una sesión activa en otro dispositivo, cierre sesión y vuelva a intentarlo";
+                            }
+                        } else {
+                            $result['exception'] = 'Clave incorrecta';
+                        }
                     } else {
-                        $result['exception'] = 'Clave incorrecta';
+                        $result['exception'] = 'Alias incorrecto';
                     }
-                } else {
-                    $result['exception'] = 'Alias incorrecto';
+
+                    //Bloqueo de usuario por intentos, utilizando cookies
+                    if($result['status'] != 1){
+                        if(isset($_COOKIE[$_POST['alias']])){
+                            //print($_COOKIE);
+
+                            $cont =  $_COOKIE[$_POST['alias']];
+                            $cont++;
+                            setcookie($_POST['alias'], $cont, time() + 120);
+
+                            //print($_COOKIE);
+                            //Contador para evaluar los tres intentos del usuario
+                            if($cont >= 3){
+                                //Se setea el tiempo que va a bloquearse el inicio de sesión en segundos, en este caso 60 segundos
+                                setcookie("block".$_POST['alias'], $cont, time()+60);
+                            }
+                        }else{
+                            setcookie($_POST['alias'], 1, time()+120);
+                        }
+                    }
                 }
+                
                 break;
             case 'recuperar':
                 $_POST = $usuario->validateForm($_POST);

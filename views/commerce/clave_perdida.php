@@ -11,7 +11,7 @@ Commerce::headerTemplate();
                     <h3 class="center-align margin">Recupera tu cuenta</h3>
                     <h6 class="center-align margin">Ingresa el correo electrónico asociado a tu cuenta y enviaremos y correo para que restablezcas tu contraseña.</h4>
                     <div class="row margin">
-                        <form action="" class="col s12">
+                        <form action="" class="col s12" autocomplete="off">
                             <div class="row">
                                 <div class="input-field col s12">
                                     <input  id="email" type="email" class="validate">
@@ -33,5 +33,5 @@ Commerce::headerTemplate();
     </div>
 </main>
 <?php
-Commerce::FooterTemplate();
+Commerce::FooterTemplate('recuperar_clave');
 ?>

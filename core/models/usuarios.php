@@ -14,6 +14,13 @@ class Usuarios extends Validator
     private $fechaNacimiento = null;
     private $idCargo = null;
 
+    //Propiedades de las conexiones de los usuarios
+    private $idConexion = null;
+    private $ip = null;
+    private $hostname = null;
+    private $estadoConexion = null;
+
+
     /*
     *   Métodos para asignar valores a los atributos.
     */
@@ -97,6 +104,47 @@ class Usuarios extends Validator
         }
     }
 
+    //Métodos para guardar las conexiones conexión
+
+    public function setIdConexion($value)
+    {
+        if ($this->validateNaturalNumber($value)) {
+            $this->idConexion = $value;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function setIp($value)
+    {
+        if ($this->ip = $value) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function setHostname($value)
+    {
+        if ($this->idConexion = $value) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function setEstadoConexion($value)
+    {
+        if ($this->validateBoolean($value)) {
+            $this->estadoConexion = $value;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
     /*
     *   Métodos para obtener valores de los atributos.
     */
@@ -140,6 +188,26 @@ class Usuarios extends Validator
         return $this->clave;
     }
 
+    public function getIdConexion()
+    {
+        return $this->idConexion;
+    }
+
+    public function gethostname()
+    {
+        return $this->hostname;
+    }
+
+    public function getEstadoConexion()
+    {
+        return $this->estadoConexion;
+    }
+
+    public function getIp()
+    {
+        return $this->ip;
+    }
+
     /*
     *   Métodos para gestionar la cuenta del usuario.
     */
@@ -169,6 +237,50 @@ class Usuarios extends Validator
             return false;
         }
     }
+
+    //Hacer una funcion para verificar si existen dispositivos, si no, agregar uno. Luego Evaluar si este dispositivo existe, 
+    //que coincida con el nombre provisto anteriormente, si no, avisar que hay una sesión abierta.
+
+    //Hacer una funcion para administrar los dispositivos (update)
+
+    //Funcion para ver todos los dispositivos (Read)
+
+    //Delete
+    //Terminar
+    public function checkDispositivo()
+    {
+        //Verificar si existen dispositivos antes 
+        $sql = 'SELECT COUNT(*) FROM conexiones';
+        $existen = Database::getRow($sql, null);
+        //Si existen dispositivos se evalua que el del cliente coincida con el registrado a su ID
+        if ($existen != 0) {
+            $sql2 = 'SELECT ip, host, estado FROM conexiones WHERE id_administrador = ?';
+            $params2 = array($this->id);
+            $data = Database::getRow($sql2, $params2);
+            $ipe = gethostbyname('localhost');
+            $dispositivo = gethostname();
+            if ($data['ip'] == $ipe && $data['host'] == $dispositivo) {
+                if($data['estado'] == true){
+                    return true;
+                }else{
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    //Terminar
+    public function insertDispositivo()
+    {
+        $sql = "INSERT INTO conexiones(host, ip, estado, id_administrador) VALUES(?,?,?,?)";
+        $params = array(gethostname(), gethostbyname("localhost"), false, $this->id);
+        $datos = Database::executeRow($sql, $params);
+    }
+
 
     public function changePassword()
     {
@@ -245,9 +357,9 @@ class Usuarios extends Validator
         return Database::executeRow($sql, $params);
     }
 
-    public function readTipoUser(){
+    public function readTipoUser()
+    {
         $sql = 'SELECT nombre, apellido, correo, telefono, cargo FROM administrador, cargo ORDER BY cargo';
         return Database::getRows($sql, null);
     }
-
 }
