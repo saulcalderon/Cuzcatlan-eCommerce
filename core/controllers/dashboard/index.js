@@ -34,3 +34,30 @@ $('#sesion-form').submit(function (event) {
             }
         });
 });
+
+
+$('#recuperar').submit(function (e) {
+    e.preventDefault();
+    $.ajax({
+            type: 'post',
+            url: API_USUARIOS + 'recuperar',
+            data: $('#recuperar').serialize(),
+            dataType: 'json'
+        })
+        .done(function (response) {
+            // Se comprueba si la API ha retornado una respuesta satisfactoria, de lo contrario se muestra un mensaje de error.
+            if (response.status) {
+                sweetAlert(1, response.message, null);
+            } else {
+                sweetAlert(2, response.exception, null);
+            }
+        })
+        .fail(function (jqXHR) {
+            // Se verifica si la API ha respondido para mostrar la respuesta, de lo contrario se presenta el estado de la petición.
+            if (jqXHR.status == 200) {
+                console.log(jqXHR.responseText);
+            } else {
+                console.log(jqXHR.status + ' ' + jqXHR.statusText);
+            }
+        });
+});

@@ -286,6 +286,62 @@ if (isset($_GET['action'])) {
                     $result['exception'] = 'Alias incorrecto';
                 }
                 break;
+            case 'recuperar':
+                $_POST = $usuario->validateForm($_POST);
+                if ($usuario->checkCorreo($_POST['recuperar_mail'])) {
+
+                    require '../../../libraries/phpmailer52/class.phpmailer.php';
+                    require '../../../libraries/phpmailer52/class.smtp.php';
+
+                    $token = hash("sha256",uniqid());
+
+                    $direccion = "http://localhost/Cuzcatlan-eCommerce/views/dashboard/forgot_password.php?token=".$token;
+                    $mail = new PHPMailer;
+
+                    $mail->CharSet = 'UTF-8';
+                    //Tell PHPMailer to use SMTP
+                    $mail->isSMTP();
+
+                    //Set the hostname of the mail server
+                    $mail->Host = 'smtp.gmail.com';
+
+                    //Set the SMTP port number - 587 for authenticated TLS, a.k.a. RFC4409 SMTP submission
+                    $mail->Port = 465;
+
+                    $mail->SMTPSecure = 'ssl';
+
+                    //Whether to use SMTP authentication
+                    $mail->SMTPAuth = true;
+
+                    //Username to use for SMTP authentication - use full email address for gmail
+                    $mail->Username = 'kamiltik.thecoffeecup@gmail.com';
+
+                    //Password to use for SMTP authentication
+                    $mail->Password = 'Kamiltik12';
+
+                    //Set who the message is to be sent from
+                    $mail->setFrom('kamiltik.thecoffeecup@gmail.com', 'Kamiltik');
+
+                    //Set who the message is to be sent to
+                    $mail->addAddress($_POST['recuperar_mail'], $usuario->getNombres() . ' ' . $usuario->getApellidos());
+
+                    //Set the subject line
+                    $mail->Subject = 'Restauración de contraseña';
+
+                    //Replace the plain text body with one created manually
+                    $mail->Body = "Restablezca su contraseña haciendo click en el siguiente enlace: ".$direccion;   
+                    //send the message, check for error
+
+                    if ($mail->send()) {
+                    
+                    } else {
+                        $result['exception'] = $mail->ErrorInfo;
+                    }
+                } else {
+                    $result['exception'] = 'Correo no registrado';
+                }
+
+                break;
             default:
                 exit('Acción no disponible');
         }
