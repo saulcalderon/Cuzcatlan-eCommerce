@@ -19,7 +19,7 @@ Commerce::headerTemplate();
             <div class="col s12 m6">
                 <div class="container">
                     <div class="row">
-                        <form action="" class="col s12">
+                        <form action="" class="col s12" autocomplete="off">
                             <div class="row">
                                 <div class="input-field col s6">
                                     <input id="first_name" type="text" class="validate">
