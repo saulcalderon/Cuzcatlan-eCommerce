@@ -275,20 +275,20 @@ if (isset($_GET['action'])) {
             case 'login':
                 $_POST = $usuario->validateForm($_POST);
                 //Verficar si el usuario no ha sido bloqueado, utilizando la cookie block
-                if(isset($_COOKIE["block".$_POST['alias']])){
+                if (isset($_COOKIE["block" . $_POST['alias']])) {
                     $result['exception'] = 'Su cuenta está bloqueada por un minuto';
-                }else{
+                } else {
                     if ($usuario->checkCorreo($_POST['alias'])) {
                         if ($usuario->checkPassword($_POST['clave'])) {
                             //Seguridad 2 (Terminar)
-                            if($usuario->checkDispositivo()){
-                                $_SESSION['id_usuario'] = $usuario->getId();
-                                $_SESSION['alias_usuario'] = $usuario->getNombres() . ' ' . $usuario->getApellidos();
-                                $result['status'] = 1;
-                                $result['message'] = 'Autenticación correcta';
-                            }else{
-                                $result['exception'] = "Se tiene una sesión activa en otro dispositivo, cierre sesión y vuelva a intentarlo";
-                            }
+                            // if ($usuario->checkDispositivo()) {
+                            $_SESSION['id_usuario'] = $usuario->getId();
+                            $_SESSION['alias_usuario'] = $usuario->getNombres() . ' ' . $usuario->getApellidos();
+                            $result['status'] = 1;
+                            $result['message'] = 'Autenticación correcta';
+                            // } else {
+                            //     $result['exception'] = "Se tiene una sesión activa en otro dispositivo, cierre sesión y vuelva a intentarlo";
+                            // }
                         } else {
                             $result['exception'] = 'Clave incorrecta';
                         }
@@ -297,8 +297,8 @@ if (isset($_GET['action'])) {
                     }
 
                     //Bloqueo de usuario por intentos, utilizando cookies
-                    if($result['status'] != 1){
-                        if(isset($_COOKIE[$_POST['alias']])){
+                    if ($result['status'] != 1) {
+                        if (isset($_COOKIE[$_POST['alias']])) {
                             //print($_COOKIE);
 
                             $cont =  $_COOKIE[$_POST['alias']];
@@ -307,16 +307,16 @@ if (isset($_GET['action'])) {
 
                             //print($_COOKIE);
                             //Contador para evaluar los tres intentos del usuario
-                            if($cont >= 3){
+                            if ($cont >= 3) {
                                 //Se setea el tiempo que va a bloquearse el inicio de sesión en segundos, en este caso 60 segundos
-                                setcookie("block".$_POST['alias'], $cont, time()+60);
+                                setcookie("block" . $_POST['alias'], $cont, time() + 60);
                             }
-                        }else{
-                            setcookie($_POST['alias'], 1, time()+120);
+                        } else {
+                            setcookie($_POST['alias'], 1, time() + 120);
                         }
                     }
                 }
-                
+
                 break;
             case 'recuperar':
                 $_POST = $usuario->validateForm($_POST);
@@ -325,9 +325,11 @@ if (isset($_GET['action'])) {
                     require '../../../libraries/phpmailer52/class.phpmailer.php';
                     require '../../../libraries/phpmailer52/class.smtp.php';
 
-                    $token = hash("sha256",uniqid());
+                    $token = hash("sha256", uniqid());
 
-                    $direccion = "http://localhost/Cuzcatlan-eCommerce/views/dashboard/forgot_password.php?token=".$token;
+                    setcookie('t', $token, time() + 900);
+
+                    $direccion = "http://localhost/Cuzcatlan-eCommerce/views/dashboard/forgot_password.php?t=" . $token;
                     $mail = new PHPMailer;
 
                     $mail->CharSet = 'UTF-8';
@@ -361,18 +363,51 @@ if (isset($_GET['action'])) {
                     $mail->Subject = 'Restauración de contraseña';
 
                     //Replace the plain text body with one created manually
-                    $mail->Body = "Restablezca su contraseña haciendo click en el siguiente enlace: ".$direccion;   
+                    $mail->Body = "Restablezca su contraseña haciendo click en el siguiente enlace: " . $direccion;
                     //send the message, check for error
 
                     if ($mail->send()) {
-                    
+                        if ($usuario->tokenClave($token)) {
+                            $result['status'] = 1;
+                            $result['message'] = 'Hemos enviado un correo para que restablezca su contraseña.';
+                        } else {
+                            $result['exception'] = 'Hubo un error al enviar el correo.';
+                        }
                     } else {
                         $result['exception'] = $mail->ErrorInfo;
                     }
                 } else {
                     $result['exception'] = 'Correo no registrado';
                 }
-
+                break;
+            case 'nuevaClave':
+                $_POST = $usuario->validateForm($_POST);
+                if (isset($_COOKIE['t'])) {
+                    if ($usuario->setTokenClave($_POST['token_clave'])) {
+                        if ($_POST['token_clave'] == $_COOKIE['t']) {
+                            if ($_POST['nueva_clave'] === $_POST['nueva_clave_2']) {
+                                if ($usuario->setClave($_POST['nueva_clave'])) {
+                                    if ($usuario->changePassword2()) {
+                                        $result['status'] = 1;
+                                        $result['message'] = 'Contraseña actualizada correctamente.';
+                                    } else {
+                                        $result['exception'] = 'Hubo un error al cambiar la contraseña.';
+                                    }
+                                } else {
+                                    $result['exception'] = 'Hubo un error al cambiar la contraseña.';
+                                }
+                            } else {
+                                $result['exception'] = 'Las contraseñas no coinciden.';
+                            }
+                        } else {
+                            $result['exception'] = 'Hubo un error al cambiar la contraseña.';
+                        }
+                    } else {
+                        $result['exception'] = 'Hubo un error al cambiar la contraseña.';
+                    }
+                } else {
+                    $result['exception'] = 'Hubo un error al cambiar la contraseña.';
+                }
                 break;
             default:
                 exit('Acción no disponible');

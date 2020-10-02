@@ -20,6 +20,8 @@ class Usuarios extends Validator
     private $hostname = null;
     private $estadoConexion = null;
 
+    //Tokens
+    private $token_clave = null;
 
     /*
     *   Métodos para asignar valores a los atributos.
@@ -144,6 +146,17 @@ class Usuarios extends Validator
         }
     }
 
+       // Métodos para verificación de tokens
+
+    public function setTokenClave($value){
+        if (strlen($value) == 64) {
+            $this->token_clave = $value;
+            return true;
+        } else {
+            return false;
+        }
+        
+    }
 
     /*
     *   Métodos para obtener valores de los atributos.
@@ -362,4 +375,25 @@ class Usuarios extends Validator
         $sql = 'SELECT nombre, apellido, correo, telefono, cargo FROM administrador, cargo ORDER BY cargo';
         return Database::getRows($sql, null);
     }
+
+    public function tokenClave($token){
+        $sql="UPDATE administrador SET token_clave = ? WHERE correo = ?";
+        $params = array($token, $this->correo);
+        return Database::executeRow($sql,$params);
+    }
+
+    public function verifyTokenClave(){
+        $sql="SELECT token_clave FROM administrador WHERE token_clave = ?";
+        $params = array($this->token_clave);
+        return Database::executeRow($sql,$params);
+    }
+
+    public function changePassword2()
+    {
+        $hash = password_hash($this->clave, PASSWORD_DEFAULT);
+        $sql = 'UPDATE administrador SET clave = ? WHERE token_clave = ?';
+        $params = array($hash, $this->token_clave);
+        return Database::executeRow($sql, $params);
+    }
+
 }
