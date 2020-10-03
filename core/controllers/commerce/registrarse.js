@@ -7,7 +7,7 @@ $(document).ready(function(){
     $('.modal').modal();
 
     // Método que se ejecuta cuando carga la biblioteca reCAPTCHA.
-    /*grecaptcha.ready(function() {
+    grecaptcha.ready(function() {
         // Se declara e inicializa una variable para guardar la llave pública del reCAPTCHA.
         let publicKey = '6LdBzLQUAAAAAJvH-aCUUJgliLOjLcmrHN06RFXT';
         // Se obtiene un token para la página web mediante la llave pública.
@@ -16,7 +16,7 @@ $(document).ready(function(){
             // Se asigna el valor del token al campo oculto del formulario
             $( '#g-recaptcha-response' ).val( token );
         });
-    });*/
+    });
 
     // Se declara e inicializa un objeto para obtener la fecha y hora actual.
     let today = new Date();

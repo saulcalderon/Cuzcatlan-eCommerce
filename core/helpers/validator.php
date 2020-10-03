@@ -8,6 +8,7 @@ class Validator
     // Propiedades para manejar la validación de archivos de imagen.
     private $imageError = null;
     private $imageName = null;
+    private $passwordError = null;
 
     /*
     *   Método para obtener el nombre del archivo de la imagen validada previamente.
@@ -40,6 +41,12 @@ class Validator
                 $error = 'Ocurrió un problema con la imagen';
         }
         return $error;
+    }
+
+    /*Metodo para validar la contraseña*/
+    public function getPasswordError()
+    {
+        return $this->passwordError;
     }
 
     /*
@@ -235,10 +242,22 @@ class Validator
     */
     public function validatePassword($value)
     {
-        // Se verifica que la longitud de la contraseña sea de al menos 6 caracteres.
-        if (strlen($value) >= 6) {
-            return true;
+        // Se verifica que la longitud de la contraseña no exceda de 10 caracteres.
+        if (strlen($value) >= 8 && strlen($value) <= 20) {
+            //Se verifica que la contraseña posea al menos una letra mayuscula
+            if (preg_match('`[A-Z]`',$value)){
+                if (preg_match('`[a-z]`',$value)){
+                    return true;
+                }else{
+                    $this->passwordError = "La clave debe tener al menos una letra minúscula";
+                    return false;
+                }
+            }else{
+                $this->passwordError = "La clave debe tener al menos una letra mayúscula";
+                return false;
+            }  
         } else {
+            $this->passwordError = "La clave debe tener entre 8 y 20 caracteres";
             return false;
         }
     }
