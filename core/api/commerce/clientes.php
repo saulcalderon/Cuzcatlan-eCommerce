@@ -15,13 +15,19 @@ if (isset($_GET['action'])){
     if (isset($_SESSION['id_cliente'])) {
         // Se compara la acción a realizar cuando un cliente ha iniciado sesión.
         switch ($_GET['action']) {
-            case 'logout':
-                if (session_destroy()) {
+            case 'closeSession':
+                //Sentencia del if que sirve para el conteo de expiracion de sesion
+                if(time()-$_SESSION['tiempo']>300){  //Se recomienda 300s para el equivalente a 5min
+                    unset($_SESSION['id_cliente']);
                     $result['status'] = 1;
-                    $result['message'] = 'Sesión eliminada correctamente';
-                } else {
-                    $result['exception'] = 'Ocurrió un problema al cerrar la sesión';
+                }else{
+                    $_SESSION['tiempo'] = time();
                 }
+            break;
+            case 'logout':
+                unset($_SESSION['id_cliente']); //Se modifica el sesion destroy por el unset para permitir sesiones diferentes
+                $result['status'] = 1;
+                $result['message'] = 'Sesión eliminada correctamente';
                 break;
                 case 'readProfile':
                     if ($cliente->setId($_SESSION['id_cliente'])) {
@@ -93,7 +99,7 @@ if (isset($_GET['action'])){
                                                     $result['exception'] = Database::getException();
                                                 }
                                             } else {
-                                                $result['exception'] = 'Clave nueva menor a 6 caracteres';
+                                                $result['exception'] = $cliente->getPasswordError(); //getPasswordError para validar contraseña
                                             }
                                         } else {
                                             $result['exception'] = 'Claves nuevas diferentes';
@@ -135,7 +141,7 @@ if (isset($_GET['action'])){
                                                     $result['exception'] = 'Ocurrió un problema al registrar el cliente';
                                                 }
                                             } else {
-                                                $result['exception'] = 'Clave menor a 6 caracteres';
+                                                $result['exception'] = $cliente->getPasswordError(); //getPasswordError para validar contraseña
                                             }
                                         } else {
                                             $result['exception'] = 'Claves diferentes';

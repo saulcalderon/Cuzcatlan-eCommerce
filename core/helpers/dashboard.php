@@ -29,7 +29,7 @@ class Dashboard
                     <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
                     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
                 </head>
-                <body>
+                <body onclick="closeSession()">
         ');
         // Se obtiene el nombre del archivo de la página web actual o URL.
         $filename = basename($_SERVER['PHP_SELF']);

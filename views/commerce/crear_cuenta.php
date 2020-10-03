@@ -101,7 +101,7 @@ Commerce::headerTemplate();
             </div>
 
 <!-- Importación del archivo para que funcione el reCAPTCHA. Para más información https://developers.google.com/recaptcha/docs/v3 -->
-    <!--<script src="https://www.google.com/recaptcha/api.js?render=6LdBzLQUAAAAAJvH-aCUUJgliLOjLcmrHN06RFXT"></script>-->
+<script src="https://www.google.com/recaptcha/api.js?render=6LdBzLQUAAAAAJvH-aCUUJgliLOjLcmrHN06RFXT"></script>
 <?php
 Commerce::FooterTemplate('registrarse.js');
 ?>

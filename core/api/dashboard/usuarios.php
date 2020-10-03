@@ -17,13 +17,19 @@ if (isset($_GET['action'])) {
     if (isset($_SESSION['id_usuario'])) {
         // Se compara la acción a realizar cuando un administrador ha iniciado sesión.
         switch ($_GET['action']) {
-            case 'logout':
-                if (session_destroy()) {
+            case 'closeSession':
+                //Sirve para el conteo de expiracion de sesion
+                if(time()-$_SESSION['tiempo1']>300){ //Se recomienda 300s para el equivalente a 5min
+                    unset($_SESSION['id_usuario']);
                     $result['status'] = 1;
-                    $result['message'] = 'Sesión eliminada correctamente';
-                } else {
-                    $result['exception'] = 'Ocurrió un problema al cerrar la sesión';
+                }else{
+                    $_SESSION['tiempo1'] = time();
                 }
+            break;
+            case 'logout':
+                unset($_SESSION['id_usuario']);
+                $result['status'] = 1;
+                $result['message'] = 'Sesión eliminada correctamente';
                 break;
             case 'readProfile':
                 if ($usuario->setId($_SESSION['id_usuario'])) {
