@@ -103,7 +103,6 @@ function graficaNoticias() {
 let months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
 
 function lineGraphClients() {
-
     $.ajax({
             url: '../../core/api/dashboard/clientes.php?action=newClients',
             dataType: 'json'
@@ -132,7 +131,7 @@ function lineGraphClients() {
                     }
                     state = false;
                 }
-                // Se llama a la función que genera y muestra una gráfica de barras. Se encuentra en el archivo components.js
+                // Se llama a la función ubicada en components.js
                 lineGraph('chart-clientes', months, clients, 'asdasd', 'Clientes registrados por mes');
             } else {
                 sweetAlert(2, response.exception, null);
@@ -177,7 +176,7 @@ function lineGraphBills() {
                     }
                     state = false;
                 }
-                // // console.log(clients);
+                // Se llama a la función ubicada en components.js
                 lineGraph2('chart-facturas', months, money, 'Total: $ ', 'Ganancias totales por mes');
             } else {
                 sweetAlert(2, response.exception, null);

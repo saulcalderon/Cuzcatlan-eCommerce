@@ -55,7 +55,7 @@ function logOut()
     });
 }
 
-//Funcion para habilitar el cierre de sesion por inactividad
+//Funcion para cerrar sesion por inactividad
 function closeSession()
 {
     $.ajax({
@@ -76,7 +76,7 @@ function closeSession()
             console.log(jqXHR.status + ' ' + jqXHR.statusText);
         }
     });
-}s
+}
 
 function openModalPasswords(){
     $('#password-modal').modal('open');

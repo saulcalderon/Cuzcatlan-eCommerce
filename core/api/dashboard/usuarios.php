@@ -17,7 +17,7 @@ if (isset($_GET['action'])) {
     if (isset($_SESSION['id_usuario'])) {
         // Se compara la acción a realizar cuando un administrador ha iniciado sesión.
         switch ($_GET['action']) {
-            case 'closeSession':
+            case 'logout':
                 //Sirve para el conteo de expiracion de sesion
                 if(time()-$_SESSION['tiempo1']>300){ //Se recomienda 300s para el equivalente a 5min
                     unset($_SESSION['id_usuario']);
@@ -30,6 +30,11 @@ if (isset($_GET['action'])) {
                 unset($_SESSION['id_usuario']);
                 $result['status'] = 1;
                 $result['message'] = 'Sesión eliminada correctamente';
+                break;
+                case 'logout':
+                    unset($_SESSION['id_usuario']);
+                    $result['status'] = 1;
+                    $result['message'] = 'Sesión eliminada correctamente';
                 break;
             case 'readProfile':
                 if ($usuario->setId($_SESSION['id_usuario'])) {
@@ -91,7 +96,7 @@ if (isset($_GET['action'])) {
                                             $result['exception'] = Database::getException();
                                         }
                                     } else {
-                                        $result['exception'] = 'Clave nueva menor a 6 caracteres';
+                                        $result['exception'] = $usuario->getPasswordError();
                                     }
                                 } else {
                                     $result['exception'] = 'Claves nuevas diferentes';
@@ -151,7 +156,7 @@ if (isset($_GET['action'])) {
                                             $result['exception'] = Database::getException();
                                         }
                                     } else {
-                                        $result['exception'] = 'Clave menor a 6 caracteres';
+                                        $result['exception'] = $usuario->getPasswordError();
                                     }
                                 } else {
                                     $result['exception'] = 'Claves diferentes';
@@ -229,6 +234,36 @@ if (isset($_GET['action'])) {
                     $result['exception'] = 'No se puede eliminar a sí mismo';
                 }
                 break;
+
+            case 'updateDispositivo':
+                $_POST = $usuario->validateForm($_POST);
+                if ($usuario->setId($_POST['id_administrador'])) {
+                    if ($usuario->readOneDispositivo()) {
+                        if ($usuario->setEstadoConexion(isset($_POST['estado']) ? 1 : 2)) {
+                            if ($usuario->updateDispositivo()) {
+                                $result['status'] = 1;
+                                $result['message'] = 'Dispositivo modificado correctamente';
+                            }
+                        } else {
+                            $result['exception'] = 'Estado inexistente';
+                        }
+                    } else {
+                        $result['exception'] = 'Usuario inexistente';
+                    }
+                } else {
+                    $result['exception'] = 'Usuario incorrecto';
+                }
+                break;
+
+            case 'readAllDispositivos':
+                if ($result['dataset'] = $usuario->readAllDispositivos()) {
+                    $result['status'] = 1;
+                    //print_r($_GET['action']);
+                    //print_r($result['dataset']);
+                } else {
+                    $result['exception'] = 'No hay dispositivos registrados';
+                }
+                break;
             default:
                 exit('Acción no disponible log');
         }
@@ -259,7 +294,7 @@ if (isset($_GET['action'])) {
                                             $result['exception'] = Database::getException();
                                         }
                                     } else {
-                                        $result['exception'] = 'Clave menor a 6 caracteres';
+                                        $result['exception'] = $usuario->getPasswordError();
                                     }
                                 } else {
                                     $result['exception'] = 'Claves diferentes';
@@ -277,21 +312,148 @@ if (isset($_GET['action'])) {
                     $result['exception'] = 'Nombres incorrectos';
                 }
                 break;
+                //Seguridad 1
             case 'login':
                 $_POST = $usuario->validateForm($_POST);
-                if ($usuario->checkCorreo($_POST['alias'])) {
-                    if ($usuario->checkPassword($_POST['clave'])) {
-                        $_SESSION['id_usuario'] = $usuario->getId();
-                        $_SESSION['alias_usuario'] = $usuario->getNombres() . ' ' . $usuario->getApellidos();
-                        $result['status'] = 1;
-                        $result['message'] = 'Autenticación correcta';
-                    } else {
-                        $result['exception'] = 'Clave incorrecta';
-                    }
+                //Verficar si el usuario no ha sido bloqueado, utilizando la cookie block
+                if (isset($_COOKIE["block" . 'usuario'])) {
+                    $result['exception'] = 'Su cuenta está bloqueada por un minuto';
                 } else {
-                    $result['exception'] = 'Alias incorrecto';
+                    if ($usuario->checkCorreo($_POST['alias'])) {
+                        if ($usuario->checkPassword($_POST['clave'])) {
+                            //Seguridad 2 (Terminar)
+                            if ($usuario->checkDispositivo()) {
+                                $_SESSION['id_usuario_auth'] = $usuario->getId();
+                                $_SESSION['alias_usuario'] = $usuario->getNombres() . ' ' . $usuario->getApellidos();
+
+                                $token = uniqid();
+
+                                $direccion = "http://localhost/Cuzcatlan-eCommerce/views/dashboard/autenticar.php?t=" . $token;
+
+
+                                $body = "Confirme su inicio de sesión en el siguiente link: " . $direccion;
+
+                                $subject = 'Confirmar inicio de sesión';
+                                if ($usuario->sendMail($body, $subject)) {
+                                    if ($usuario->tokenAuth($token)) {
+                                        $result['status'] = 1;
+                                        $result['message'] = 'Se ha enviado un correo para validar su sesión.';
+                                    } else {
+                                        $result['exception'] = "Hubo un error al enviar el correo.";
+                                    }
+                                } else {
+                                    $result['exception'] = "Hubo un error al enviar el correo.";
+                                }
+                            } else {
+                                $result['exception'] = "Se tiene una sesión activa en otro dispositivo, por motivos de seguridad se cerrarán sus sesiones activas y vuelva a intentarlo";
+                            }
+                        } else {
+                            $result['exception'] = 'Clave incorrecta';
+                        }
+                    } else {
+                        $result['exception'] = 'Alias incorrecto';
+                    }
+
+                    //Bloqueo de usuario por intentos, utilizando cookies
+                    if ($result['status'] != 1) {
+                        if (isset($_COOKIE['usuario'])) {
+                            //print($_COOKIE);
+
+                            $cont =  $_COOKIE['usuario'];
+                            $cont++;
+                            setcookie('usuario', $cont, time() + 120);
+
+                            //print($_COOKIE);
+                            //Contador para evaluar los tres intentos del usuario
+                            if ($cont >= 3) {
+                                //Se setea el tiempo que va a bloquearse el inicio de sesión en segundos, en este caso 60 segundos
+                                setcookie("block" . 'usuario', $cont, time() + 60);
+                            }
+                        } else {
+                            setcookie('usuario', 1, time() + 120);
+                        }
+                    }
+                }
+
+                break;
+            case 'recuperar':
+                $_POST = $usuario->validateForm($_POST);
+                if ($usuario->checkCorreo($_POST['recuperar_mail'])) {
+
+                    $token = uniqid();
+
+                    $direccion = "http://localhost/Cuzcatlan-eCommerce/views/dashboard/forgot_password.php?t=" . $token;
+
+
+                    $body = "Restablezca su contraseña haciendo click en el siguiente enlace: " . $direccion;
+
+                    $subject = 'Restaurar contraseña';
+                    if ($usuario->sendMail($body, $subject)) {
+                        if ($usuario->tokenClave($token)) {
+                            $_SESSION['correo'] = $usuario->getCorreo();
+                            $result['status'] = 1;
+                            $result['message'] = 'Hemos enviado un correo para que restablezca su contraseña.';
+                        } else {
+                            $result['exception'] = 'Hubo un error al enviar el correo.';
+                        }
+                    } else {
+                        $result['exception'] = 'Hubo un error al enviar el correo.';
+                    }
+
+
+                    // } else {
+                    //     $result['exception'] = $mail->ErrorInfo;
+                    // }
+                } else {
+                    $result['exception'] = 'Correo no registrado';
                 }
                 break;
+            case 'nuevaClave':
+                $_POST = $usuario->validateForm($_POST);
+                if ($usuario->checkCorreo($_SESSION['correo'])) {
+                    if ($usuario->setTokenClave($_POST['token_clave'])) {
+                        if ($usuario->verifyTokenClave()) {
+                            if ($_POST['nueva_clave'] === $_POST['nueva_clave_2']) {
+                                if ($usuario->setClave($_POST['nueva_clave'])) {
+                                    if ($usuario->changePassword2()) {
+                                        $usuario->deleteTokenClave();
+                                        $result['status'] = 1;
+                                        $result['message'] = 'Contraseña actualizada correctamente.';
+                                    } else {
+                                        $result['exception'] = 'Hubo un error al cambiar la contraseña.';
+                                    }
+                                } else {
+                                    $result['exception'] = 'Hubo un error al cambiar la contraseña.';
+                                }
+                            } else {
+                                $result['exception'] = 'Las contraseñas no coinciden.';
+                            }
+                        } else {
+                            $result['exception'] = 'Hubo un error al cambiar la contraseña.';
+                        }
+                    } else {
+                        $result['exception'] = 'Hubo un error al cambiar la contraseña.';
+                    }
+                } else {
+                    $result['exception'] = 'Hubo un error al cambiar la contraseña.';
+                }
+                break;
+            case 'auth':
+                $_POST = $usuario->validateForm($_POST);
+                if ($usuario->setTokenClave($_POST['token_clave'])) {
+                    if ($usuario->verifyTokenAuth(filter_var($_POST['auth'],FILTER_VALIDATE_BOOLEAN), $_SESSION['id_usuario_auth'])) {
+                        $usuario->deleteTokenAuth($_SESSION['id_usuario_auth']);
+                        $_SESSION['id_usuario'] =  $_SESSION['id_usuario_auth'];
+                        $result['status'] = 1;
+                        $result['message'] = 'Sesión verificada.';
+                    } else {
+                        $usuario->deleteTokenAuth($_SESSION['id_usuario_auth']);
+                        $result['message'] = 'Sesión denegada.';
+                    }
+                } else {
+                    $result['exception'] = 'Hubo un error al verificar su inicio de sesión, vuelva a intentarlo.';
+                }
+            break;
             default:
                 exit('Acción no disponible');
         }

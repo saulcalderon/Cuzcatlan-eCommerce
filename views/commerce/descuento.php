@@ -35,5 +35,5 @@ Commerce::headerTemplate();
     </div>
 </main>
 <?php
-Commerce::FooterTemplate();
+Commerce::FooterTemplate('descuento');
 ?>

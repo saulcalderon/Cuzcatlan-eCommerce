@@ -4,9 +4,7 @@ const API_CLIENTES = '../../core/api/dashboard/clientes.php?action=';
 // Método que se ejecuta cuando el documento está listo.
 $(document).ready(function () {
     // Se llama a la función que obtiene los registros para llenar la tabla. Se encuentra en el archivo components.js
-    readRows(API_CLIENTES);
-    lineGraphClients();
-    lineGraphBills();
+    readRows(API_CLIENTES)
 });
 
 // Función para llenar la tabla con los datos enviados por readRows().

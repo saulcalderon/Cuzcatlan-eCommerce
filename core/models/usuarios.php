@@ -14,6 +14,15 @@ class Usuarios extends Validator
     private $fechaNacimiento = null;
     private $idCargo = null;
 
+    //Propiedades de las conexiones de los usuarios
+    private $idConexion = null;
+    private $ip = null;
+    private $hostname = null;
+    private $estadoConexion = null;
+
+    //Tokens
+    private $token_clave = null;
+
     /*
     *   Métodos para asignar valores a los atributos.
     */
@@ -97,6 +106,58 @@ class Usuarios extends Validator
         }
     }
 
+    //Métodos para guardar las conexiones conexión
+
+    public function setIdConexion($value)
+    {
+        if ($this->validateNaturalNumber($value)) {
+            $this->idConexion = $value;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function setIp($value)
+    {
+        if ($this->ip = $value) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function setHostname($value)
+    {
+        if ($this->idConexion = $value) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function setEstadoConexion($value)
+    {
+        if ($this->validateBoolean($value)) {
+            $this->estadoConexion = $value;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    // Métodos para verificación de tokens
+
+    public function setTokenClave($value)
+    {
+        if (strlen($value) == 13) {
+            $this->token_clave = $value;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     /*
     *   Métodos para obtener valores de los atributos.
     */
@@ -140,6 +201,26 @@ class Usuarios extends Validator
         return $this->clave;
     }
 
+    public function getIdConexion()
+    {
+        return $this->idConexion;
+    }
+
+    public function gethostname()
+    {
+        return $this->hostname;
+    }
+
+    public function getEstadoConexion()
+    {
+        return $this->estadoConexion;
+    }
+
+    public function getIp()
+    {
+        return $this->ip;
+    }
+
     /*
     *   Métodos para gestionar la cuenta del usuario.
     */
@@ -169,6 +250,102 @@ class Usuarios extends Validator
             return false;
         }
     }
+
+
+    //Hacer una funcion para administrar los dispositivos (update) (Listo)
+    public function updateDispositivo()
+    {
+        $estado = $this->estadoConexion;
+        if ($estado == 1) {
+            $estado = true;
+        } else {
+            $estado = false;
+        }
+
+        $host = $this->hostname;
+        print_r($host);
+        $sql = 'UPDATE conexiones SET estado = ? WHERE id_administrador = ? AND host = ?';
+        $params = array($estado, $this->id, $host);
+        print_r($params);
+        return Database::executeRow($sql, $params);
+    }
+    //Funcion para ver todos los dispositivos (Read) (Listo)
+
+    public function readAllDispositivos()
+    {
+        $sqlD = 'SELECT id_conexion, host, estado FROM conexiones WHERE id_administrador = ?';
+        $paramsD = array($this->id);
+        return Database::getRows($sqlD, $paramsD);
+    }
+
+    public function readOneDispositivo()
+    {
+        $sql = 'SELECT host, estado FROM conexiones WHERE id_administrador = ? AND id_conexion = ?';
+        $params = array($this->id, $this->idConexion);
+        return Database::getRow($sql, $params);
+    }
+
+    //Funcion para verificar si existen dispositivos, si no, agregar uno. Luego Evaluar si este dispositivo existe, 
+    //que coincida con el nombre provisto anteriormente, si no, avisar que hay una sesión abierta. (Listo)
+
+    public function checkDispositivo()
+    {
+        //Verificar si existen dispositivos antes 
+        $sql = 'SELECT COUNT(*) FROM conexiones';
+        $existen = Database::getRow($sql, null);
+        //Si existen dispositivos se evalua que el del cliente coincida con el registrado a su ID
+        if ($existen != 0) {
+
+            $ipe = gethostbyname('localhost');
+            $dispositivo = gethostname();
+
+            $sql2 = 'SELECT ip, host, estado FROM conexiones WHERE id_administrador = ? AND ip = ? AND host = ? AND estado =?';
+            $params2 = array($this->id, $ipe, $dispositivo, true);
+            $data = Database::getRows($sql2, $params2);
+
+            if ($data == true) {
+                return true;
+            } else {
+                //Por cada estado se hará un update para tornarlo falso, luego se ejecutara la nueva consulta de arriba
+                $sql3 = 'UPDATE conexiones SET estado = false WHERE id_administrador = ?';
+                $params3 = array($this->id);
+                $respuesta = Database::executeRow($sql3, $params3);
+                if ($respuesta) {
+                    //Actualizar la sesión actual a verdadero para logearse
+                    $sql4 = 'UPDATE conexiones SET estado = true WHERE id_administrador = ? AND ip =? AND host = ? ';
+                    $params4 = array($this->id, $ipe, $dispositivo);
+                    $respuesta2 = Database::executeRow($sql4, $params4);
+
+                    //Si no existe, se creará un registro de este dispositivo
+                    if ($respuesta2) {
+                        return true;
+                    } else {
+                        $sql5 = 'INSERT INTO conexiones(host, ip, estado, id_administrador) VALUES (?,?,?,?)';
+                        $params5 = array($dispositivo, $ipe, true, $this->id);
+                        $resultado = Database::executeRow($sql5, $params5);
+                        if ($resultado) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    }
+                } else {
+                    return false;
+                }
+            }
+        } else {
+            return false;
+        }
+    }
+
+    //Terminar
+    public function insertDispositivo()
+    {
+        $sql = "INSERT INTO conexiones(host, ip, estado, id_administrador) VALUES(?,?,?,?)";
+        $params = array(gethostname(), gethostbyname("localhost"), false, $this->id);
+        $datos = Database::executeRow($sql, $params);
+    }
+
 
     public function changePassword()
     {
@@ -245,9 +422,130 @@ class Usuarios extends Validator
         return Database::executeRow($sql, $params);
     }
 
-    public function readTipoUser(){
+    public function readTipoUser()
+    {
         $sql = 'SELECT nombre, apellido, correo, telefono, cargo FROM administrador, cargo ORDER BY cargo';
         return Database::getRows($sql, null);
     }
 
+    public function tokenClave($token)
+    {
+        $sql = "UPDATE administrador SET token_clave = ?, vcto_token = now()::time + INTERVAL '5 min' WHERE correo = ?";
+        $params = array($token, $this->correo);
+        return Database::executeRow($sql, $params);
+    }
+
+    public function verifyTokenClave()
+    {
+        $sql = "SELECT token_clave, now()::time < vcto_token AS tiempo FROM administrador WHERE correo = ?";
+        $params = array($this->correo);
+        if ($data = Database::getRow($sql, $params)) {
+            if ($data['token_clave'] == $this->token_clave && $data['tiempo']) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    public function changePassword2()
+    {
+        $hash = password_hash($this->clave, PASSWORD_DEFAULT);
+        $sql = 'UPDATE administrador SET clave = ? WHERE correo = ?';
+        $params = array($hash, $this->correo);
+        return Database::executeRow($sql, $params);
+    }
+
+    public function deleteTokenClave()
+    {
+        $sql = "UPDATE administrador SET token_clave = null, vcto_token = null WHERE correo = ?";
+        $params = array($this->correo);
+        return Database::executeRow($sql, $params);
+    }
+
+    public function sendMail($body, $subject)
+    {
+        require '../../../libraries/phpmailer52/class.phpmailer.php';
+        require '../../../libraries/phpmailer52/class.smtp.php';
+
+        $mail = new PHPMailer;
+
+        $mail->CharSet = 'UTF-8';
+        //Tell PHPMailer to use SMTP
+        $mail->isSMTP();
+
+        //Set the hostname of the mail server
+        $mail->Host = 'smtp.gmail.com';
+
+        //Set the SMTP port number - 587 for authenticated TLS, a.k.a. RFC4409 SMTP submission
+        $mail->Port = 465;
+
+        $mail->SMTPSecure = 'ssl';
+
+        //Whether to use SMTP authentication
+        $mail->SMTPAuth = true;
+
+        //Username to use for SMTP authentication - use full email address for gmail
+        $mail->Username = 'kamiltik.thecoffeecup@gmail.com';
+
+        //Password to use for SMTP authentication
+        $mail->Password = 'Kamiltik12';
+
+        //Set who the message is to be sent from
+        $mail->setFrom('kamiltik.thecoffeecup@gmail.com', 'Kamiltik');
+
+        //Set who the message is to be sent to
+        $mail->addAddress($this->correo, $this->nombres . ' ' . $this->apellidos);
+
+        //Set the subject line
+        $mail->Subject = $subject;
+
+        //Replace the plain text body with one created manually
+        $mail->Body = $body;
+        //send the message, check for error
+
+        if ($mail->send()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function verifyTokenAuth($bool, $id)
+    {
+        if ($bool) {
+            $sql = "UPDATE administrador SET auth_verificado = true WHERE id_administrador = ?";
+            $params = array($id);
+            Database::executeRow($sql, $params);
+
+            $sql = "SELECT token_clave, now()::time < vcto_token AS tiempo, auth_verificado FROM administrador WHERE id_administrador = ?";
+            $params = array($id);
+            if ($data = Database::getRow($sql, $params)) {
+                if ($data['token_clave'] == $this->token_clave && $data['tiempo'] && $data['auth_verificado']) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+    public function tokenAuth($token)
+    {
+        $sql = "UPDATE administrador SET token_clave = ?, vcto_token = now()::time + INTERVAL '5 min', auth_verificado = false WHERE correo = ?";
+        $params = array($token, $this->correo);
+        return Database::executeRow($sql, $params);
+    }
+
+    public function deleteTokenAuth($id)
+    {
+        $sql = "UPDATE administrador SET token_clave = null, vcto_token = null, auth_verificado = null WHERE id_administrador = ?";
+        $params = array($id);
+        return Database::executeRow($sql, $params);
+    }
 }

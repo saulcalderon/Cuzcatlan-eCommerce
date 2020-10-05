@@ -212,8 +212,8 @@ class Carrito extends Validator
     }
 
     public function comprobante(){
-        $sql = 'SELECT nombre, descripcion, cantidad, precio_unitario FROM detalle_factura 
-        INNER JOIN producto USING(id_producto) WHERE id_factura = ? ';
+        $sql = 'SELECT nombre, descripcion, cantidad, pr.precio_unitario FROM detalle_factura 
+        INNER JOIN producto pr USING(id_producto) WHERE id_factura = ? ';
         $params = array($this->id_factura);
         return Database::getRows($sql,$params);
     }

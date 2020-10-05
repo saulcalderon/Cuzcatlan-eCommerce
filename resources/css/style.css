@@ -371,3 +371,16 @@ img.responsive-img {
 .toast{
     background-color: #e91e63;
 }
+
+.margin-50{
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.block{ 
+    display: block;
+}
+
+.m-15 {
+    margin: 35px 0 0;
+}

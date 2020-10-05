@@ -82,6 +82,7 @@ if (isset($_GET['action'])) {
                 break;
             case 'update':
                 $_POST = $cliente->validateForm($_POST);
+
                 if ($cliente->setId($_POST['id_cliente'])) {
                     if ($data = $cliente->readOneCliente()) {
                         if ($cliente->setNombre($_POST['nombre'])) {

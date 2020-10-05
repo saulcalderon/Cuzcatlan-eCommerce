@@ -81,7 +81,7 @@ function signOff() {
         });
 }
 
-//Funcion para habilitar el cierre de sesion por inactividad
+//Funcion para cerrar sesion por inactividad
 function closeSession()
 {
     $.ajax({
@@ -91,7 +91,7 @@ function closeSession()
     .done(function(response){
         // Se comprueba si la API ha retornado una respuesta satisfactoria, de lo contrario se muestra un mensaje de error.
         if (response.status) {
-            sweetAlert( 4, 'Su sesion ha caducado',  'iniciar_sesion.php');
+            sweetAlert( 4, 'Su sesion ha caducado',  'index.php');
         }
     })
     .fail (function (jqXHR){

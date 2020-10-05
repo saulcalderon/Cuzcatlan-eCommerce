@@ -43,7 +43,7 @@ class Validator
         return $error;
     }
 
-    //Metodo para validad la contraseña
+    /*Metodo para validar la contraseña*/
     public function getPasswordError()
     {
         return $this->passwordError;
@@ -60,7 +60,7 @@ class Validator
     {
         foreach ($fields as $index => $value) {
             $value = trim($value);
-            $fields[$index] = $value;
+            $fields[$index] = strip_tags($value);
         }
         return $fields;
     }
@@ -242,8 +242,8 @@ class Validator
     */
     public function validatePassword($value)
     {
-         // Se verifica que la longitud de la contraseña no exceda de 10 caracteres.
-         if (strlen($value) >= 8 && strlen($value) <= 20) {
+        // Se verifica que la longitud de la contraseña no exceda de 10 caracteres.
+        if (strlen($value) >= 8 && strlen($value) <= 20) {
             //Se verifica que la contraseña posea al menos una letra mayuscula
             if (preg_match('`[A-Z]`',$value)){
                 if (preg_match('`[a-z]`',$value)){

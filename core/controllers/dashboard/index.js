@@ -1,10 +1,10 @@
 // Constante para establecer la ruta y parámetros de comunicación con la API.
-const API_USUARIOS = '../../core/api/dashboard/usuarios.php?action=';
-
+const API_USUARIOS = "../../core/api/dashboard/usuarios.php?action=";
+let intentos = 3;
 // Método que se ejecuta cuando el documento está listo.
 $(document).ready(function () {
-    // Se llama a la función que verifica la existencia de usuarios. Se encuentra en el archivo account.js
-    checkUsuarios();
+  // Se llama a la función que verifica la existencia de usuarios. Se encuentra en el archivo account.js
+  checkUsuarios();
 });
 
 // Evento para validar el usuario al momento de iniciar sesión.
@@ -20,7 +20,34 @@ $('#sesion-form').submit(function (event) {
         .done(function (response) {
             // Se comprueba si la API ha retornado una respuesta satisfactoria, de lo contrario se muestra un mensaje de error.
             if (response.status) {
-                sweetAlert(1, response.message, 'main.php');
+                sweetAlert(1, response.message, null);
+            } else {
+                sweetAlert(2, response.exception, null);
+            }
+        })
+        .fail(function (jqXHR) {
+            // Se verifica si la API ha respondido para mostrar la respuesta, de lo contrario se presenta el estado de la petición.
+            if (jqXHR.status == 200) {
+                console.log(jqXHR.responseText);
+            } else {
+                console.log(jqXHR.status + ' ' + jqXHR.statusText);
+            }
+        });
+});
+
+
+$('#recuperar').submit(function (e) {
+    e.preventDefault();
+    $.ajax({
+            type: 'post',
+            url: API_USUARIOS + 'recuperar',
+            data: $('#recuperar').serialize(),
+            dataType: 'json'
+        })
+        .done(function (response) {
+            // Se comprueba si la API ha retornado una respuesta satisfactoria, de lo contrario se muestra un mensaje de error.
+            if (response.status) {
+                sweetAlert(1, response.message, null);
             } else {
                 sweetAlert(2, response.exception, null);
             }

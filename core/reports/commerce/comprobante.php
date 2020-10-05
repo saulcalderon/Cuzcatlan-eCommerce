@@ -108,7 +108,7 @@ if (isset($_GET['action'])) {
                                 $pdf->Cell(40, 20, utf8_decode('Fallo'), 1, 0, '', false);
                             }
                         } else {
-                            $pdf->Cell(40, 20, utf8_decode('Fallo en los datos'), 1, 0, '', false);
+                            $pdf->Cell(40, 20, utf8_decode('Datos usuario'), 1, 0, '', false);
                         }
                     } else {
                         $pdf->Cell(40, 20, utf8_decode('ID factura'), 1, 0, '', false);
