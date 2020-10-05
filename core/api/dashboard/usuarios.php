@@ -284,6 +284,7 @@ if (isset($_GET['action'])) {
                         $_SESSION['id_usuario'] = $usuario->getId();
                         $_SESSION['alias_usuario'] = $usuario->getNombres() . ' ' . $usuario->getApellidos();
                         $result['status'] = 1;
+                        $_SESSION['tiempo1'] = time();
                         $result['message'] = 'Autenticación correcta';
                     } else {
                         $result['exception'] = 'Clave incorrecta';

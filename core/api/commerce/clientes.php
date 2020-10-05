@@ -21,7 +21,7 @@ if (isset($_GET['action'])){
                     unset($_SESSION['id_cliente']);
                     $result['status'] = 1;
                 }else{
-                    $_SESSION['tiempo1'] = time();
+                    $_SESSION['tiempo'] = time();
                 }
                 break;
                 case 'logout':
@@ -174,6 +174,7 @@ if (isset($_GET['action'])){
                             $_SESSION['correo_cliente'] = $cliente->getCorreo();
                             $_SESSION['nombre_cliente'] = $cliente->getNombre();
                             $result['status'] = 1;
+                            $_SESSION['tiempo'] = time();
                             $result['message'] = 'Autenticación correcta';
                         } else {
                             $result['exception'] = 'Clave incorrecta';

@@ -55,6 +55,29 @@ function logOut()
     });
 }
 
+//Funcion para cerrar sesion por inactividad
+function closeSession()
+{
+    $.ajax({
+        dataType: 'json',
+        url: API + 'closeSession'
+    })
+    .done(function(response){
+        // Se comprueba si la API ha retornado una respuesta satisfactoria, de lo contrario se muestra un mensaje de error.
+        if (response.status) {
+            sweetAlert( 4, 'Su sesion ha caducado',  'iniciar_sesion.php');
+        }
+    })
+    .fail (function (jqXHR){
+          // Se verifica si la API ha respondido para mostrar la respuesta, de lo contrario se presenta el estado de la petición.
+          if (jqXHR.status == 200) {
+            console.log(jqXHR.responseText);
+        } else {
+            console.log(jqXHR.status + ' ' + jqXHR.statusText);
+        }
+    });
+}
+
 function openModalPasswords(){
     $('#password-modal').modal('open');
 
