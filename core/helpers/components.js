@@ -43,7 +43,7 @@ function pagination() {
  *   Retorno: ninguno.
  */
 
-function readRows(api) {
+function readRows(api, funct) {
     $.ajax({
             dataType: 'json',
             url: api + 'readAll'

@@ -104,7 +104,8 @@ if (isset($_GET['action'])) {
                 }
                 break;
             case 'readAll':
-                if ($result['dataset'] = $usuario->readAllUsuarios()) {
+                $usuario->setId($_SESSION['id_usuario']);
+                if ($result['dataset'] = $usuario->readAllDispositivos()) {
                     $result['status'] = 1;
                     //print_r($_GET['action']);
                     //print_r($result['dataset']);
@@ -130,77 +131,45 @@ if (isset($_GET['action'])) {
                     $result['exception'] = 'Ingrese un valor para buscar';
                 }
                 break;
-            case 'create':
-                $_POST = $usuario->validateForm($_POST);
-                if ($usuario->setNombres($_POST['nombre'])) {
-                    if ($usuario->setApellidos($_POST['apellido'])) {
-                        if ($usuario->setCorreo($_POST['correo'])) {
-                            if ($usuario->setTelefono($_POST['telefono'])) {
-                                if ($_POST['clave_usuario'] == $_POST['confirmar_clave']) {
-                                    if ($usuario->setClave($_POST['clave_usuario'])) {
-                                        if ($usuario->createUsuario()) {
-                                            $result['status'] = 1;
-                                            $result['message'] = 'Usuario creado correctamente';
-                                        } else {
-                                            $result['exception'] = Database::getException();
-                                        }
-                                    } else {
-                                        $result['exception'] = 'Clave menor a 6 caracteres';
-                                    }
-                                } else {
-                                    $result['exception'] = 'Claves diferentes';
-                                }
-                            } else {
-                                $result['exception'] = 'Alias incorrecto';
-                            }
-                        } else {
-                            $result['exception'] = 'Correo incorrecto';
-                        }
-                    } else {
-                        $result['exception'] = 'Apellidos incorrectos';
-                    }
-                } else {
-                    $result['exception'] = 'Nombres incorrectos';
-                }
-                break;
             case 'readOne':
-                if ($usuario->setId($_POST['id_usuario'])) {
-                    if ($result['dataset'] = $usuario->readOneUsuario()) {
-                        $result['status'] = 1;
+                if ($usuario->setId($_SESSION['id_usuario'])) {
+                    if ($usuario->setIdConexion(($_POST['id_conexion']))) {
+                        if ($result['dataset'] = $usuario->readOneDispositivo()) {
+                            $result['status'] = 1;
+                        } else {
+                            $result['exception'] = 'Dispositivo inexistente';
+                        }
                     } else {
-                        $result['exception'] = 'Usuario inexistente';
+                        $result['exception'] = 'Conexion incorrecta';
                     }
                 } else {
                     $result['exception'] = 'Usuario incorrecto';
                 }
                 break;
-            case 'update':
+            case 'update': 
                 $_POST = $usuario->validateForm($_POST);
-                if ($usuario->setId($_POST['id_administrador'])) {
-                    if ($usuario->readOneUsuario()) {
-                        if ($usuario->setNombres($_POST['nombre'])) {
-                            if ($usuario->setApellidos($_POST['apellido'])) {
-                                if ($usuario->setTelefono($_POST['telefono'])) {
-                                    if ($usuario->updateUsuario()) {
-                                        $result['status'] = 1;
-                                        $result['message'] = 'Usuario modificado correctamente';
-                                    } else {
-                                        $result['exception'] = Database::getException();
-                                    }
-                                } else {
-                                    $result['exception'] = 'Correo incorrecto';
+                if ($usuario->setIdConexion($_POST['id_conexion'])) {
+                    if($usuario->setId($_SESSION['id_usuario'])){
+                        //print_r($_POST); 
+                        if($usuario->setEstadoConexion(isset($_POST['estado_conexion'])? true :false)){
+                            if($usuario->setHostname($_POST['dispositivo'])){
+                                if ($usuario->updateDispositivo()) {
+                                    $result['status'] = 1;
+                                    $result['message'] = 'Dispositivo modificado correctamente';
+                                }else{
+                                    $result['exception'] = Database::getException();
                                 }
-                            } else {
-                                $result['exception'] = 'Apellidos incorrectos';
+                            }else{
+                                $result['exception'] = 'Mierda mal hecha inexistente';    
                             }
-                        } else {
-                            $result['exception'] = 'Nombres incorrectos';
+                        }else{
+                            $result['exception'] = 'Estado incorrecto';
                         }
-                    } else {
-                        $result['exception'] = 'Usuario inexistente';
+                    }else{
+                        $result['exception'] = 'Usuario incorrecta';
                     }
                 } else {
-                    $result['exception'] = 'Usuario incorrecto';
+                    $result['exception'] = 'Conexion incorrecta';
                 }
                 break;
             case 'delete':
@@ -223,17 +192,23 @@ if (isset($_GET['action'])) {
                     $result['exception'] = 'No se puede eliminar a sí mismo';
                 }
                 break;
-
-            case 'updateDispositivo':
+                //NO
+            case 'updateDispositivo2':
                 $_POST = $usuario->validateForm($_POST);
                 if ($usuario->setId($_POST['id_administrador'])) {
-                    if ($usuario->readOneDispositivo()) {
-                        if($usuario->setEstadoConexion(isset($_POST['estado']) ? 1 : 2)){
-                            if($usuario->updateDispositivo()){
-                                $result['status'] = 1;
-                                $result['message'] = 'Dispositivo modificado correctamente';
+                    if ($usuario->readOneDispositivo()) { 
+                        if ($usuario->setEstadoConexion(isset($_POST['estado_conexion']) ? 1 : 2)) {
+                            if($usuario->setHostname($_POST['dispositivo'])){
+                                if ($usuario->updateDispositivo()) {
+                                    $result['status'] = 1;
+                                    $result['message'] = 'Dispositivo modificado correctamente';
+                                }else{
+                                    $result['exception'] = Database::getException();
+                                }
+                            }else{
+                                $result['exception'] = 'Mierda mal hecha inexistente';    
                             }
-                        }else{
+                        } else {
                             $result['exception'] = 'Estado inexistente';
                         }
                     } else {
@@ -244,15 +219,15 @@ if (isset($_GET['action'])) {
                 }
                 break;
 
-                case 'readAllDispositivos':
-                    if ($result['dataset'] = $usuario->readAllDispositivos()) {
-                        $result['status'] = 1;
-                        //print_r($_GET['action']);
-                        //print_r($result['dataset']);
-                    } else {
-                        $result['exception'] = 'No hay dispositivos registrados';
-                    }
-                    break;
+            case 'readAllDispositivos':
+                if ($result['dataset'] = $usuario->readAllDispositivos()) {
+                    $result['status'] = 1;
+                    //print_r($_GET['action']);
+                    //print_r($result['dataset']);
+                } else {
+                    $result['exception'] = 'No hay dispositivos registrados';
+                }
+                break;
             default:
                 exit('Acción no disponible log');
         }

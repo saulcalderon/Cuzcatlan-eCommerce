@@ -238,15 +238,40 @@ class Usuarios extends Validator
         }
     }
 
-    //Hacer una funcion para verificar si existen dispositivos, si no, agregar uno. Luego Evaluar si este dispositivo existe, 
-    //que coincida con el nombre provisto anteriormente, si no, avisar que hay una sesión abierta.
+    
+    //Hacer una funcion para administrar los dispositivos (update) (Listo)
+    public function updateDispositivo(){        
+        $estado = $this->estadoConexion;
+        if($estado == 1){
+            $estado = true;
+        }else{
+            $estado = false;
+        }
 
-    //Hacer una funcion para administrar los dispositivos (update)
+        $host = $this->hostname;
+        print_r($host);
+        $sql = 'UPDATE conexiones SET estado = ? WHERE id_administrador = ? AND host = ?';
+        $params = array($estado, $this->id, $host);
+        print_r($params);
+        return Database::executeRow($sql,$params);
+    }
+    //Funcion para ver todos los dispositivos (Read) (Listo)
 
-    //Funcion para ver todos los dispositivos (Read)
+    public function readAllDispositivos(){
+        $sqlD = 'SELECT id_conexion, host, estado FROM conexiones WHERE id_administrador = ?';
+        $paramsD = array($this->id);
+        return Database::getRows($sqlD, $paramsD);
+    }
 
-    //Delete
-    //Terminar
+    public function readOneDispositivo(){
+        $sql = 'SELECT host, estado FROM conexiones WHERE id_administrador = ? AND id_conexion = ?';
+        $params = array($this->id , $this->idConexion);
+        return Database::getRow($sql, $params);
+    }
+    
+    //Funcion para verificar si existen dispositivos, si no, agregar uno. Luego Evaluar si este dispositivo existe, 
+    //que coincida con el nombre provisto anteriormente, si no, avisar que hay una sesión abierta. (Listo)
+
     public function checkDispositivo()
     {
         //Verificar si existen dispositivos antes 
@@ -254,19 +279,43 @@ class Usuarios extends Validator
         $existen = Database::getRow($sql, null);
         //Si existen dispositivos se evalua que el del cliente coincida con el registrado a su ID
         if ($existen != 0) {
-            $sql2 = 'SELECT ip, host, estado FROM conexiones WHERE id_administrador = ?';
-            $params2 = array($this->id);
-            $data = Database::getRow($sql2, $params2);
+
             $ipe = gethostbyname('localhost');
             $dispositivo = gethostname();
-            if ($data['ip'] == $ipe && $data['host'] == $dispositivo) {
-                if($data['estado'] == true){
-                    return true;
+
+            $sql2 = 'SELECT ip, host, estado FROM conexiones WHERE id_administrador = ? AND ip = ? AND host = ? AND estado =?';
+            $params2 = array($this->id, $ipe, $dispositivo, true);
+            $data = Database::getRows($sql2, $params2);
+
+            if ($data == true) {
+                return true;
+            } else {
+                //Por cada estado se hará un update para tornarlo falso, luego se ejecutara la nueva consulta de arriba
+                $sql3 = 'UPDATE conexiones SET estado = false WHERE id_administrador = ?';
+                $params3 = array($this->id);
+                $respuesta = Database::executeRow($sql3,$params3);
+                if($respuesta){
+                    //Actualizar la sesión actual a verdadero para logearse
+                    $sql4 = 'UPDATE conexiones SET estado = true WHERE id_administrador = ? AND ip =? AND host = ? ';
+                    $params4 = array($this->id, $ipe, $dispositivo);
+                    $respuesta2 = Database::executeRow($sql4, $params4);
+
+                    //Si no existe, se creará un registro de este dispositivo
+                    if($respuesta2){
+                        return true;
+                    }else{
+                        $sql5 = 'INSERT INTO conexiones(host, ip, estado, id_administrador) VALUES (?,?,?,?)';
+                        $params5 = array($dispositivo, $ipe, true,$this->id);
+                        $resultado = Database::executeRow($sql5, $params5);
+                        if($resultado){
+                            return true;
+                        }else{
+                            return false;
+                        }
+                    }
                 }else{
                     return false;
                 }
-            } else {
-                return false;
             }
         } else {
             return false;
