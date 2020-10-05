@@ -146,16 +146,16 @@ class Usuarios extends Validator
         }
     }
 
-       // Métodos para verificación de tokens
+    // Métodos para verificación de tokens
 
-    public function setTokenClave($value){
-        if (strlen($value) == 64) {
+    public function setTokenClave($value)
+    {
+        if (strlen($value) == 13) {
             $this->token_clave = $value;
             return true;
         } else {
             return false;
         }
-        
     }
 
     /*
@@ -273,9 +273,9 @@ class Usuarios extends Validator
             $ipe = gethostbyname('localhost');
             $dispositivo = gethostname();
             if ($data['ip'] == $ipe && $data['host'] == $dispositivo) {
-                if($data['estado'] == true){
+                if ($data['estado'] == true) {
                     return true;
-                }else{
+                } else {
                     return false;
                 }
             } else {
@@ -376,24 +376,88 @@ class Usuarios extends Validator
         return Database::getRows($sql, null);
     }
 
-    public function tokenClave($token){
-        $sql="UPDATE administrador SET token_clave = ? WHERE correo = ?";
+    public function tokenClave($token)
+    {
+        $sql = "UPDATE administrador SET token_clave = ?, vcto_token = now()::time + INTERVAL '5 min' WHERE correo = ?";
         $params = array($token, $this->correo);
-        return Database::executeRow($sql,$params);
+        return Database::executeRow($sql, $params);
     }
 
-    public function verifyTokenClave(){
-        $sql="SELECT token_clave FROM administrador WHERE token_clave = ?";
-        $params = array($this->token_clave);
-        return Database::executeRow($sql,$params);
+    public function verifyTokenClave()
+    {
+        $sql = "SELECT token_clave, now()::time < vcto_token AS tiempo FROM administrador WHERE correo = ?";
+        $params = array($this->correo);
+        if ($data = Database::getRow($sql, $params)) {
+            if ($data['token_clave'] == $this->token_clave && $data['tiempo']) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
     }
 
     public function changePassword2()
     {
         $hash = password_hash($this->clave, PASSWORD_DEFAULT);
-        $sql = 'UPDATE administrador SET clave = ? WHERE token_clave = ?';
-        $params = array($hash, $this->token_clave);
+        $sql = 'UPDATE administrador SET clave = ? WHERE correo = ?';
+        $params = array($hash, $this->correo);
         return Database::executeRow($sql, $params);
     }
 
+    public function deleteTokenClave()
+    {
+        $sql = "UPDATE administrador SET token_clave = null, vcto_token = null WHERE correo = ?";
+        $params = array($this->correo);
+        return Database::executeRow($sql, $params);
+    }
+
+    public function sendMail($body)
+    {
+        require '../../../libraries/phpmailer52/class.phpmailer.php';
+        require '../../../libraries/phpmailer52/class.smtp.php';
+
+        $mail = new PHPMailer;
+
+        $mail->CharSet = 'UTF-8';
+        //Tell PHPMailer to use SMTP
+        $mail->isSMTP();
+
+        //Set the hostname of the mail server
+        $mail->Host = 'smtp.gmail.com';
+
+        //Set the SMTP port number - 587 for authenticated TLS, a.k.a. RFC4409 SMTP submission
+        $mail->Port = 465;
+
+        $mail->SMTPSecure = 'ssl';
+
+        //Whether to use SMTP authentication
+        $mail->SMTPAuth = true;
+
+        //Username to use for SMTP authentication - use full email address for gmail
+        $mail->Username = 'kamiltik.thecoffeecup@gmail.com';
+
+        //Password to use for SMTP authentication
+        $mail->Password = 'Kamiltik12';
+
+        //Set who the message is to be sent from
+        $mail->setFrom('kamiltik.thecoffeecup@gmail.com', 'Kamiltik');
+
+        //Set who the message is to be sent to
+        $mail->addAddress($this->correo, $this->nombres . ' ' . $this->apellidos);
+
+        //Set the subject line
+        $mail->Subject = 'Restauración de contraseña';
+
+        //Replace the plain text body with one created manually
+        $mail->Body = $body;
+        //send the message, check for error
+
+        if ($mail->send()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

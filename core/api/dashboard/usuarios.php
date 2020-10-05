@@ -322,72 +322,80 @@ if (isset($_GET['action'])) {
                 $_POST = $usuario->validateForm($_POST);
                 if ($usuario->checkCorreo($_POST['recuperar_mail'])) {
 
-                    require '../../../libraries/phpmailer52/class.phpmailer.php';
-                    require '../../../libraries/phpmailer52/class.smtp.php';
+                    // require '../../../libraries/phpmailer52/class.phpmailer.php';
+                    // require '../../../libraries/phpmailer52/class.smtp.php';
 
-                    $token = hash("sha256", uniqid());
-
-                    setcookie('t', $token, time() + 900);
+                    $token = uniqid();
 
                     $direccion = "http://localhost/Cuzcatlan-eCommerce/views/dashboard/forgot_password.php?t=" . $token;
-                    $mail = new PHPMailer;
 
-                    $mail->CharSet = 'UTF-8';
-                    //Tell PHPMailer to use SMTP
-                    $mail->isSMTP();
+                    // $mail = new PHPMailer;
 
-                    //Set the hostname of the mail server
-                    $mail->Host = 'smtp.gmail.com';
+                    // $mail->CharSet = 'UTF-8';
+                    // //Tell PHPMailer to use SMTP
+                    // $mail->isSMTP();
 
-                    //Set the SMTP port number - 587 for authenticated TLS, a.k.a. RFC4409 SMTP submission
-                    $mail->Port = 465;
+                    // //Set the hostname of the mail server
+                    // $mail->Host = 'smtp.gmail.com';
 
-                    $mail->SMTPSecure = 'ssl';
+                    // //Set the SMTP port number - 587 for authenticated TLS, a.k.a. RFC4409 SMTP submission
+                    // $mail->Port = 465;
 
-                    //Whether to use SMTP authentication
-                    $mail->SMTPAuth = true;
+                    // $mail->SMTPSecure = 'ssl';
 
-                    //Username to use for SMTP authentication - use full email address for gmail
-                    $mail->Username = 'kamiltik.thecoffeecup@gmail.com';
+                    // //Whether to use SMTP authentication
+                    // $mail->SMTPAuth = true;
 
-                    //Password to use for SMTP authentication
-                    $mail->Password = 'Kamiltik12';
+                    // //Username to use for SMTP authentication - use full email address for gmail
+                    // $mail->Username = 'kamiltik.thecoffeecup@gmail.com';
 
-                    //Set who the message is to be sent from
-                    $mail->setFrom('kamiltik.thecoffeecup@gmail.com', 'Kamiltik');
+                    // //Password to use for SMTP authentication
+                    // $mail->Password = 'Kamiltik12';
 
-                    //Set who the message is to be sent to
-                    $mail->addAddress($_POST['recuperar_mail'], $usuario->getNombres() . ' ' . $usuario->getApellidos());
+                    // //Set who the message is to be sent from
+                    // $mail->setFrom('kamiltik.thecoffeecup@gmail.com', 'Kamiltik');
 
-                    //Set the subject line
-                    $mail->Subject = 'Restauración de contraseña';
+                    // //Set who the message is to be sent to
+                    // $mail->addAddress($_POST['recuperar_mail'], $usuario->getNombres() . ' ' . $usuario->getApellidos());
 
-                    //Replace the plain text body with one created manually
-                    $mail->Body = "Restablezca su contraseña haciendo click en el siguiente enlace: " . $direccion;
-                    //send the message, check for error
+                    // //Set the subject line
+                    // $mail->Subject = 'Restauración de contraseña';
 
-                    if ($mail->send()) {
+                    // //Replace the plain text body with one created manually
+                    // $mail->Body = "Restablezca su contraseña haciendo click en el siguiente enlace: " . $direccion;
+                    // //send the message, check for error
+
+                    // if ($mail->send()) {
+                    $body = "Restablezca su contraseña haciendo click en el siguiente enlace: " . $direccion;
+                    if ($usuario->sendMail($body)) {
                         if ($usuario->tokenClave($token)) {
+                            $_SESSION['correo'] = $usuario->getCorreo();
                             $result['status'] = 1;
                             $result['message'] = 'Hemos enviado un correo para que restablezca su contraseña.';
                         } else {
                             $result['exception'] = 'Hubo un error al enviar el correo.';
                         }
                     } else {
-                        $result['exception'] = $mail->ErrorInfo;
+                        $result['exception'] = 'Hubo un error al enviar el correo.';
                     }
+
+
+                    // } else {
+                    //     $result['exception'] = $mail->ErrorInfo;
+                    // }
                 } else {
                     $result['exception'] = 'Correo no registrado';
                 }
                 break;
             case 'nuevaClave':
                 $_POST = $usuario->validateForm($_POST);
-                if (isset($_COOKIE['t'])) {
+                if ($usuario->checkCorreo($_SESSION['correo'])) {
                     if ($usuario->setTokenClave($_POST['token_clave'])) {
-                        if ($_POST['token_clave'] == $_COOKIE['t']) {
+                        if ($usuario->verifyTokenClave()) {
                             if ($_POST['nueva_clave'] === $_POST['nueva_clave_2']) {
                                 if ($usuario->setClave($_POST['nueva_clave'])) {
                                     if ($usuario->changePassword2()) {
+                                        $usuario->deleteTokenClave();
                                         $result['status'] = 1;
                                         $result['message'] = 'Contraseña actualizada correctamente.';
                                     } else {
@@ -408,6 +416,10 @@ if (isset($_GET['action'])) {
                 } else {
                     $result['exception'] = 'Hubo un error al cambiar la contraseña.';
                 }
+
+
+
+
                 break;
             default:
                 exit('Acción no disponible');

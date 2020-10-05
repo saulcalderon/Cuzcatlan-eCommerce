@@ -16,6 +16,8 @@ class Clientes extends Validator
     private $direccion = null;
     private $estado = null;
 
+    private $token_clave = null;
+
 
     // Métodos para asignar valores a los atributos.
 
@@ -109,7 +111,17 @@ class Clientes extends Validator
         }
     }
 
+    // Métodos para verificación de tokens
 
+    public function setTokenClave($value)
+    {
+        if (strlen($value) == 13) {
+            $this->token_clave = $value;
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     //Métodos para obtener valores de los atributos.
 
@@ -224,12 +236,15 @@ class Clientes extends Validator
         return Database::getRows($sql, $params);
     }
 
-    public function checkUser($email){
-        $sql = 'SELECT id_cliente, estado FROM cliente WHERE correo = ?';
+    public function checkUser($email)
+    {
+        $sql = 'SELECT id_cliente, estado, nombre, apellido FROM cliente WHERE correo = ?';
         $params = array($email);
         if ($data = Database::getRow($sql, $params)) {
             $this->id = $data['id_cliente'];
             $this->estado = $data['estado'];
+            $this->nombre = $data['nombre'];
+            $this->apellido = $data['apellido'];
             $this->correo = $email;
             return true;
         } else {
@@ -259,7 +274,7 @@ class Clientes extends Validator
     }
 
     public function editProfile()
-    {        
+    {
         $sql = 'UPDATE cliente
                 SET nombre = ?, apellido = ?, correo = ?, telefono = ?, direccion = ?, fecha_nacimiento = ?
                 WHERE id_cliente = ?';
@@ -267,14 +282,100 @@ class Clientes extends Validator
         return Database::executeRow($sql, $params);
     }
 
-    public function readActiveClients(){
+    public function readActiveClients()
+    {
         $sql = 'SELECT id_cliente, nombre, apellido, correo, telefono, direccion, estado FROM cliente WHERE estado = true ORDER BY id_cliente';
         return Database::getRows($sql, null);
     }
 
-    public function monthlyClients(){
+    public function monthlyClients()
+    {
         $sql = "SELECT extract(month FROM fecha_registro) -1 AS Mes, count(id_cliente) AS cantidad FROM cliente WHERE extract(year FROM fecha_registro) = '2020' GROUP BY extract(month FROM fecha_registro) ORDER BY extract(month FROM fecha_registro)";
         return Database::getRows($sql, null);
     }
 
+    public function sendMail($body)
+    {
+        require '../../../libraries/phpmailer52/class.phpmailer.php';
+        require '../../../libraries/phpmailer52/class.smtp.php';
+
+        $mail = new PHPMailer;
+
+        $mail->CharSet = 'UTF-8';
+        //Tell PHPMailer to use SMTP
+        $mail->isSMTP();
+
+        //Set the hostname of the mail server
+        $mail->Host = 'smtp.gmail.com';
+
+        //Set the SMTP port number - 587 for authenticated TLS, a.k.a. RFC4409 SMTP submission
+        $mail->Port = 465;
+
+        $mail->SMTPSecure = 'ssl';
+
+        //Whether to use SMTP authentication
+        $mail->SMTPAuth = true;
+
+        //Username to use for SMTP authentication - use full email address for gmail
+        $mail->Username = 'kamiltik.thecoffeecup@gmail.com';
+
+        //Password to use for SMTP authentication
+        $mail->Password = 'Kamiltik12';
+
+        //Set who the message is to be sent from
+        $mail->setFrom('kamiltik.thecoffeecup@gmail.com', 'Kamiltik');
+
+        //Set who the message is to be sent to
+        $mail->addAddress($this->correo, $this->nombre . ' ' . $this->apellido);
+
+        //Set the subject line
+        $mail->Subject = 'Restauración de contraseña';
+
+        //Replace the plain text body with one created manually
+        $mail->Body = $body;
+        //send the message, check for error
+
+        if ($mail->send()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function tokenClave($token)
+    {
+        $sql = "UPDATE cliente SET token_clave = ?, vcto_token = now()::time + INTERVAL '5 min' WHERE correo = ?";
+        $params = array($token, $this->correo);
+        return Database::executeRow($sql, $params);
+    }
+
+    public function verifyTokenClave()
+    {
+        $sql = "SELECT token_clave, now()::time < vcto_token AS tiempo FROM cliente WHERE correo = ?";
+        $params = array($this->correo);
+        if ($data = Database::getRow($sql, $params)) {
+            if ($data['token_clave'] == $this->token_clave && $data['tiempo']) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    public function changePassword2()
+    {
+        $hash = password_hash($this->clave, PASSWORD_DEFAULT);
+        $sql = 'UPDATE cliente SET clave = ? WHERE correo = ?';
+        $params = array($hash, $this->correo);
+        return Database::executeRow($sql, $params);
+    }
+
+    public function deleteTokenClave()
+    {
+        $sql = "UPDATE cliente SET token_clave = null, vcto_token = null WHERE correo = ?";
+        $params = array($this->correo);
+        return Database::executeRow($sql, $params);
+    }
 }
