@@ -32,7 +32,7 @@ class Commerce
         <!-- Llamada a un archivo tipo icono -->
         <link rel="shortcut icon" href="" type="image/x-icon"> 
     </head>
-    <body>
+    <body onclick="closeSession()">
     ');
         // Se obtiene el nombre del archivo de la página web actual.
         $filename = basename($_SERVER['PHP_SELF']);

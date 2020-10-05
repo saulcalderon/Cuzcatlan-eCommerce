@@ -18,12 +18,18 @@ if (isset($_GET['action'])) {
         // Se compara la acción a realizar cuando un administrador ha iniciado sesión.
         switch ($_GET['action']) {
             case 'logout':
-                if (session_destroy()) {
+                //Sirve para el conteo de expiracion de sesion
+                if(time()-$_SESSION['tiempo1']>300){ //Se recomienda 300s para el equivalente a 5min
+                    unset($_SESSION['id_usuario']);
+                    $result['status'] = 1;
+                }else{
+                    $_SESSION['tiempo1'] = time();
+                }
+                break;
+                case 'logout':
+                    unset($_SESSION['id_usuario']);
                     $result['status'] = 1;
                     $result['message'] = 'Sesión eliminada correctamente';
-                } else {
-                    $result['exception'] = 'Ocurrió un problema al cerrar la sesión';
-                }
                 break;
             case 'readProfile':
                 if ($usuario->setId($_SESSION['id_usuario'])) {
@@ -85,7 +91,7 @@ if (isset($_GET['action'])) {
                                             $result['exception'] = Database::getException();
                                         }
                                     } else {
-                                        $result['exception'] = 'Clave nueva menor a 6 caracteres';
+                                        $result['exception'] = $usuario->getPasswordError();
                                     }
                                 } else {
                                     $result['exception'] = 'Claves nuevas diferentes';
@@ -145,7 +151,7 @@ if (isset($_GET['action'])) {
                                             $result['exception'] = Database::getException();
                                         }
                                     } else {
-                                        $result['exception'] = 'Clave menor a 6 caracteres';
+                                        $result['exception'] = $usuario->getPasswordError();
                                     }
                                 } else {
                                     $result['exception'] = 'Claves diferentes';
@@ -283,7 +289,7 @@ if (isset($_GET['action'])) {
                                             $result['exception'] = Database::getException();
                                         }
                                     } else {
-                                        $result['exception'] = 'Clave menor a 6 caracteres';
+                                        $result['exception'] = $usuario->getPasswordError();
                                     }
                                 } else {
                                     $result['exception'] = 'Claves diferentes';
