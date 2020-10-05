@@ -251,13 +251,14 @@ class Usuarios extends Validator
         }
     }
 
-    
+
     //Hacer una funcion para administrar los dispositivos (update) (Listo)
-    public function updateDispositivo(){        
+    public function updateDispositivo()
+    {
         $estado = $this->estadoConexion;
-        if($estado == 1){
+        if ($estado == 1) {
             $estado = true;
-        }else{
+        } else {
             $estado = false;
         }
 
@@ -266,22 +267,24 @@ class Usuarios extends Validator
         $sql = 'UPDATE conexiones SET estado = ? WHERE id_administrador = ? AND host = ?';
         $params = array($estado, $this->id, $host);
         print_r($params);
-        return Database::executeRow($sql,$params);
+        return Database::executeRow($sql, $params);
     }
     //Funcion para ver todos los dispositivos (Read) (Listo)
 
-    public function readAllDispositivos(){
+    public function readAllDispositivos()
+    {
         $sqlD = 'SELECT id_conexion, host, estado FROM conexiones WHERE id_administrador = ?';
         $paramsD = array($this->id);
         return Database::getRows($sqlD, $paramsD);
     }
 
-    public function readOneDispositivo(){
+    public function readOneDispositivo()
+    {
         $sql = 'SELECT host, estado FROM conexiones WHERE id_administrador = ? AND id_conexion = ?';
-        $params = array($this->id , $this->idConexion);
+        $params = array($this->id, $this->idConexion);
         return Database::getRow($sql, $params);
     }
-    
+
     //Funcion para verificar si existen dispositivos, si no, agregar uno. Luego Evaluar si este dispositivo existe, 
     //que coincida con el nombre provisto anteriormente, si no, avisar que hay una sesión abierta. (Listo)
 
@@ -306,27 +309,27 @@ class Usuarios extends Validator
                 //Por cada estado se hará un update para tornarlo falso, luego se ejecutara la nueva consulta de arriba
                 $sql3 = 'UPDATE conexiones SET estado = false WHERE id_administrador = ?';
                 $params3 = array($this->id);
-                $respuesta = Database::executeRow($sql3,$params3);
-                if($respuesta){
+                $respuesta = Database::executeRow($sql3, $params3);
+                if ($respuesta) {
                     //Actualizar la sesión actual a verdadero para logearse
                     $sql4 = 'UPDATE conexiones SET estado = true WHERE id_administrador = ? AND ip =? AND host = ? ';
                     $params4 = array($this->id, $ipe, $dispositivo);
                     $respuesta2 = Database::executeRow($sql4, $params4);
 
                     //Si no existe, se creará un registro de este dispositivo
-                    if($respuesta2){
+                    if ($respuesta2) {
                         return true;
-                    }else{
+                    } else {
                         $sql5 = 'INSERT INTO conexiones(host, ip, estado, id_administrador) VALUES (?,?,?,?)';
-                        $params5 = array($dispositivo, $ipe, true,$this->id);
+                        $params5 = array($dispositivo, $ipe, true, $this->id);
                         $resultado = Database::executeRow($sql5, $params5);
-                        if($resultado){
+                        if ($resultado) {
                             return true;
-                        }else{
+                        } else {
                             return false;
                         }
                     }
-                }else{
+                } else {
                     return false;
                 }
             }
@@ -462,7 +465,7 @@ class Usuarios extends Validator
         return Database::executeRow($sql, $params);
     }
 
-    public function sendMail($body)
+    public function sendMail($body, $subject)
     {
         require '../../../libraries/phpmailer52/class.phpmailer.php';
         require '../../../libraries/phpmailer52/class.smtp.php';
@@ -497,7 +500,7 @@ class Usuarios extends Validator
         $mail->addAddress($this->correo, $this->nombres . ' ' . $this->apellidos);
 
         //Set the subject line
-        $mail->Subject = 'Restauración de contraseña';
+        $mail->Subject = $subject;
 
         //Replace the plain text body with one created manually
         $mail->Body = $body;
@@ -508,5 +511,41 @@ class Usuarios extends Validator
         } else {
             return false;
         }
+    }
+
+    public function verifyTokenAuth($bool, $id)
+    {
+        if ($bool) {
+            $sql = "UPDATE administrador SET auth_verificado = true WHERE id_administrador = ?";
+            $params = array($id);
+            Database::executeRow($sql, $params);
+
+            $sql = "SELECT token_clave, now()::time < vcto_token AS tiempo, auth_verificado FROM administrador WHERE id_administrador = ?";
+            $params = array($id);
+            if ($data = Database::getRow($sql, $params)) {
+                if ($data['token_clave'] == $this->token_clave && $data['tiempo'] && $data['auth_verificado']) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+    public function tokenAuth($token)
+    {
+        $sql = "UPDATE administrador SET token_clave = ?, vcto_token = now()::time + INTERVAL '5 min', auth_verificado = false WHERE correo = ?";
+        $params = array($token, $this->correo);
+        return Database::executeRow($sql, $params);
+    }
+
+    public function deleteTokenAuth($id)
+    {
+        $sql = "UPDATE administrador SET token_clave = null, vcto_token = null, auth_verificado = null WHERE id_administrador = ?";
+        $params = array($id);
+        return Database::executeRow($sql, $params);
     }
 }

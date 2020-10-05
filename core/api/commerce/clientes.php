@@ -164,12 +164,29 @@ if (isset($_GET['action'])) {
                 if ($cliente->checkUser($_POST['correo_cliente'])) {
                     if ($cliente->getEstado()) {
                         if ($cliente->checkPassword($_POST['clave'])) {
-                            $_SESSION['id_cliente'] = $cliente->getId();
+
+                            $_SESSION['id_cliente_auth'] = $cliente->getId();
                             $_SESSION['correo_cliente'] = $cliente->getCorreo();
                             $_SESSION['nombre_cliente'] = $cliente->getNombre();
 
-                            $result['status'] = 1;
-                            $result['message'] = 'Autenticación correcta';
+                            $token = uniqid();
+
+                            $direccion = "http://localhost/Cuzcatlan-eCommerce/views/commerce/autenticar.php?t=" . $token;
+
+
+                            $body = "Confirme su inicio de sesión en el siguiente link: " . $direccion;
+
+                            $subject = 'Confirmar inicio de sesión';
+                            if ($cliente->sendMail($body, $subject)) {
+                                if ($cliente->tokenAuth($token)) {
+                                    $result['status'] = 1;
+                                    $result['message'] = 'Se ha enviado un correo para validar su sesión.';
+                                } else {
+                                    $result['exception'] = "Hubo un error al enviar el correo.";
+                                }
+                            } else {
+                                $result['exception'] = "Hubo un error al enviar el correo.";
+                            }
                         } else {
                             $result['exception'] = 'Clave incorrecta';
                         }
@@ -184,14 +201,14 @@ if (isset($_GET['action'])) {
                 $_POST = $cliente->validateForm($_POST);
                 if ($cliente->checkUser($_POST['recuperar_mail'])) {
 
-
                     $token = uniqid();
 
                     $direccion = "http://localhost/Cuzcatlan-eCommerce/views/commerce/forgot_password.php?t=" . $token;
 
-
                     $body = "Restablezca su contraseña haciendo click en el siguiente enlace: " . $direccion;
-                    if ($cliente->sendMail($body)) {
+
+                    $subject = 'Restaurar contraseña';
+                    if ($cliente->sendMail($body, $subject)) {
                         if ($cliente->tokenClave($token)) {
                             $_SESSION['correo'] = $cliente->getCorreo();
                             $result['status'] = 1;
@@ -234,6 +251,23 @@ if (isset($_GET['action'])) {
                     }
                 } else {
                     $result['exception'] = 'Hubo un error al cambiar la contraseña.';
+                }
+                break;
+
+            case 'auth':
+                $_POST = $cliente->validateForm($_POST);
+                if ($cliente->setTokenClave($_POST['token_clave'])) {
+                    if ($cliente->verifyTokenAuth(filter_var($_POST['auth'], FILTER_VALIDATE_BOOLEAN), $_SESSION['id_cliente_auth'])) {
+                        $cliente->deleteTokenAuth($_SESSION['id_cliente_auth']);
+                        $_SESSION['id_cliente'] =  $_SESSION['id_cliente_auth'];
+                        $result['status'] = 1;
+                        $result['message'] = 'Sesión verificada.';
+                    } else {
+                        $cliente->deleteTokenAuth($_SESSION['id_cliente_auth']);
+                        $result['message'] = 'Sesión denegada.';
+                    }
+                } else {
+                    $result['exception'] = 'Hubo un error al verificar su inicio de sesión, vuelva a intentarlo.';
                 }
                 break;
             default:

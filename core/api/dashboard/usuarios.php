@@ -312,10 +312,27 @@ if (isset($_GET['action'])) {
                         if ($usuario->checkPassword($_POST['clave'])) {
                             //Seguridad 2 (Terminar)
                             if ($usuario->checkDispositivo()) {
-                                $_SESSION['id_usuario'] = $usuario->getId();
+                                $_SESSION['id_usuario_auth'] = $usuario->getId();
                                 $_SESSION['alias_usuario'] = $usuario->getNombres() . ' ' . $usuario->getApellidos();
-                                $result['status'] = 1;
-                                $result['message'] = 'Autenticación correcta, se cerraron todas sus sesiones en otros dispositivos';
+
+                                $token = uniqid();
+
+                                $direccion = "http://localhost/Cuzcatlan-eCommerce/views/dashboard/autenticar.php?t=" . $token;
+
+
+                                $body = "Confirme su inicio de sesión en el siguiente link: " . $direccion;
+
+                                $subject = 'Confirmar inicio de sesión';
+                                if ($usuario->sendMail($body, $subject)) {
+                                    if ($usuario->tokenAuth($token)) {
+                                        $result['status'] = 1;
+                                        $result['message'] = 'Se ha enviado un correo para validar su sesión.';
+                                    } else {
+                                        $result['exception'] = "Hubo un error al enviar el correo.";
+                                    }
+                                } else {
+                                    $result['exception'] = "Hubo un error al enviar el correo.";
+                                }
                             } else {
                                 $result['exception'] = "Se tiene una sesión activa en otro dispositivo, por motivos de seguridad se cerrarán sus sesiones activas y vuelva a intentarlo";
                             }
@@ -358,7 +375,9 @@ if (isset($_GET['action'])) {
 
 
                     $body = "Restablezca su contraseña haciendo click en el siguiente enlace: " . $direccion;
-                    if ($usuario->sendMail($body)) {
+
+                    $subject = 'Restaurar contraseña';
+                    if ($usuario->sendMail($body, $subject)) {
                         if ($usuario->tokenClave($token)) {
                             $_SESSION['correo'] = $usuario->getCorreo();
                             $result['status'] = 1;
@@ -407,8 +426,23 @@ if (isset($_GET['action'])) {
                 } else {
                     $result['exception'] = 'Hubo un error al cambiar la contraseña.';
                 }
-
                 break;
+            case 'auth':
+                $_POST = $usuario->validateForm($_POST);
+                if ($usuario->setTokenClave($_POST['token_clave'])) {
+                    if ($usuario->verifyTokenAuth(filter_var($_POST['auth'],FILTER_VALIDATE_BOOLEAN), $_SESSION['id_usuario_auth'])) {
+                        $usuario->deleteTokenAuth($_SESSION['id_usuario_auth']);
+                        $_SESSION['id_usuario'] =  $_SESSION['id_usuario_auth'];
+                        $result['status'] = 1;
+                        $result['message'] = 'Sesión verificada.';
+                    } else {
+                        $usuario->deleteTokenAuth($_SESSION['id_usuario_auth']);
+                        $result['message'] = 'Sesión denegada.';
+                    }
+                } else {
+                    $result['exception'] = 'Hubo un error al verificar su inicio de sesión, vuelva a intentarlo.';
+                }
+            break;
             default:
                 exit('Acción no disponible');
         }

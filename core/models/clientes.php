@@ -294,7 +294,7 @@ class Clientes extends Validator
         return Database::getRows($sql, null);
     }
 
-    public function sendMail($body)
+    public function sendMail($body, $subject)
     {
         require '../../../libraries/phpmailer52/class.phpmailer.php';
         require '../../../libraries/phpmailer52/class.smtp.php';
@@ -329,7 +329,7 @@ class Clientes extends Validator
         $mail->addAddress($this->correo, $this->nombre . ' ' . $this->apellido);
 
         //Set the subject line
-        $mail->Subject = 'Restauración de contraseña';
+        $mail->Subject = $subject;
 
         //Replace the plain text body with one created manually
         $mail->Body = $body;
@@ -376,6 +376,42 @@ class Clientes extends Validator
     {
         $sql = "UPDATE cliente SET token_clave = null, vcto_token = null WHERE correo = ?";
         $params = array($this->correo);
+        return Database::executeRow($sql, $params);
+    }
+
+    public function verifyTokenAuth($bool, $id)
+    {
+        if ($bool) {
+            $sql = "UPDATE cliente SET auth_verificado = true WHERE id_cliente = ?";
+            $params = array($id);
+            Database::executeRow($sql, $params);
+
+            $sql = "SELECT token_clave, now()::time < vcto_token AS tiempo, auth_verificado FROM cliente WHERE id_cliente = ?";
+            $params = array($id);
+            if ($data = Database::getRow($sql, $params)) {
+                if ($data['token_clave'] == $this->token_clave && $data['tiempo'] && $data['auth_verificado']) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+    public function tokenAuth($token)
+    {
+        $sql = "UPDATE cliente SET token_clave = ?, vcto_token = now()::time + INTERVAL '5 min', auth_verificado = false WHERE correo = ?";
+        $params = array($token, $this->correo);
+        return Database::executeRow($sql, $params);
+    }
+
+    public function deleteTokenAuth($id)
+    {
+        $sql = "UPDATE cliente SET token_clave = null, vcto_token = null, auth_verificado = null WHERE id_cliente = ?";
+        $params = array($id);
         return Database::executeRow($sql, $params);
     }
 }

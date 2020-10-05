@@ -137,3 +137,7 @@ nav .brand-logo{
 .sidenav .user-view{
     padding: 15px 38px 0;
 }
+
+.block{
+    display: block;
+}

@@ -14,7 +14,7 @@ $( '#session-form' ).submit(function( event ) {
     .done(function( response ) {
         // Se comprueba si la API ha retornado una respuesta satisfactoria, de lo contrario se muestra un mensaje de error.
         if ( response.status ) {
-            sweetAlert( 1, response.message, 'index.php' );
+            sweetAlert( 1, response.message, null );
         } else {
             sweetAlert( 2, response.exception, null );
         }
