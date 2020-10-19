@@ -293,7 +293,7 @@ class Clientes extends Validator
         $sql = "SELECT extract(month FROM fecha_registro) -1 AS Mes, count(id_cliente) AS cantidad FROM cliente WHERE extract(year FROM fecha_registro) = '2020' GROUP BY extract(month FROM fecha_registro) ORDER BY extract(month FROM fecha_registro)";
         return Database::getRows($sql, null);
     }
-
+    // Función para enviar un correo. Parametros : Cuerpo del correo, Asunto.
     public function sendMail($body, $subject)
     {
         require '../../../libraries/phpmailer52/class.phpmailer.php';
@@ -341,14 +341,14 @@ class Clientes extends Validator
             return false;
         }
     }
-
+    // Se agrega el token generado y su hora de vencimiento al cliente.
     public function tokenClave($token)
     {
         $sql = "UPDATE cliente SET token_clave = ?, vcto_token = now()::time + INTERVAL '5 min' WHERE correo = ?";
         $params = array($token, $this->correo);
         return Database::executeRow($sql, $params);
     }
-
+    // Se verifica el token de la base con el enviado en el correo y su hora de vencimiento.
     public function verifyTokenClave()
     {
         $sql = "SELECT token_clave, now()::time < vcto_token AS tiempo FROM cliente WHERE correo = ?";
@@ -363,7 +363,7 @@ class Clientes extends Validator
             return false;
         }
     }
-
+    // Se actualiza la contraseña.
     public function changePassword2()
     {
         $hash = password_hash($this->clave, PASSWORD_DEFAULT);
@@ -371,14 +371,14 @@ class Clientes extends Validator
         $params = array($hash, $this->correo);
         return Database::executeRow($sql, $params);
     }
-
+    // Se elimina el token y su hora de vencimiento de la base.
     public function deleteTokenClave()
     {
         $sql = "UPDATE cliente SET token_clave = null, vcto_token = null WHERE correo = ?";
         $params = array($this->correo);
         return Database::executeRow($sql, $params);
     }
-
+    // Se verifica el token generado y se comprueba si ha aceptado o denegado la sesión.
     public function verifyTokenAuth($bool, $id)
     {
         if ($bool) {
@@ -401,13 +401,14 @@ class Clientes extends Validator
             return false;
         }
     }
+    // Se agrega el token generado y su hora de vencimiento al cliente.
     public function tokenAuth($token)
     {
         $sql = "UPDATE cliente SET token_clave = ?, vcto_token = now()::time + INTERVAL '5 min', auth_verificado = false WHERE correo = ?";
         $params = array($token, $this->correo);
         return Database::executeRow($sql, $params);
     }
-
+    // Se elimina el token y su hora de vencimiento de la base.
     public function deleteTokenAuth($id)
     {
         $sql = "UPDATE cliente SET token_clave = null, vcto_token = null, auth_verificado = null WHERE id_cliente = ?";

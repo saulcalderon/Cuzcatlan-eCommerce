@@ -15,8 +15,8 @@ Commerce::headerTemplate();
                                 <form method="post" id="session-form" class="col s12">
                                     <div class="row">
                                         <div class="input-field col s12">
-                                            <input id="correo_cliente" name="correo_cliente" type="email" class="validate" required>
-                                            <label for="correo_cliente">Correo Electrónico</label>
+                                            <input id="correo_cliente1" name="correo_cliente1" type="email" class="validate" required>
+                                            <label for="correo_cliente1">Correo Electrónico</label>
                                             <span class="helper-text" data-error="wrong" data-success="right"></span>
                                         </div>
                                     </div>
@@ -56,8 +56,8 @@ Commerce::headerTemplate();
             <form id="recuperar">
                 <div class="row">
                     <div class="input-field col s6 offset-s3  m-15">
-                        <input id="recuperar_mail" type="email" class="validate" name="recuperar_mail">
-                        <label for="recuperar_mail">Correo Electrónico</label>
+                        <input id="recuperar_mail1" type="email" class="validate" name="recuperar_mail">
+                        <label for="recuperar_mail1">Correo Electrónico</label>
                     </div>
                 </div>
                 <button class="btn waves-effect waves-light  m-15" type="submit">Enviar

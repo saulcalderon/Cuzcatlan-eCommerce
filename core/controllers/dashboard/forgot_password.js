@@ -1,5 +1,7 @@
+// Dirección para obtener y enviar datos.
 const API_USUARIOS = "../../core/api/dashboard/usuarios.php?action=";
 
+// Formulario para reestablecer la contraseña, si el token coincide con el guardado en la base se acutaliza.
 $('#nueva_clave_form').submit(function (e) {
     e.preventDefault();
     let params = new URLSearchParams(location.search);
@@ -19,6 +21,7 @@ $('#nueva_clave_form').submit(function (e) {
             if (response.status) {
                 sweetAlert(1, response.message, null);
                 setTimeout(() => {
+                    // Luego de 3 segundos se redirecciona al login.
                     location.href = 'http://localhost/Cuzcatlan-eCommerce/views/dashboard/index.php';
                 }, 3000);
             } else {
@@ -34,4 +37,3 @@ $('#nueva_clave_form').submit(function (e) {
             }
         });
 });
-

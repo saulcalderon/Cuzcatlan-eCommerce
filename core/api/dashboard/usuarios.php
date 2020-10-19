@@ -17,25 +17,25 @@ if (isset($_GET['action'])) {
     if (isset($_SESSION['id_usuario'])) {
         // Se compara la acción a realizar cuando un administrador ha iniciado sesión.
         switch ($_GET['action']) {
-            case 'logout':
+            case 'closeSession':
                 //Sirve para el conteo de expiracion de sesion
-                if(time()-$_SESSION['tiempo1']>300){ //Se recomienda 300s para el equivalente a 5min
+                if (time() - $_SESSION['tiempo1'] > 300) { //Se recomienda 300s para el equivalente a 5min
                     unset($_SESSION['id_usuario']);
                     $result['status'] = 1;
-                }else{
+                } else {
                     $_SESSION['tiempo1'] = time();
                 }
-            break;
+                break;
             case 'logout':
                 unset($_SESSION['id_usuario']);
                 $result['status'] = 1;
                 $result['message'] = 'Sesión eliminada correctamente';
                 break;
-                case 'logout':
-                    unset($_SESSION['id_usuario']);
-                    $result['status'] = 1;
-                    $result['message'] = 'Sesión eliminada correctamente';
-                break;
+            // case 'logout':
+            //     unset($_SESSION['id_usuario']);
+            //     $result['status'] = 1;
+            //     $result['message'] = 'Sesión eliminada correctamente';
+            //     break;
             case 'readProfile':
                 if ($usuario->setId($_SESSION['id_usuario'])) {
                     if ($result['dataset'] = $usuario->readOneUsuario()) {
@@ -325,7 +325,7 @@ if (isset($_GET['action'])) {
                             if ($usuario->checkDispositivo()) {
                                 $_SESSION['id_usuario_auth'] = $usuario->getId();
                                 $_SESSION['alias_usuario'] = $usuario->getNombres() . ' ' . $usuario->getApellidos();
-
+                                // Se genera un ID aleatorio.
                                 $token = uniqid();
 
                                 $direccion = "http://localhost/Cuzcatlan-eCommerce/views/dashboard/autenticar.php?t=" . $token;
@@ -334,8 +334,10 @@ if (isset($_GET['action'])) {
                                 $body = "Confirme su inicio de sesión en el siguiente link: " . $direccion;
 
                                 $subject = 'Confirmar inicio de sesión';
+                                // Se envia el mail con la dirección y el token, se guarda el token en la base de datos.
                                 if ($usuario->sendMail($body, $subject)) {
                                     if ($usuario->tokenAuth($token)) {
+                                        $_SESSION['tiempo1'] = time();
                                         $result['status'] = 1;
                                         $result['message'] = 'Se ha enviado un correo para validar su sesión.';
                                     } else {
@@ -379,15 +381,15 @@ if (isset($_GET['action'])) {
             case 'recuperar':
                 $_POST = $usuario->validateForm($_POST);
                 if ($usuario->checkCorreo($_POST['recuperar_mail'])) {
-
+                    // Se genera un ID aleatorio.
                     $token = uniqid();
 
                     $direccion = "http://localhost/Cuzcatlan-eCommerce/views/dashboard/forgot_password.php?t=" . $token;
 
-
                     $body = "Restablezca su contraseña haciendo click en el siguiente enlace: " . $direccion;
 
                     $subject = 'Restaurar contraseña';
+                    // Se envia el mail con la dirección y el token, se guarda el token en la base de datos.
                     if ($usuario->sendMail($body, $subject)) {
                         if ($usuario->tokenClave($token)) {
                             $_SESSION['correo'] = $usuario->getCorreo();
@@ -399,15 +401,11 @@ if (isset($_GET['action'])) {
                     } else {
                         $result['exception'] = 'Hubo un error al enviar el correo.';
                     }
-
-
-                    // } else {
-                    //     $result['exception'] = $mail->ErrorInfo;
-                    // }
                 } else {
                     $result['exception'] = 'Correo no registrado';
                 }
                 break;
+                // Se verifica el token con el guardado de la base, luego se elimina.
             case 'nuevaClave':
                 $_POST = $usuario->validateForm($_POST);
                 if ($usuario->checkCorreo($_SESSION['correo'])) {
@@ -420,40 +418,41 @@ if (isset($_GET['action'])) {
                                         $result['status'] = 1;
                                         $result['message'] = 'Contraseña actualizada correctamente.';
                                     } else {
-                                        $result['exception'] = 'Hubo un error al cambiar la contraseña.';
+                                        $result['exception'] =  $usuario->getPasswordError();
                                     }
                                 } else {
-                                    $result['exception'] = 'Hubo un error al cambiar la contraseña.';
+                                    $result['exception'] =  $usuario->getPasswordError();
                                 }
                             } else {
-                                $result['exception'] = 'Las contraseñas no coinciden.';
+                                $result['exception'] =  $usuario->getPasswordError();
                             }
                         } else {
-                            $result['exception'] = 'Hubo un error al cambiar la contraseña.';
+                            $result['exception'] =  $usuario->getPasswordError();
                         }
                     } else {
-                        $result['exception'] = 'Hubo un error al cambiar la contraseña.';
+                        $result['exception'] =  $usuario->getPasswordError();
                     }
                 } else {
-                    $result['exception'] = 'Hubo un error al cambiar la contraseña.';
+                    $result['exception'] =  $usuario->getPasswordError();
                 }
                 break;
+                // Se verifica el token con el de la base, se acepta la sesión o la sesión es denegada.
             case 'auth':
                 $_POST = $usuario->validateForm($_POST);
                 if ($usuario->setTokenClave($_POST['token_clave'])) {
-                    if ($usuario->verifyTokenAuth(filter_var($_POST['auth'],FILTER_VALIDATE_BOOLEAN), $_SESSION['id_usuario_auth'])) {
+                    if ($usuario->verifyTokenAuth(filter_var($_POST['auth'], FILTER_VALIDATE_BOOLEAN), $_SESSION['id_usuario_auth'])) {
                         $usuario->deleteTokenAuth($_SESSION['id_usuario_auth']);
                         $_SESSION['id_usuario'] =  $_SESSION['id_usuario_auth'];
                         $result['status'] = 1;
                         $result['message'] = 'Sesión verificada.';
                     } else {
                         $usuario->deleteTokenAuth($_SESSION['id_usuario_auth']);
-                        $result['message'] = 'Sesión denegada.';
+                        $result['message'] = 'Sesión denegada. Si aceptó la sesión y fue negada la dirección expiró, vuelva a intentarlo.';
                     }
                 } else {
                     $result['exception'] = 'Hubo un error al verificar su inicio de sesión, vuelva a intentarlo.';
                 }
-            break;
+                break;
             default:
                 exit('Acción no disponible');
         }

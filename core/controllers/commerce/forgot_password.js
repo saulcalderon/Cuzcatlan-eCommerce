@@ -1,5 +1,7 @@
+// Dirección para obtener y enviar datos.
 const API_CLIENTES = '../../core/api/commerce/clientes.php?action=';
 
+// Formulario para reestablecer la contraseña, si el token coincide con el guardado en la base se acutaliza.
 $('#nueva_clave_form').submit(function (e) {
     e.preventDefault();
     let params = new URLSearchParams(location.search);
@@ -18,6 +20,7 @@ $('#nueva_clave_form').submit(function (e) {
             // Se comprueba si la API ha retornado una respuesta satisfactoria, de lo contrario se muestra un mensaje de error.
             if (response.status) {
                 sweetAlert(1, response.message, null);
+                // Luego de 3 segundos se redirecciona al login.
                 setTimeout(() => {
                     location.href = 'http://localhost/Cuzcatlan-eCommerce/views/commerce/iniciar_sesion.php';
                 }, 3000);

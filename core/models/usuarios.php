@@ -427,14 +427,14 @@ class Usuarios extends Validator
         $sql = 'SELECT nombre, apellido, correo, telefono, cargo FROM administrador, cargo ORDER BY cargo';
         return Database::getRows($sql, null);
     }
-
+    // Se agrega el token generado y su hora de vencimiento al administrador.
     public function tokenClave($token)
     {
         $sql = "UPDATE administrador SET token_clave = ?, vcto_token = now()::time + INTERVAL '5 min' WHERE correo = ?";
         $params = array($token, $this->correo);
         return Database::executeRow($sql, $params);
     }
-
+    // Se verifica el token generado y se comprueba si el token es correcto y si no ha expirado.
     public function verifyTokenClave()
     {
         $sql = "SELECT token_clave, now()::time < vcto_token AS tiempo FROM administrador WHERE correo = ?";
@@ -449,7 +449,7 @@ class Usuarios extends Validator
             return false;
         }
     }
-
+    // Se actualiza la contraseña.
     public function changePassword2()
     {
         $hash = password_hash($this->clave, PASSWORD_DEFAULT);
@@ -457,14 +457,14 @@ class Usuarios extends Validator
         $params = array($hash, $this->correo);
         return Database::executeRow($sql, $params);
     }
-
+    // Se elimina el token y su hora de vencimiento de la base.
     public function deleteTokenClave()
     {
         $sql = "UPDATE administrador SET token_clave = null, vcto_token = null WHERE correo = ?";
         $params = array($this->correo);
         return Database::executeRow($sql, $params);
     }
-
+    // Función para enviar un correo. Parametros : Cuerpo del correo, Asunto.
     public function sendMail($body, $subject)
     {
         require '../../../libraries/phpmailer52/class.phpmailer.php';
@@ -512,7 +512,7 @@ class Usuarios extends Validator
             return false;
         }
     }
-
+    // Se verifica el token generado y se comprueba si ha aceptado o denegado la sesión.
     public function verifyTokenAuth($bool, $id)
     {
         if ($bool) {
@@ -535,13 +535,14 @@ class Usuarios extends Validator
             return false;
         }
     }
+    // Se agrega el token generado y su hora de vencimiento al administrador.
     public function tokenAuth($token)
     {
         $sql = "UPDATE administrador SET token_clave = ?, vcto_token = now()::time + INTERVAL '5 min', auth_verificado = false WHERE correo = ?";
         $params = array($token, $this->correo);
         return Database::executeRow($sql, $params);
     }
-
+    // Se elimina el token y su hora de vencimiento de la base.
     public function deleteTokenAuth($id)
     {
         $sql = "UPDATE administrador SET token_clave = null, vcto_token = null, auth_verificado = null WHERE id_administrador = ?";
